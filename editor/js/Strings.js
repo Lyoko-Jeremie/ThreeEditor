@@ -1273,7 +1273,13 @@ function Strings( config ) {
 			'menubar/add/template/RectanglePipe': '立方框',
 
 			'menubar/add/model_lib': '模型库',
-			'menubar/add/model_lib/flag': '刀旗',
+			'menubar/add/model_lib/Flag': '刀旗',
+			'menubar/add/model_lib/HollowCylinder': '空心圆筒',
+			'menubar/add/model_lib/BigRing': '大圆环',
+			'menubar/add/model_lib/CrossRing': '十字环',
+			'menubar/add/model_lib/SmallRing': '小圆环',
+			'menubar/add/model_lib/Rect': '立方框',
+			'menubar/add/model_lib/Area': '飞行区',
 
 			'menubar/add/group': '组',
 

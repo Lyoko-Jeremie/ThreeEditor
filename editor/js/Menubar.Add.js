@@ -5,7 +5,15 @@ import { UIPanel, UIRow } from './libs/ui.js';
 import { AddObjectCommand } from './commands/AddObjectCommand.js';
 
 import { bottomRectanglePipePanel, bottomRectanglePipe } from './Menubar.Add.Custom.js';
-import { bottomModelLibFlag } from './Menubar.Add.Model.Flag.js';
+import {
+	bottomModelLibArea,
+	bottomModelLibBigRing,
+	bottomModelLibCrossRing,
+	bottomModelLibFlag,
+	bottomModelLibHollowCylinder,
+	bottomModelLibRect,
+	bottomModelLibSmallRing,
+} from './Menubar.Add.Model.js';
 
 function MenubarAdd( editor ) {
 
@@ -89,6 +97,12 @@ function MenubarAdd( editor ) {
 	modelLibSubmenuTitle.add( modelLibSubmenu );
 
 	modelLibSubmenu.add( bottomModelLibFlag( editor, strings ) );
+	modelLibSubmenu.add( bottomModelLibHollowCylinder( editor, strings ) );
+	modelLibSubmenu.add( bottomModelLibBigRing( editor, strings ) );
+	modelLibSubmenu.add( bottomModelLibSmallRing( editor, strings ) );
+	modelLibSubmenu.add( bottomModelLibCrossRing( editor, strings ) );
+	modelLibSubmenu.add( bottomModelLibRect( editor, strings ) );
+	modelLibSubmenu.add( bottomModelLibArea( editor, strings ) );
 
 	// Mesh
 

@@ -4,7 +4,7 @@ import { UIPanel, UIRow } from './libs/ui.js';
 
 import { AddObjectCommand } from './commands/AddObjectCommand.js';
 
-import { bottomRectanglePipePanel } from './Menubar.Add.Custom.js';
+import { bottomRectanglePipePanel, bottomRectanglePipe } from './Menubar.Add.Custom.js';
 
 function MenubarAdd( editor ) {
 
@@ -23,6 +23,7 @@ function MenubarAdd( editor ) {
 	container.add( options );
 
 	options.add( bottomRectanglePipePanel( editor, strings ) );
+	options.add( bottomRectanglePipe( editor, strings ) );
 
 	// Group
 

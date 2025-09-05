@@ -5,6 +5,7 @@ import { UIPanel, UIRow } from './libs/ui.js';
 import { AddObjectCommand } from './commands/AddObjectCommand.js';
 
 import { bottomRectanglePipePanel, bottomRectanglePipe } from './Menubar.Add.Custom.js';
+import { bottomModelLibFlag } from './Menubar.Add.Model.Flag.js';
 
 function MenubarAdd( editor ) {
 
@@ -63,6 +64,31 @@ function MenubarAdd( editor ) {
 
 	templateSubmenu.add( bottomRectanglePipePanel( editor, strings ) );
 	templateSubmenu.add( bottomRectanglePipe( editor, strings ) );
+
+	// Model Lib Mesh
+
+	const modelLibSubmenuTitle = new UIRow().setTextContent( strings.getKey( 'menubar/add/model_lib' ) ).addClass( 'option' ).addClass( 'submenu-title' );
+	modelLibSubmenuTitle.onMouseOver( function () {
+
+		const { top, right } = modelLibSubmenuTitle.dom.getBoundingClientRect();
+		const { paddingTop } = getComputedStyle( this.dom );
+		modelLibSubmenu.setLeft( right + 'px' );
+		modelLibSubmenu.setTop( top - parseFloat( paddingTop ) + 'px' );
+		modelLibSubmenu.setStyle( 'max-height', [ `calc( 100vh - ${top}px )` ] );
+		modelLibSubmenu.setDisplay( 'block' );
+
+	} );
+	modelLibSubmenuTitle.onMouseOut( function () {
+
+		modelLibSubmenu.setDisplay( 'none' );
+
+	} );
+	options.add( modelLibSubmenuTitle );
+
+	const modelLibSubmenu = new UIPanel().setPosition( 'fixed' ).addClass( 'options' ).setDisplay( 'none' );
+	modelLibSubmenuTitle.add( modelLibSubmenu );
+
+	modelLibSubmenu.add( bottomModelLibFlag( editor, strings ) );
 
 	// Mesh
 

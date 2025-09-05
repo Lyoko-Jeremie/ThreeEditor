@@ -1267,9 +1267,13 @@ function Strings( config ) {
 			'menubar/edit/delete': '删除',
 
 			'menubar/add': '添加',
-			'menubar/add/template': '模版',
+
+			'menubar/add/template': '模版库',
 			'menubar/add/template/RectanglePipePanel': '方框',
 			'menubar/add/template/RectanglePipe': '立方框',
+
+			'menubar/add/model_lib': '模型库',
+			'menubar/add/model_lib/flag': '刀旗',
 
 			'menubar/add/group': '组',
 

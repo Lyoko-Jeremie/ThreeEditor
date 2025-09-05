@@ -19,11 +19,13 @@
 					"three/addons/": "../examples/jsm/",
 
 					"three/examples/": "../examples/",
-					"three-gpu-pathtracer": "https://cdn.jsdelivr.net/npm/three-gpu-pathtracer@0.0.23/build/index.module.js",
-					"three-mesh-bvh": "https://cdn.jsdelivr.net/npm/three-mesh-bvh@0.7.4/build/index.module.js"
+					"three-gpu-pathtracer": "./three-gpu-pathtracer@0.0.23-index.module.js",
+					"three-mesh-bvh": "./three-mesh-bvh@0.7.4-index.module.js"
 				}
 			}
 		</script>
+		<!--					"three-gpu-pathtracer": "https://cdn.jsdelivr.net/npm/three-gpu-pathtracer@0.0.23/build/index.module.js",-->
+		<!--					"three-mesh-bvh": "https://cdn.jsdelivr.net/npm/three-mesh-bvh@0.7.4/build/index.module.js"-->
 
 		<script src="../examples/jsm/libs/draco/draco_encoder.js"></script>
 
@@ -36,7 +38,7 @@
 		<script src="js/libs/esprima.js"></script>
 		<script src="js/libs/jsonlint.js"></script>
 
-		<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+<!--		<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>-->
 
 		<link rel="stylesheet" href="js/libs/codemirror/addon/dialog.css">
 		<link rel="stylesheet" href="js/libs/codemirror/addon/show-hint.css">
@@ -239,17 +241,17 @@
 
 			// ServiceWorker
 
-			if ( 'serviceWorker' in navigator ) {
-
-				try {
-
-					navigator.serviceWorker.register( 'sw.js' );
-
-				} catch ( error ) {
-
-				}
-
-			}
+			// if ( 'serviceWorker' in navigator ) {
+			//
+			// 	try {
+			//
+			// 		navigator.serviceWorker.register( 'sw.js' );
+			//
+			// 	} catch ( error ) {
+			//
+			// 	}
+			//
+			// }
 
 		</script>
 	</body>

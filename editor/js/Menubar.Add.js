@@ -4,6 +4,8 @@ import { UIPanel, UIRow } from './libs/ui.js';
 
 import { AddObjectCommand } from './commands/AddObjectCommand.js';
 
+import { bottomRectanglePipePanel } from './Menubar.Add.Custom.js';
+
 function MenubarAdd( editor ) {
 
 	const strings = editor.strings;
@@ -19,6 +21,8 @@ function MenubarAdd( editor ) {
 	const options = new UIPanel();
 	options.setClass( 'options' );
 	container.add( options );
+
+	options.add( bottomRectanglePipePanel( editor, strings ) );
 
 	// Group
 

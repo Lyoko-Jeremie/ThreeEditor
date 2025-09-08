@@ -1271,6 +1271,7 @@ function Strings( config ) {
 			'menubar/add/template': '模版库',
 			'menubar/add/template/RectanglePipePanel': '方框',
 			'menubar/add/template/RectanglePipe': '立方框',
+			'menubar/add/template/TwoCircle': '双环',
 
 			'menubar/add/model_lib': '模型库',
 			'menubar/add/model_lib/Flag': '刀旗',

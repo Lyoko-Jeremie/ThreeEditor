@@ -223,9 +223,9 @@ export function buttonTwoCircle( editor, strings ) {
 		};
 
 		const circleConf = {
-			radialSegments: 8,
+			radialSegments: 32,
 			tube: 0.2,
-			tubularSegments: 32,
+			tubularSegments: 64,
 			material: material,
 		};
 

@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { UIRow } from './libs/ui.js';
 import { AddObjectCommand } from './commands/AddObjectCommand.js';
 
-export function bottomRectanglePipePanel( editor, strings ) {
+export function buttonRectanglePipePanel( editor, strings ) {
 
 	const x = 10;
 	const y = 10;
@@ -20,7 +20,7 @@ export function bottomRectanglePipePanel( editor, strings ) {
 			Math.PI * 2,
 		);
 		const m = new THREE.Mesh( geometry, rectanglePipePanel.material );
-		m.name = 'bottomRectanglePipePanel';
+		m.name = 'buttonRectanglePipePanel';
 		return m;
 
 	};
@@ -51,7 +51,7 @@ export function bottomRectanglePipePanel( editor, strings ) {
 		A2.rotateZ( Math.PI / 2 );
 
 		mesh.add( A1, A2, B1, B2 );
-		mesh.name = 'bottomRectanglePipePanel';
+		mesh.name = 'buttonRectanglePipePanel';
 
 		editor.execute( new AddObjectCommand( editor, mesh ) );
 
@@ -61,7 +61,7 @@ export function bottomRectanglePipePanel( editor, strings ) {
 }
 
 
-export function bottomRectanglePipe( editor, strings ) {
+export function buttonRectanglePipe( editor, strings ) {
 
 	const x = 10;
 	const y = 10;
@@ -81,7 +81,7 @@ export function bottomRectanglePipe( editor, strings ) {
 			Math.PI * 2,
 		);
 		const m = new THREE.Mesh( geometry, rectanglePipeConfig.material );
-		m.name = 'bottomRectanglePipe';
+		m.name = 'buttonRectanglePipe';
 		return m;
 
 	};
@@ -153,7 +153,7 @@ export function bottomRectanglePipe( editor, strings ) {
 			B1, B2, B3, B4,
 			C1, C2, C3, C4,
 		);
-		mesh.name = 'bottomRectanglePipe';
+		mesh.name = 'buttonRectanglePipe';
 
 		editor.execute( new AddObjectCommand( editor, mesh ) );
 
@@ -161,3 +161,90 @@ export function bottomRectanglePipe( editor, strings ) {
 	return option;
 
 }
+
+
+export function buttonTwoCircle( editor, strings ) {
+
+	const i1 = 3;
+	const r1 = 4;
+	const y1 = i1 + r1;
+	const i2 = 2;
+	const i2y = i1 + r1 * 2;
+	const r2 = 3;
+	const y2 = i1 + r1 * 2 + i2 + r2;
+
+	const createPipe = ( len, pipeConf ) => {
+
+		const geometry = new THREE.CylinderGeometry(
+			pipeConf.radius,
+			pipeConf.radius,
+			len,
+			pipeConf.radialSegments,
+			3,
+			false,
+			0,
+			Math.PI * 2,
+		);
+		const m = new THREE.Mesh( geometry, pipeConf.material );
+		m.name = 'TwoCirclePipe';
+		return m;
+
+	};
+
+	const createCircle = ( circleConf ) => {
+
+		const geometry = new THREE.TorusGeometry(
+			circleConf.radius,
+			circleConf.tube,
+			circleConf.radialSegments,
+			circleConf.tubularSegments,
+			Math.PI * 2,
+		);
+		const m = new THREE.Mesh( geometry, circleConf.material );
+		m.name = 'TwoCircleRing';
+		return m;
+
+	};
+
+
+	const option = new UIRow();
+	option.setClass( 'option' );
+	option.setTextContent( strings.getKey( 'menubar/add/template/TwoCircle' ) );
+	option.onClick( function () {
+
+		const mesh = new THREE.Group();
+
+		const material = new THREE.MeshStandardMaterial( { color: '#ff80bf' } );
+
+		const pipeConf = {
+			radius: 0.2,
+			radialSegments: 8,
+			material: material,
+		};
+
+		const circleConf = {
+			radialSegments: 8,
+			tube: 0.2,
+			tubularSegments: 32,
+			material: material,
+		};
+
+		const I1 = createPipe( i1, pipeConf );
+		I1.position.y = i1 / 2;
+		const I2 = createPipe( i2, pipeConf );
+		I2.position.y = i2y + i2 / 2;
+		const R1 = createCircle( { ...circleConf, radius: r1 } );
+		R1.position.y = y1;
+		const R2 = createCircle( { ...circleConf, radius: r2 } );
+		R2.position.y = y2;
+
+		mesh.add( I1, I2, R1, R2 );
+		mesh.name = 'TwoCircle';
+
+		editor.execute( new AddObjectCommand( editor, mesh ) );
+
+	} );
+	return option;
+
+}
+

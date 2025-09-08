@@ -4,15 +4,15 @@ import { UIPanel, UIRow } from './libs/ui.js';
 
 import { AddObjectCommand } from './commands/AddObjectCommand.js';
 
-import { bottomRectanglePipePanel, bottomRectanglePipe } from './Menubar.Add.Custom.js';
+import { buttonRectanglePipePanel, buttonRectanglePipe, buttonTwoCircle } from './Menubar.Add.Custom.js';
 import {
-	bottomModelLibArea,
-	bottomModelLibBigRing,
-	bottomModelLibCrossRing,
-	bottomModelLibFlag,
-	bottomModelLibHollowCylinder,
-	bottomModelLibRect,
-	bottomModelLibSmallRing,
+	buttonModelLibArea,
+	buttonModelLibBigRing,
+	buttonModelLibCrossRing,
+	buttonModelLibFlag,
+	buttonModelLibHollowCylinder,
+	buttonModelLibRect,
+	buttonModelLibSmallRing,
 } from './Menubar.Add.Model.js';
 
 function MenubarAdd( editor ) {
@@ -70,8 +70,9 @@ function MenubarAdd( editor ) {
 	const templateSubmenu = new UIPanel().setPosition( 'fixed' ).addClass( 'options' ).setDisplay( 'none' );
 	templateSubmenuTitle.add( templateSubmenu );
 
-	templateSubmenu.add( bottomRectanglePipePanel( editor, strings ) );
-	templateSubmenu.add( bottomRectanglePipe( editor, strings ) );
+	templateSubmenu.add( buttonRectanglePipePanel( editor, strings ) );
+	templateSubmenu.add( buttonRectanglePipe( editor, strings ) );
+	templateSubmenu.add( buttonTwoCircle( editor, strings ) );
 
 	// Model Lib Mesh
 
@@ -96,13 +97,13 @@ function MenubarAdd( editor ) {
 	const modelLibSubmenu = new UIPanel().setPosition( 'fixed' ).addClass( 'options' ).setDisplay( 'none' );
 	modelLibSubmenuTitle.add( modelLibSubmenu );
 
-	modelLibSubmenu.add( bottomModelLibFlag( editor, strings ) );
-	modelLibSubmenu.add( bottomModelLibHollowCylinder( editor, strings ) );
-	modelLibSubmenu.add( bottomModelLibBigRing( editor, strings ) );
-	modelLibSubmenu.add( bottomModelLibSmallRing( editor, strings ) );
-	modelLibSubmenu.add( bottomModelLibCrossRing( editor, strings ) );
-	modelLibSubmenu.add( bottomModelLibRect( editor, strings ) );
-	modelLibSubmenu.add( bottomModelLibArea( editor, strings ) );
+	modelLibSubmenu.add( buttonModelLibFlag( editor, strings ) );
+	modelLibSubmenu.add( buttonModelLibHollowCylinder( editor, strings ) );
+	modelLibSubmenu.add( buttonModelLibBigRing( editor, strings ) );
+	modelLibSubmenu.add( buttonModelLibSmallRing( editor, strings ) );
+	modelLibSubmenu.add( buttonModelLibCrossRing( editor, strings ) );
+	modelLibSubmenu.add( buttonModelLibRect( editor, strings ) );
+	modelLibSubmenu.add( buttonModelLibArea( editor, strings ) );
 
 	// Mesh
 

@@ -37,10 +37,10 @@ function modelLibLoadFactory( keyName, modelData, meshName, color ) {
 
 }
 
-export const bottomModelLibFlag = modelLibLoadFactory( 'menubar/add/model_lib/Flag', LibModel_Flag, 'LibModel_Flag', '#2194ce' );
-export const bottomModelLibHollowCylinder = modelLibLoadFactory( 'menubar/add/model_lib/HollowCylinder', LibModel_HollowCylinder, 'LibModel_HollowCylinder', '#2194ce' );
-export const bottomModelLibBigRing = modelLibLoadFactory( 'menubar/add/model_lib/BigRing', LibModel_BigRing, 'LibModel_BigRing', '#2194ce' );
-export const bottomModelLibCrossRing = modelLibLoadFactory( 'menubar/add/model_lib/CrossRing', LibModel_CrossRing, 'LibModel_CrossRing', '#2194ce' );
-export const bottomModelLibSmallRing = modelLibLoadFactory( 'menubar/add/model_lib/SmallRing', LibModel_SmallRing, 'LibModel_SmallRing', '#2194ce' );
-export const bottomModelLibRect = modelLibLoadFactory( 'menubar/add/model_lib/Rect', LibModel_Rect, 'LibModel_Rect', '#2194ce' );
-export const bottomModelLibArea = modelLibLoadFactory( 'menubar/add/model_lib/Area', LibModel_Area, 'LibModel_Area', '#2194ce' );
+export const buttonModelLibFlag = modelLibLoadFactory( 'menubar/add/model_lib/Flag', LibModel_Flag, 'LibModel_Flag', '#2194ce' );
+export const buttonModelLibHollowCylinder = modelLibLoadFactory( 'menubar/add/model_lib/HollowCylinder', LibModel_HollowCylinder, 'LibModel_HollowCylinder', '#2194ce' );
+export const buttonModelLibBigRing = modelLibLoadFactory( 'menubar/add/model_lib/BigRing', LibModel_BigRing, 'LibModel_BigRing', '#2194ce' );
+export const buttonModelLibCrossRing = modelLibLoadFactory( 'menubar/add/model_lib/CrossRing', LibModel_CrossRing, 'LibModel_CrossRing', '#2194ce' );
+export const buttonModelLibSmallRing = modelLibLoadFactory( 'menubar/add/model_lib/SmallRing', LibModel_SmallRing, 'LibModel_SmallRing', '#2194ce' );
+export const buttonModelLibRect = modelLibLoadFactory( 'menubar/add/model_lib/Rect', LibModel_Rect, 'LibModel_Rect', '#2194ce' );
+export const buttonModelLibArea = modelLibLoadFactory( 'menubar/add/model_lib/Area', LibModel_Area, 'LibModel_Area', '#2194ce' );

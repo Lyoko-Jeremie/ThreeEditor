@@ -11,7 +11,7 @@ import {
 	UITextArea,
 	UIText,
 	UINumber,
-	UISelect
+	UISelect, UIDiv
 } from './libs/ui.js';
 import { UIBoolean } from './libs/ui.three.js';
 
@@ -401,6 +401,7 @@ function SidebarObject( editor ) {
 		simple_or_concaveMesh: '简单形体或concaveMesh生成',
 		simple_or_hull: '简单形体或hull生成',
 		simple_or_HACD: '简单形体或HACD自动生成',
+		simple_or_VHACD: '简单形体或VHACD自动生成',
 		simple_or_BoundingBox: '简易形体或包围盒生成',
 		BoundingBox: '包围盒',
 		None: '无碰撞体',
@@ -435,6 +436,16 @@ function SidebarObject( editor ) {
 	collisionTypeRow.add( new UIText( /*strings.getKey( 'sidebar/geometry/tube_geometry/curvetype' )*/ '物理类型' ).setClass( 'Label' ), collisionType );
 
 	container.add( collisionTypeRow );
+
+	const collisionTypeReadmeRow = new UIPanel();
+	collisionTypeReadmeRow.setStyle( 'margin-bottom', [ '1em' ] );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '简单形体：正方体、球、环、管、平面' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'HACD: 分层近似凸分解' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'VHACD: 体素分层近似凸分解' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'hull: 凸包' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'convexMesh: 凸多边形网格，适用于快速对象' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'concaveMesh: 凹多边形网格，用于高精度对象' ) );
+	container.add( collisionTypeReadmeRow );
 
 	// barrier
 

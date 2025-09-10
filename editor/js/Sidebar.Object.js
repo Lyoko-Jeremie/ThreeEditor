@@ -438,14 +438,14 @@ function SidebarObject( editor ) {
 
 	// barrier
 
-	const isBarrierRow = new UIRow();
-	const isBarrierBox = new UICheckbox().onChange( function () {
+	const isSensorRow = new UIRow();
+	const isSensorBox = new UICheckbox().onChange( function () {
 
 		try {
 
 			const userData = JSON.parse( objectUserData.getValue() );
 
-			userData.isBarrier = isBarrierBox.getValue();
+			userData.isSensor = isSensorBox.getValue();
 
 			if ( JSON.stringify( editor.selected.userData ) != JSON.stringify( userData ) ) {
 
@@ -467,9 +467,9 @@ function SidebarObject( editor ) {
 
 	} );
 
-	isBarrierRow.add( new UIText( /*strings.getKey( 'sidebar/geometry/tube_geometry/curvetype' )*/ '是碰撞检测器' ).setClass( 'Label' ), isBarrierBox );
+	isSensorRow.add( new UIText( /*strings.getKey( 'sidebar/geometry/tube_geometry/curvetype' )*/ '是碰撞检测器' ).setClass( 'Label' ), isSensorBox );
 
-	container.add( isBarrierRow );
+	container.add( isSensorRow );
 
 	// user data
 
@@ -976,7 +976,7 @@ function SidebarObject( editor ) {
 
 			objectUserData.setValue( JSON.stringify( object.userData, null, '  ' ) );
 			collisionType.setValue( object.userData.collisionType || 'simple_or_BoundingBox' );
-			isBarrierBox.setValue( !! object.userData.isBarrier );
+			isSensorBox.setValue( !! object.userData.isSensor );
 
 		} catch ( error ) {
 

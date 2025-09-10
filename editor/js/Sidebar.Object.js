@@ -1,6 +1,18 @@
 import * as THREE from 'three';
 
-import { UIPanel, UIRow, UIInput, UIButton, UIColor, UICheckbox, UIInteger, UITextArea, UIText, UINumber } from './libs/ui.js';
+import {
+	UIPanel,
+	UIRow,
+	UIInput,
+	UIButton,
+	UIColor,
+	UICheckbox,
+	UIInteger,
+	UITextArea,
+	UIText,
+	UINumber,
+	UISelect
+} from './libs/ui.js';
 import { UIBoolean } from './libs/ui.three.js';
 
 import { SetUuidCommand } from './commands/SetUuidCommand.js';
@@ -12,6 +24,7 @@ import { SetColorCommand } from './commands/SetColorCommand.js';
 import { SetShadowValueCommand } from './commands/SetShadowValueCommand.js';
 
 import { SidebarObjectAnimation } from './Sidebar.Object.Animation.js';
+import { SetGeometryValueCommand } from './commands/SetGeometryValueCommand.js';
 
 function SidebarObject( editor ) {
 
@@ -373,6 +386,91 @@ function SidebarObject( editor ) {
 
 	container.add( objectRenderOrderRow );
 
+	// collision type
+
+	const collisionTypeRow = new UIRow();
+	//      simple_or_convexMesh    convexMesh
+	//      simple_or_concaveMesh   concaveMesh
+	//      simple_or_hull          hull
+	//      simple_or_HACD          hacd
+	//      simple_or_BoundingBox
+	//      BoundingBox
+	//      None                    no physics
+	const collisionType = new UISelect().setOptions( {
+		simple_or_convexMesh: '简单形体或convexMesh生成',
+		simple_or_concaveMesh: '简单形体或concaveMesh生成',
+		simple_or_hull: '简单形体或hull生成',
+		simple_or_HACD: '简单形体或HACD自动生成',
+		simple_or_BoundingBox: '简易形体或包围盒生成',
+		BoundingBox: '包围盒',
+		None: '无碰撞体',
+	} ).onChange( function () {
+
+		try {
+
+			const userData = JSON.parse( objectUserData.getValue() );
+
+			userData.collisionType = collisionType.getValue();
+
+			if ( JSON.stringify( editor.selected.userData ) != JSON.stringify( userData ) ) {
+
+				editor.execute( new SetValueCommand( editor, editor.selected, 'userData', userData ) );
+
+				setTimeout( () => {
+
+					objectUserData.setValue( JSON.stringify( editor.selected.userData, undefined, 2 ) );
+
+				}, 10 );
+
+			}
+
+		} catch ( exception ) {
+
+			console.warn( exception );
+
+		}
+
+	} );
+
+	collisionTypeRow.add( new UIText( /*strings.getKey( 'sidebar/geometry/tube_geometry/curvetype' )*/ '物理类型' ).setClass( 'Label' ), collisionType );
+
+	container.add( collisionTypeRow );
+
+	// barrier
+
+	const isBarrierRow = new UIRow();
+	const isBarrierBox = new UICheckbox().onChange( function () {
+
+		try {
+
+			const userData = JSON.parse( objectUserData.getValue() );
+
+			userData.isBarrier = isBarrierBox.getValue();
+
+			if ( JSON.stringify( editor.selected.userData ) != JSON.stringify( userData ) ) {
+
+				editor.execute( new SetValueCommand( editor, editor.selected, 'userData', userData ) );
+
+				setTimeout( () => {
+
+					objectUserData.setValue( JSON.stringify( editor.selected.userData, undefined, 2 ) );
+
+				}, 10 );
+
+			}
+
+		} catch ( exception ) {
+
+			console.warn( exception );
+
+		}
+
+	} );
+
+	isBarrierRow.add( new UIText( /*strings.getKey( 'sidebar/geometry/tube_geometry/curvetype' )*/ '是碰撞检测器' ).setClass( 'Label' ), isBarrierBox );
+
+	container.add( isBarrierRow );
+
 	// user data
 
 	const objectUserDataRow = new UIRow();
@@ -422,7 +520,7 @@ function SidebarObject( editor ) {
 		}
 
 
-		editor.utils.save( new Blob( [ output ] ), `${ objectName.getValue() || 'object' }.json` );
+		editor.utils.save( new Blob( [ output ] ), `${objectName.getValue() || 'object'}.json` );
 
 	} );
 	container.add( exportJson );
@@ -877,6 +975,8 @@ function SidebarObject( editor ) {
 		try {
 
 			objectUserData.setValue( JSON.stringify( object.userData, null, '  ' ) );
+			collisionType.setValue( object.userData.collisionType || 'simple_or_BoundingBox' );
+			isBarrierBox.setValue( !! object.userData.isBarrier );
 
 		} catch ( error ) {
 

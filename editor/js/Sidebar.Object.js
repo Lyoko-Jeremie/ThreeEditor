@@ -441,20 +441,35 @@ function SidebarObject( editor ) {
 	container.add( collisionTypeRow );
 
 	const collisionTypeReadmeRow = new UIPanel();
-	collisionTypeReadmeRow.setStyle( 'margin-bottom', [ '1em' ] );
+	collisionTypeReadmeRow.setStyle( 'margin-bottom', [ '0.5em' ] );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '【物理类型说明】' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '---' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '简单形体：正方体、球、环、管、平面' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '---' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'convexMesh: 凸多边形网格，适用于快速计算' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '---' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'concaveMesh: 凹多边形网格，用于高精度计算' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '---' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'Hull: 凸包（慢）' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '---' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'HACD: 分层近似凸分解（慢）（暂未实现）' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '---' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'V-HACD: 体素分层近似凸分解（慢），适用于大块物体' ) );
-	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '裁剪 convex Mesh: 先边裁剪后convexMesh，适用于三维重建场景' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '---' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '裁剪 convex Mesh: 先进行边裁剪，后使用convexMesh生成，适用于三维重建场景' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '---' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '包围盒: 最小外包围立方体' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '---' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '无物理碰撞: 海市蜃楼' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '---' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '继承: 继承父元素的设置' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '------' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '选择方法：优先选择包围盒，不规则小物体选convexMesh/concaveMesh，规则大物体选包围盒或V-HACD。' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '宗旨：在不影响使用的前提下，尽量减少不必要的细节。' ) );
 	container.add( collisionTypeReadmeRow );
 
-	const cleanCollisionType = new UIButton( /*strings.getKey( 'sidebar/object/export' )*/ '清除子元素物理类型' );
+	const cleanCollisionType = new UIButton( /*strings.getKey( 'sidebar/object/export' )*/ '清除当前元素下的所有子元素物理类型' );
+	cleanCollisionType.setStyle( 'margin-bottom', [ '1em' ] );
 	cleanCollisionType.onClick( function () {
 
 		// TODO

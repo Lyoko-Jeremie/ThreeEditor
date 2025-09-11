@@ -397,14 +397,14 @@ function SidebarObject( editor ) {
 	//      BoundingBox
 	//      None                    no physics
 	const collisionType = new UISelect().setOptions( {
-		simple_or_convexMesh: '简单形体或convexMesh生成',
-		simple_or_concaveMesh: '简单形体或concaveMesh生成',
+		simple_or_convexMesh: '简单形体或convex Mesh生成',
+		simple_or_concaveMesh: '简单形体或concave Mesh生成',
 		simple_or_hull: '简单形体或hull生成',
-		simple_or_HACD: '简单形体或HACD自动生成',
-		simple_or_VHACD: '简单形体或VHACD自动生成',
-		simple_or_BoundingBox: '简易形体或包围盒生成',
+		simple_or_HACD: '简单形体或 HACD 自动生成',
+		simple_or_VHACD: '简单形体或 V-HACD 自动生成',
+		simple_or_BoundingBox: '简易形体或 包围盒 生成',
 		BoundingBox: '包围盒',
-		None: '无碰撞体',
+		None: '无物理碰撞',
 		inherit: '继承父元素或包围盒',
 	} ).onChange( function () {
 
@@ -441,12 +441,13 @@ function SidebarObject( editor ) {
 	const collisionTypeReadmeRow = new UIPanel();
 	collisionTypeReadmeRow.setStyle( 'margin-bottom', [ '1em' ] );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '简单形体：正方体、球、环、管、平面' ) );
-	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'HACD: 分层近似凸分解（慢）' ) );
-	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'VHACD: 体素分层近似凸分解（慢）' ) );
-	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'hull: 凸包（慢）' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'convexMesh: 凸多边形网格，适用于快速计算' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'concaveMesh: 凹多边形网格，用于高精度计算' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'Hull: 凸包（慢）' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'HACD: 分层近似凸分解（慢）' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'V-HACD: 体素分层近似凸分解（慢）' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '包围盒: 最小外包围立方体' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '无物理碰撞: 海市蜃楼' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '继承: 继承父元素的设置' ) );
 	container.add( collisionTypeReadmeRow );
 

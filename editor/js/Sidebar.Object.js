@@ -402,6 +402,7 @@ function SidebarObject( editor ) {
 		simple_or_hull: '简单形体或hull生成',
 		simple_or_HACD: '简单形体或 HACD 自动生成',
 		simple_or_VHACD: '简单形体或 V-HACD 自动生成',
+		simple_or_Simplify_convexMesh: '简易形体或 裁剪 convex Mesh',
 		simple_or_BoundingBox: '简易形体或 包围盒 生成',
 		BoundingBox: '包围盒',
 		None: '无物理碰撞',
@@ -444,8 +445,9 @@ function SidebarObject( editor ) {
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'convexMesh: 凸多边形网格，适用于快速计算' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'concaveMesh: 凹多边形网格，用于高精度计算' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'Hull: 凸包（慢）' ) );
-	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'HACD: 分层近似凸分解（慢）' ) );
-	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'V-HACD: 体素分层近似凸分解（慢）' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'HACD: 分层近似凸分解（慢）（暂未实现）' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'V-HACD: 体素分层近似凸分解（慢），适用于大块物体' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '裁剪 convex Mesh: 先边裁剪后convexMesh，适用于三维重建场景' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '包围盒: 最小外包围立方体' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '无物理碰撞: 海市蜃楼' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '继承: 继承父元素的设置' ) );

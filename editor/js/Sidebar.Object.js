@@ -405,6 +405,7 @@ function SidebarObject( editor ) {
 		simple_or_BoundingBox: '简易形体或包围盒生成',
 		BoundingBox: '包围盒',
 		None: '无碰撞体',
+		inherit: '继承父元素或包围盒',
 	} ).onChange( function () {
 
 		try {
@@ -440,11 +441,13 @@ function SidebarObject( editor ) {
 	const collisionTypeReadmeRow = new UIPanel();
 	collisionTypeReadmeRow.setStyle( 'margin-bottom', [ '1em' ] );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '简单形体：正方体、球、环、管、平面' ) );
-	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'HACD: 分层近似凸分解' ) );
-	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'VHACD: 体素分层近似凸分解' ) );
-	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'hull: 凸包' ) );
-	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'convexMesh: 凸多边形网格，适用于快速对象' ) );
-	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'concaveMesh: 凹多边形网格，用于高精度对象' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'HACD: 分层近似凸分解（慢）' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'VHACD: 体素分层近似凸分解（慢）' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'hull: 凸包（慢）' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'convexMesh: 凸多边形网格，适用于快速计算' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( 'concaveMesh: 凹多边形网格，用于高精度计算' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '包围盒: 最小外包围立方体' ) );
+	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '继承: 继承父元素的设置' ) );
 	container.add( collisionTypeReadmeRow );
 
 	// barrier
@@ -986,7 +989,7 @@ function SidebarObject( editor ) {
 		try {
 
 			objectUserData.setValue( JSON.stringify( object.userData, null, '  ' ) );
-			collisionType.setValue( object.userData.collisionType || 'simple_or_BoundingBox' );
+			collisionType.setValue( object.userData.collisionType || 'inherit' );
 			isSensorBox.setValue( !! object.userData.isSensor );
 
 		} catch ( error ) {

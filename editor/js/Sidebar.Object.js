@@ -529,6 +529,7 @@ function SidebarObject( editor ) {
 
 		} catch ( e ) {
 
+			// TODO Uncaught InternalError: allocation size overflow
 			output = JSON.stringify( output );
 
 		}

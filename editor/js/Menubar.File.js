@@ -170,6 +170,7 @@ function MenubarFile( editor ) {
 		.onClick( function () {
 
 			const json = editor.toJSON();
+			// TODO Uncaught InternalError: allocation size overflow
 			const blob = new Blob( [ JSON.stringify( json ) ], { type: 'application/json' } );
 			editor.utils.save( blob, 'project.json' );
 

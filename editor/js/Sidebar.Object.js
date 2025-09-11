@@ -17,6 +17,7 @@ import { UIBoolean } from './libs/ui.three.js';
 
 import { SetUuidCommand } from './commands/SetUuidCommand.js';
 import { SetValueCommand } from './commands/SetValueCommand.js';
+import { MultiCmdsCommand } from './commands/MultiCmdsCommand.js';
 import { SetPositionCommand } from './commands/SetPositionCommand.js';
 import { SetRotationCommand } from './commands/SetRotationCommand.js';
 import { SetScaleCommand } from './commands/SetScaleCommand.js';
@@ -452,6 +453,45 @@ function SidebarObject( editor ) {
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '无物理碰撞: 海市蜃楼' ) );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '继承: 继承父元素的设置' ) );
 	container.add( collisionTypeReadmeRow );
+
+	const cleanCollisionType = new UIButton( /*strings.getKey( 'sidebar/object/export' )*/ '清除子元素物理类型' );
+	cleanCollisionType.onClick( function () {
+
+		// TODO
+		if ( confirm( '确认清除当前元素下的所有子元素的物理类型？' ) === false ) return;
+
+		const object = editor.selected;
+
+		const cmdList = [];
+		object.traverse( function ( child ) {
+
+			if ( child.userData.collisionType !== undefined ) {
+
+				const userData = JSON.parse( JSON.stringify( child.userData ) );
+				delete userData.collisionType;
+
+				cmdList.push( new SetValueCommand( editor, child, 'userData', userData ) );
+
+			}
+
+		} );
+
+		if ( cmdList.length > 0 ) {
+
+			editor.execute( new MultiCmdsCommand( editor, cmdList ) );
+
+		}
+
+		setTimeout( () => {
+
+			objectUserData.setValue( JSON.stringify( editor.selected.userData, undefined, 2 ) );
+
+		}, 10 );
+
+	} );
+	container.add( cleanCollisionType );
+
+
 
 	// barrier
 

@@ -169,10 +169,21 @@ function MenubarFile( editor ) {
 		.setTextContent( strings.getKey( 'menubar/file/save' ) )
 		.onClick( function () {
 
-			const json = editor.toJSON();
-			// TODO Uncaught InternalError: allocation size overflow
-			const blob = new Blob( [ JSON.stringify( json ) ], { type: 'application/json' } );
-			editor.utils.save( blob, 'project.json' );
+			try {
+
+				const json = editor.toJSON();
+				// TODO Uncaught InternalError: allocation size overflow
+				const blob = new Blob( [ JSON.stringify( json ) ], { type: 'application/json' } );
+				editor.utils.save( blob, 'project.json' );
+
+			} catch ( e ) {
+
+				console.error( e );
+				// TODO
+				alert( e );
+				throw e;
+
+			}
 
 		} );
 

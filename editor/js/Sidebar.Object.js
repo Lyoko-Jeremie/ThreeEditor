@@ -520,22 +520,33 @@ function SidebarObject( editor ) {
 
 		const object = editor.selected;
 
-		let output = object.toJSON();
-
 		try {
 
-			output = JSON.stringify( output, null, '\t' );
-			output = output.replace( /[\n\t]+([\d\.e\-\[\]]+)/g, '$1' );
+			let output = object.toJSON();
+
+			try {
+
+				output = JSON.stringify( output, null, '\t' );
+				output = output.replace( /[\n\t]+([\d\.e\-\[\]]+)/g, '$1' );
+
+			} catch ( e ) {
+
+				// TODO Uncaught InternalError: allocation size overflow
+				output = JSON.stringify( output );
+
+			}
+
+
+			editor.utils.save( new Blob( [ output ] ), `${objectName.getValue() || 'object'}.json` );
 
 		} catch ( e ) {
 
-			// TODO Uncaught InternalError: allocation size overflow
-			output = JSON.stringify( output );
+			console.error( e );
+			// TODO
+			alert( e );
+			throw e;
 
 		}
-
-
-		editor.utils.save( new Blob( [ output ] ), `${objectName.getValue() || 'object'}.json` );
 
 	} );
 	container.add( exportJson );

@@ -21,3 +21,6 @@ test/e2e/output-screenshots
 
 **/node_modules
 **/docs_new
+
+rete-editor/dist/**/*
+litegraph-editor/dist/**/*

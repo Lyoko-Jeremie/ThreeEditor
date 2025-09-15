@@ -2,6 +2,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 	const reteModalOverlay = document.getElementById( 'reteModal-overlay' );
 	const reteModalContainer = document.getElementById( 'reteModal-container' );
+	const reteModalContent = document.getElementById( 'reteModal-content' );
 	const reteModalCloseBtn = document.getElementById( 'reteModal-close-btn' );
 	const reteModalThemeToggleBtn = document.getElementById( 'reteModal-theme-toggle-btn' );
 	const htmlBody = document.body;
@@ -45,6 +46,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			reteModalContainer.style.opacity = '0';
 			reteModalOverlay.style.opacity = '0';
 
+			window.destroyReteEditor();
+			window.destroyReteEditor = undefined;
+
 			// Hide after the animation completes
 			setTimeout( () => {
 
@@ -59,6 +63,13 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	// Add a function to show the modal (for demonstration)
 	window.showReteModal = () => {
 
+		if ( window.destroyReteEditor ) {
+
+			window.destroyReteEditor();
+			window.destroyReteEditor = undefined;
+
+		}
+
 		if ( reteModalOverlay && reteModalContainer ) {
 
 			reteModalOverlay.style.display = 'flex';
@@ -66,6 +77,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			reteModalContainer.style.transform = 'scale(0.9)';
 			reteModalContainer.style.opacity = '0';
 			reteModalOverlay.style.opacity = '0';
+
+			window.initializeReteEditor( reteModalContent );
+
 			setTimeout( () => {
 
 				reteModalContainer.style.transform = 'scale(1)';

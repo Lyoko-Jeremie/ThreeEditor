@@ -1,0 +1,7 @@
+rete-editor/**/*.ts
+rete-editor/**/*.js
+rete-editor/**/*.cjs
+
+litegraph-editor/**/*.ts
+litegraph-editor/**/*.js
+litegraph-editor/**/*.cjs

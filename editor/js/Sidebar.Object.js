@@ -25,7 +25,6 @@ import { SetColorCommand } from './commands/SetColorCommand.js';
 import { SetShadowValueCommand } from './commands/SetShadowValueCommand.js';
 
 import { SidebarObjectAnimation } from './Sidebar.Object.Animation.js';
-import { SetGeometryValueCommand } from './commands/SetGeometryValueCommand.js';
 
 function SidebarObject( editor ) {
 
@@ -468,12 +467,11 @@ function SidebarObject( editor ) {
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '宗旨：在不影响使用的前提下，尽量减少不必要的细节。' ) );
 	container.add( collisionTypeReadmeRow );
 
-	const cleanCollisionType = new UIButton( /*strings.getKey( 'sidebar/object/export' )*/ '清除当前元素下的所有子元素物理类型' );
+	const cleanCollisionType = new UIButton( /*strings.getKey( 'sidebar/object/export' )*/ '清除当前元素下所有子元素的物理类型设置' );
 	cleanCollisionType.setStyle( 'margin-bottom', [ '1em' ] );
-	cleanCollisionType.onClick( function () {
+	cleanCollisionType.onClick( async function () {
 
-		// TODO
-		if ( confirm( '确认清除当前元素下的所有子元素的物理类型？' ) === false ) return;
+		if ( ( await SwalConfirm( '确认清除当前元素下的所有子元素的物理类型？' ) ).isConfirmed === false ) return;
 
 		const object = editor.selected;
 

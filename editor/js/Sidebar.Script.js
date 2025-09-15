@@ -79,9 +79,9 @@ function SidebarScript( editor ) {
 
 					const remove = new UIButton( strings.getKey( 'sidebar/script/remove' ) );
 					remove.setMarginLeft( '4px' );
-					remove.onClick( function () {
+					remove.onClick( async function () {
 
-						if ( confirm( strings.getKey( 'prompt/script/remove' ) ) ) {
+						if ( ( await SwalConfirm( strings.getKey( 'prompt/script/remove' ) ) ).isConfirmed ) {
 
 							editor.execute( new RemoveScriptCommand( editor, editor.selected, script ) );
 

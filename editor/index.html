@@ -38,6 +38,25 @@
 		<script src="js/libs/esprima.js"></script>
 		<script src="js/libs/jsonlint.js"></script>
 
+		<script src="js/libs/sweetalert2/sweetalert2.all.js"></script>
+		<link rel="stylesheet" href="js/libs/sweetalert2/sweetalert2.css">
+<!--		<script src="js/libs/sweetalert2/sweetalert2.esm.js"></script>-->
+
+		<script>
+			window.SwalConfirm = function ( s ) {
+
+				return Swal.fire( {
+					// title: s.title || 'Are you sure?',
+					text: s,
+					// icon: s.icon || 'warning',
+					showCancelButton: true,
+					confirmButtonText: '是',
+					cancelButtonText: '否'
+				} );
+
+			}
+		</script>
+
 <!--		<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>-->
 
 		<link rel="stylesheet" href="js/libs/codemirror/addon/dialog.css">
@@ -218,26 +237,31 @@
 			let isLoadingFromHash = false;
 			const hash = window.location.hash;
 
-			if ( hash.slice( 1, 6 ) === 'file=' ) {
+			! ( async function () {
 
-				const file = hash.slice( 6 );
+				if ( hash.slice( 1, 6 ) === 'file=' ) {
 
-				if ( confirm( editor.strings.getKey( 'prompt/file/open' ) ) ) {
+					const file = hash.slice( 6 );
 
-					const loader = new THREE.FileLoader();
-					loader.crossOrigin = '';
-					loader.load( file, function ( text ) {
+					if ( ( await SwalConfirm( editor.strings.getKey( 'prompt/file/open' ) ) ).isConfirmed ) {
 
-						editor.clear();
-						editor.fromJSON( JSON.parse( text ) );
+						const loader = new THREE.FileLoader();
+						loader.crossOrigin = '';
+						loader.load( file, function ( text ) {
 
-					} );
+							editor.clear();
+							editor.fromJSON( JSON.parse( text ) );
 
-					isLoadingFromHash = true;
+						} );
+
+						isLoadingFromHash = true;
+
+					}
 
 				}
 
-			}
+			} )();
+
 
 			// ServiceWorker
 

@@ -61,9 +61,9 @@ function SidebarSettingsHistory( editor ) {
 	// Clear History
 
 	const option = new UIButton( strings.getKey( 'sidebar/history/clear' ) );
-	option.onClick( function () {
+	option.onClick( async function () {
 
-		if ( confirm( strings.getKey( 'prompt/history/clear' ) ) ) {
+		if ( ( await SwalConfirm( strings.getKey( 'prompt/history/clear' ) ) ).isConfirmed ) {
 
 			editor.history.clear();
 

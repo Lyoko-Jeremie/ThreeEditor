@@ -44,9 +44,9 @@ function MenubarFile( editor ) {
 	// New Project / Empty
 
 	let option = new UIRow().setTextContent( strings.getKey( 'menubar/file/new/empty' ) ).setClass( 'option' );
-	option.onClick( function () {
+	option.onClick( async function () {
 
-		if ( confirm( strings.getKey( 'prompt/file/open' ) ) ) {
+		if ( ( await SwalConfirm( strings.getKey( 'prompt/file/open' ) ) ).isConfirmed ) {
 
 			editor.clear();
 
@@ -80,9 +80,9 @@ function MenubarFile( editor ) {
 			const option = new UIRow();
 			option.setClass( 'option' );
 			option.setTextContent( strings.getKey( example.title ) );
-			option.onClick( function () {
+			option.onClick( async function () {
 
-				if ( confirm( strings.getKey( 'prompt/file/open' ) ) ) {
+				if ( ( await SwalConfirm( strings.getKey( 'prompt/file/open' ) ) ).isConfirmed ) {
 
 					loader.load( 'examples/' + example.file, function ( text ) {
 
@@ -150,9 +150,9 @@ function MenubarFile( editor ) {
 	option = new UIRow()
 		.addClass( 'option' )
 		.setTextContent( strings.getKey( 'menubar/file/open' ) )
-		.onClick( function () {
+		.onClick( async function () {
 
-			if ( confirm( strings.getKey( 'prompt/file/open' ) ) ) {
+			if ( ( await SwalConfirm( strings.getKey( 'prompt/file/open' ) ) ).isConfirmed ) {
 
 				openProjectInput.click();
 

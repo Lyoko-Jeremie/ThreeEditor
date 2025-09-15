@@ -1,0 +1,126 @@
+
+:root {
+    /* Light Theme Variables */
+    --reteModal-bg-body-light: #f0f2f5;
+    --reteModal-bg-container-light: #fff;
+    --reteModal-bg-header-light: #f7f7f7;
+    --reteModal-border-color-light: #e0e0e0;
+    --reteModal-text-color-light: #333;
+    --reteModal-close-btn-color-light: #999;
+    --reteModal-overlay-bg-light: rgba(0, 0, 0, 0.5);
+}
+
+.reteModal-dark-theme {
+    /* Dark Theme Variables */
+    --reteModal-bg-body-light: #1a1a2e;
+    --reteModal-bg-container-light: #202b3f;
+    --reteModal-bg-header-light: #2c3a51;
+    --reteModal-border-color-light: #445570;
+    --reteModal-text-color-light: #e0e0e0;
+    --reteModal-close-btn-color-light: #ccc;
+    --reteModal-overlay-bg-light: rgba(0, 0, 0, 0.7);
+}
+
+/*body {*/
+/*    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;*/
+/*    background-color: var(--reteModal-bg-body-light);*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    height: 100vh;*/
+/*    margin: 0;*/
+/*    padding: 20px;*/
+/*    transition: background-color 0.3s ease;*/
+/*}*/
+
+#reteModal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--reteModal-overlay-bg-light);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+    opacity: 1; /* 默认显示用于演示 */
+}
+
+#reteModal-container {
+    position: relative;
+    width: 95%;
+    height: 95%;
+    /*max-width: 1200px;*/
+    /*max-height: 800px;*/
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    background-color: var(--reteModal-bg-container-light);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    transform: scale(1); /* 默认显示用于演示 */
+}
+
+#reteModal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: var(--reteModal-bg-header-light);
+    border-bottom: 1px solid var(--reteModal-border-color-light);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    color: var(--reteModal-text-color-light);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#reteModal-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+#reteModal-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    line-height: 1;
+    font-weight: 300;
+    color: var(--reteModal-close-btn-color-light);
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+#reteModal-close-btn:hover {
+    color: var(--reteModal-text-color-light);
+    transform: scale(1.1);
+}
+
+/* 用于模拟rete编辑器的内容区域 */
+#reteModal-content {
+    flex-grow: 1;
+    background-color: var(--reteModal-bg-container-light);
+    position: relative;
+}
+
+#reteModal-theme-toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: 1px solid var(--reteModal-border-color-light);
+    background-color: var(--reteModal-bg-container-light);
+    color: var(--reteModal-text-color-light);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+#reteModal-theme-toggle-btn:hover {
+    opacity: 0.8;
+}

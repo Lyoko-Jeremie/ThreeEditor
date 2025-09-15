@@ -9,7 +9,7 @@
 		<link rel="shortcut icon" href="../files/favicon_white.ico" media="(prefers-color-scheme: dark)"/>
 		<link rel="shortcut icon" href="../files/favicon.ico" media="(prefers-color-scheme: light)" />
 	</head>
-	<body>
+	<body class="reteModal-dark-theme">
 		<link rel="stylesheet" href="css/main.css">
 
 		<script type="importmap">
@@ -54,7 +54,7 @@
 					cancelButtonText: '否'
 				} );
 
-			}
+			};
 		</script>
 
 <!--		<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>-->
@@ -278,5 +278,22 @@
 			// }
 
 		</script>
+
+		<link rel="stylesheet" href="js/rete/container.css">
+
+		<div id="reteModal-overlay">
+			<div id="reteModal-container">
+				<!-- 浮层标题和关闭按钮 -->
+				<div id="reteModal-header">
+					<span id="reteModal-title">Rete编辑器</span>
+					<button id="reteModal-close-btn">&times;</button>
+				</div>
+				<!-- 用于放置Rete编辑器的内容区域 -->
+				<div id="reteModal-content">
+					<!-- Your Rete editor will be initialized here -->
+				</div>
+			</div>
+		</div>
+
 	</body>
 </html>

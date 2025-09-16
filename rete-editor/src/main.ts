@@ -9,6 +9,7 @@ import {type MinimapExtra, MinimapPlugin} from "rete-minimap-plugin";
 import {HistoryPlugin, type HistoryActions, Presets as PresetsHistory, HistoryExtensions} from "rete-history-plugin";
 // import {CommentPlugin, CommentExtensions} from "rete-comment-plugin";
 import {type ContextMenuExtra, ContextMenuPlugin, Presets as ContextMenuPresets} from "rete-context-menu-plugin";
+import {AutoArrangePlugin, Presets as ArrangePresets} from "rete-auto-arrange-plugin";
 import {DataflowEngine} from "rete-engine";
 import Swal from 'sweetalert2';
 
@@ -63,6 +64,10 @@ async function initializeReteEditor(container: HTMLElement) {
 	const minimap = new MinimapPlugin<Schemes>();
 
 	const history = new HistoryPlugin<Schemes, HistoryActions<Schemes>>();
+
+	const arrange = new AutoArrangePlugin<Schemes>();
+
+	arrange.addPreset(ArrangePresets.classic.setup());
 
 	// const comment = new CommentPlugin<Schemes, AreaExtra>({
 	// 	edit: async (comment) => {
@@ -123,10 +128,11 @@ async function initializeReteEditor(container: HTMLElement) {
 	area.use(history);
 	// area.use(comment);
 	area.use(contextMenu);
+	area.use(arrange);
 
-	const selector = AreaExtensions.selector();
-	const accumulating = AreaExtensions.accumulateOnCtrl();
-
+	// const selector = AreaExtensions.selector();
+	// const accumulating = AreaExtensions.accumulateOnCtrl();
+	//
 	// CommentExtensions.selectable(comment, selector, accumulating);
 
 	AreaExtensions.simpleNodesOrder(area);
@@ -153,11 +159,11 @@ async function initializeReteEditor(container: HTMLElement) {
 	await editor.addConnection(new ClassicPreset.Connection(a, "a", b, "b"));
 
 
-	await area.translate(a.id, {x: 0, y: 0});
-	await area.translate(b.id, {x: 270, y: 0});
-	await area.translate(c.id, {x: -220, y: 0});
+	// await area.translate(a.id, {x: 0, y: 0});
+	// await area.translate(b.id, {x: 270, y: 0});
+	// await area.translate(c.id, {x: -220, y: 0});
 
-	setTimeout(() => {
+	setTimeout(async () => {
 
 		editor.getNodes().forEach(T => {
 			T.height
@@ -187,10 +193,13 @@ async function initializeReteEditor(container: HTMLElement) {
 		console.log('minimap', minimap);
 		(minimap as any).render();
 
+		await arrange.layout();
+		console.log('arrange', arrange);
+
 		// console.log('comment', comment);
 
 		// wait until nodes rendered because they dont have predefined width and height
-		AreaExtensions.zoomAt(area, editor.getNodes());
+		await AreaExtensions.zoomAt(area, editor.getNodes());
 	}, 100);
 
 	// @ts-ignore
@@ -203,85 +212,12 @@ async function initializeReteEditor(container: HTMLElement) {
 	window.editor = editor;
 	// @ts-ignore
 	window.area = area;
+	// @ts-ignore
+	window.minimap = minimap;
+	// @ts-ignore
+	window.arrange = arrange;
 }
 
 // @ts-ignore
 window.initializeReteEditor = initializeReteEditor;
 
-
-// // 全局变量来保存编辑器实例，以便之后销毁
-// let editorInstance = null;
-//
-// document.addEventListener('DOMContentLoaded', () => {
-//
-// 	// async function initializeReteEditor() {
-// 	//
-// 	// 	// 如果实例已存在，先销毁旧的
-// 	// 	if ( editorInstance ) {
-// 	//
-// 	// 		destroyReteEditor();
-// 	//
-// 	// 	}
-// 	//
-// 	// 	// 1. 创建编辑器核心
-// 	// 	const editor = new NodeEditor();
-// 	// 	editorInstance = editor;
-// 	//
-// 	// 	// 2. 注册组件
-// 	// 	const components = [
-// 	// 		// new MyComponent1(),
-// 	// 		// new MyComponent2()
-// 	// 	];
-// 	// 	for ( const component of components ) {
-// 	//
-// 	// 		editor.addNode( component );
-// 	//
-// 	// 	}
-// 	//
-// 	// 	// 3. 插件注册
-// 	// 	const area = new AreaPlugin( document.getElementById( 'rete-editor-container' ) );
-// 	// 	const connection = new ConnectionPlugin();
-// 	// 	const render = renderEditor();
-// 	//
-// 	// 	// 4. 附加插件
-// 	// 	editor.use( area );
-// 	// 	editor.use( connection );
-// 	// 	editor.use( render );
-// 	//
-// 	// 	// 5. 附加到容器
-// 	// 	AreaExtensions.simpleNodesOrder( area );
-// 	// 	AreaExtensions.selectableNodes( area, AreaExtensions.selector() );
-// 	// 	AreaExtensions.dragPan( area, {
-// 	// 		enabled: ( pointer ) => pointer.button === 2 // 右键平移
-// 	// 	} );
-// 	//
-// 	// 	return editor;
-// 	//
-// 	// }
-//
-// 	function destroyReteEditor() {
-//
-// 		if (editorInstance) {
-//
-// 			editorInstance.remove(); // 核心方法，移除编辑器实例
-// 			editorInstance = null; // 清除全局引用
-//
-// 			const container = document.getElementById('rete-editor-container');
-//
-// 			// 可选：清除容器内容
-// 			while (container.firstChild) {
-//
-// 				container.removeChild(container.firstChild);
-//
-// 			}
-//
-// 			console.log('Rete.js editor destroyed.');
-//
-// 		}
-//
-// 	}
-//
-// 	// @ts-ignore
-// 	window.destroyReteEditor = destroyReteEditor;
-//
-// });

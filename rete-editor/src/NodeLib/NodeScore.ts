@@ -1,10 +1,11 @@
 import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
-import type {NeedSkipBuffer} from "./OpInterface";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
+import {NodeParent} from "./NodeParent";
 
-export class NodeScore extends ClassicPreset.Node implements NeedSkipBuffer {
+export class NodeScore extends NodeParent {
+	nodeType: string = 'NodeScore';
 	width = 200;
 	height!: number;
 

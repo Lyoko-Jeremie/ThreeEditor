@@ -1,11 +1,12 @@
 import {ClassicPreset, getUID} from 'rete';
 import {SocketLib} from "./SocketLib";
-import type {NeedSkipBuffer} from "./OpInterface";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import type {Control} from "rete/_types/presets/classic";
+import {NodeParent} from "./NodeParent";
 
-export class NodeLogicAnd extends ClassicPreset.Node implements NeedSkipBuffer {
+export class NodeLogicAnd extends NodeParent {
+	nodeType: string = 'NodeLogicAnd';
 	width = 200;
 	height!: number;
 
@@ -26,7 +27,8 @@ export class NodeLogicAnd extends ClassicPreset.Node implements NeedSkipBuffer {
 	}
 }
 
-export class NodeLogicOr extends ClassicPreset.Node implements NeedSkipBuffer {
+export class NodeLogicOr extends NodeParent {
+	nodeType: string = 'NodeLogicOr';
 	width = 200;
 	height!: number;
 
@@ -47,7 +49,8 @@ export class NodeLogicOr extends ClassicPreset.Node implements NeedSkipBuffer {
 	}
 }
 
-export class NodeLogicNot extends ClassicPreset.Node implements NeedSkipBuffer {
+export class NodeLogicNot extends NodeParent {
+	nodeType: string = 'NodeLogicNot';
 	width = 200;
 	height!: number;
 
@@ -68,7 +71,8 @@ export class NodeLogicNot extends ClassicPreset.Node implements NeedSkipBuffer {
 	}
 }
 
-export class NodeLogicNand extends ClassicPreset.Node implements NeedSkipBuffer {
+export class NodeLogicNand extends NodeParent {
+	nodeType: string = 'NodeLogicNand';
 	width = 200;
 	height!: number;
 
@@ -89,7 +93,8 @@ export class NodeLogicNand extends ClassicPreset.Node implements NeedSkipBuffer 
 	}
 }
 
-export class NodeLogicNor extends ClassicPreset.Node implements NeedSkipBuffer {
+export class NodeLogicNor extends NodeParent {
+	nodeType: string = 'NodeLogicNor';
 	width = 200;
 	height!: number;
 
@@ -110,7 +115,8 @@ export class NodeLogicNor extends ClassicPreset.Node implements NeedSkipBuffer {
 	}
 }
 
-export class NodeLogicXor extends ClassicPreset.Node implements NeedSkipBuffer {
+export class NodeLogicXor extends NodeParent {
+	nodeType: string = 'NodeLogicXor';
 	width = 200;
 	height!: number;
 
@@ -134,7 +140,8 @@ export class NodeLogicXor extends ClassicPreset.Node implements NeedSkipBuffer {
 	}
 }
 
-export class NodeLogicXnor extends ClassicPreset.Node implements NeedSkipBuffer {
+export class NodeLogicXnor extends NodeParent {
+	nodeType: string = 'NodeLogicXnor';
 	width = 200;
 	height!: number;
 
@@ -159,7 +166,8 @@ export class NodeLogicXnor extends ClassicPreset.Node implements NeedSkipBuffer 
 }
 
 // 同相器（同相缓冲门）
-export class NodeLogicBuffer extends ClassicPreset.Node implements NeedSkipBuffer {
+export class NodeLogicBuffer extends NodeParent {
+	nodeType: string = 'NodeLogicBuffer';
 	width = 200;
 	height!: number;
 
@@ -180,7 +188,8 @@ export class NodeLogicBuffer extends ClassicPreset.Node implements NeedSkipBuffe
 	}
 }
 
-export class NodeLogicConstant extends ClassicPreset.Node implements NeedSkipBuffer {
+export class NodeLogicConstant extends NodeParent {
+	nodeType: string = 'NodeLogicConstant';
 	width = 200;
 	height!: number;
 
@@ -221,7 +230,8 @@ export class NodeLogicConstant extends ClassicPreset.Node implements NeedSkipBuf
 	}
 }
 
-export class NodeLogicEqual extends ClassicPreset.Node implements NeedSkipBuffer {
+export class NodeLogicEqual extends NodeParent {
+	nodeType: string = 'NodeLogicEqual';
 	width = 200;
 	height!: number;
 

@@ -1,10 +1,11 @@
 import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
-import type {NeedSkipBuffer} from "./OpInterface";
 import {nameDialog} from "./NameSwal";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
+import {NodeParent} from "./NodeParent";
 
-export class NodeSum extends ClassicPreset.Node implements NeedSkipBuffer {
+export class NodeSum extends NodeParent {
+	nodeType: string = 'NodeSum';
 	width = 200;
 	height!: number;
 

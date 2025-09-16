@@ -1,8 +1,9 @@
 import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
-import type {NeedSkipBuffer} from "./OpInterface";
+import {NodeParent} from "./NodeParent";
 
-export class NodeSensor extends ClassicPreset.Node implements NeedSkipBuffer {
+export class NodeSensor extends NodeParent {
+	nodeType: string = 'NodeSensor';
 	width = 200;
 	height!: number;
 

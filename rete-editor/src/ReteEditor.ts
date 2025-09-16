@@ -8,7 +8,9 @@ import {HistoryPlugin, type HistoryActions, Presets as PresetsHistory, HistoryEx
 import {type ContextMenuExtra, ContextMenuPlugin, Presets as ContextMenuPresets} from "rete-context-menu-plugin";
 import {AutoArrangePlugin, Presets as ArrangePresets} from "rete-auto-arrange-plugin";
 import {DataflowEngine} from "rete-engine";
+import {structures} from "rete-structures";
 import Swal from 'sweetalert2';
+import {html, LitElement} from "lit";
 import type {NodeAllType, Schemes} from "./NodeLib/ConnectionLib";
 import type {ReteEditorInterface} from "./ReteEditorInterface";
 import {NodeMenuScore} from "./NodeLib/NodeScore";
@@ -16,7 +18,7 @@ import {NodeMenuLatch} from "./NodeLib/NodeLatch";
 import {NodeMenuLatchCount} from "./NodeLib/NodeLatchCount";
 import {NodeMenuSum} from "./NodeLib/NodeSum";
 import {NodeMenuLogic} from "./NodeLib/NodeLogicType";
-import {html, LitElement} from "lit";
+import {NodeSensor} from "./NodeLib/NodeSensor";
 
 export {
 	ClassicPreset,
@@ -98,6 +100,8 @@ export class ReteEditor implements ReteEditorInterface {
 	engine = new DataflowEngine<Schemes>();
 	editor = new NodeEditor<Schemes>();
 
+	graph = structures(this.editor);
+
 	connection = new ConnectionPlugin<Schemes, AreaExtra>();
 	// socket = new ClassicPreset.Socket("socket");
 
@@ -131,11 +135,11 @@ export class ReteEditor implements ReteEditorInterface {
 			// }],
 			// ["NodeA", () => new NodeA(socket)],
 			// ["NodeB", () => new NodeB(socket)],
-			NodeMenuScore(this),
 			NodeMenuLatch(this),
 			NodeMenuLatchCount(this),
 			NodeMenuSum(this),
 			['逻辑操作', NodeMenuLogic(this)],
+			NodeMenuScore(this),
 		])
 	});
 	area?: AreaPlugin<Schemes, AreaExtra>;
@@ -263,8 +267,28 @@ export class ReteEditor implements ReteEditorInterface {
 		this.area?.destroy();
 	}
 
+	async addNodeSensor(name: string, id: string) {
+		const n = new NodeSensor(name, id);
+		await this.editor.addNode(n);
+		await this.updateOneNodeSize(n);
+		this.updateMinimap();
+	}
+
+	async removeNodeSensor(id: string) {
+		// this.graph.
+		const node = this.editor.getNode(id);
+		if (node) {
+			node.inputs;
+			node.outputs;
+			await this.editor.removeNode(node.id);
+			this.updateMinimap();
+		}
+	}
+
 	async serialization(): Promise<Record<string, any>> {
 		// TODO
+		const nodes = this.editor.getNodes();
+		const conn = this.editor.getConnections();
 		return {};
 	}
 

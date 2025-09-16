@@ -11,6 +11,12 @@ import {DataflowEngine} from "rete-engine";
 import Swal from 'sweetalert2';
 import type {NodeAllType, Schemes} from "./NodeLib/ConnectionLib";
 import type {ReteEditorInterface} from "./ReteEditorInterface";
+import {NodeMenuScore} from "./NodeLib/NodeScore";
+import {NodeMenuLatch} from "./NodeLib/NodeLatch";
+import {NodeMenuLatchCount} from "./NodeLib/NodeLatchCount";
+import {NodeMenuSum} from "./NodeLib/NodeSum";
+import {NodeMenuLogic} from "./NodeLib/NodeLogicType";
+import {html, LitElement} from "lit";
 
 export {
 	ClassicPreset,
@@ -35,6 +41,58 @@ export function runLater<T extends any = void>(f: () => T | Promise<T>, timeout 
 	re.promise.finally(() => (void 0));	// do nothing . only to avoid unhandled rejection error
 	return re.promise;
 }
+
+// input patch
+// @customElement('custom-number-input')
+export class CustomNumberInput extends LitElement {
+	// @property({type: Object}) accessor data: {
+	// 	initial: number,
+	// 	change: (v: number) => any,
+	// 	isCustomNumberInput: boolean,
+	// } | null = null;
+	static properties = {
+		data: {
+			type: Object,
+		},
+	};
+
+	declare data: {
+		initial: number,
+		change: (v: number) => any,
+		isCustomNumberInput: boolean,
+	} | null;
+
+	render() {
+		if (!this.data) return html``;
+		const d: any = this.data;
+
+		return html`
+			<input
+				type="number"
+				.value="${d.initial}"
+				?readonly="${d.readonly}"
+				@input="${this.handleInput}"
+				@pointerdown=${(e: MouseEvent) => e.stopPropagation()}
+				@doubleclick=${(e: MouseEvent) => e.stopPropagation()}
+				@click=${(e: MouseEvent) => e.stopPropagation()}
+				@dblclick=${(e: MouseEvent) => e.stopPropagation()}
+			/>
+		`;
+	}
+
+	handleInput(e: InputEvent) {
+		// console.log('handleInput', e, this.data);
+		if (!this.data) return;
+		const d: any = this.data;
+
+		const target = e.target as HTMLInputElement;
+		const val = +target.value;
+
+		d.change(val);
+	}
+}
+
+customElements.define("custom-number-input", CustomNumberInput);
 
 export class ReteEditor implements ReteEditorInterface {
 	engine = new DataflowEngine<Schemes>();
@@ -72,7 +130,12 @@ export class ReteEditor implements ReteEditorInterface {
 			// 	});
 			// }],
 			// ["NodeA", () => new NodeA(socket)],
-			// ["NodeB", () => new NodeB(socket)]
+			// ["NodeB", () => new NodeB(socket)],
+			NodeMenuScore(this),
+			NodeMenuLatch(this),
+			NodeMenuLatchCount(this),
+			NodeMenuSum(this),
+			['逻辑操作', NodeMenuLogic(this)],
 		])
 	});
 	area?: AreaPlugin<Schemes, AreaExtra>;
@@ -92,7 +155,25 @@ export class ReteEditor implements ReteEditorInterface {
 
 		this.arrange.addPreset(ArrangePresets.classic.setup());
 
-		this.render.addPreset(Presets.classic.setup());
+		// this.render.addPreset(Presets.classic.setup());
+		this.render.addPreset(Presets.classic.setup({
+			customize: {
+				control(context) {
+					console.log('control context', context);
+					if ((context.payload as any).isCustomNumberInput) {
+						const {payload} = context;
+
+						return () => html`
+							<custom-number-input .data=${payload}></custom-number-input>`;
+					}
+					// if (context.payload instanceof ClassicPreset.InputControl) { // don't forget to explicitly specify the built-in <rete-control>
+					// 	return () => html`<rete-control .data=${context.payload}></rete-control>`;
+					// }
+					return () => html`
+						<rete-control .data=${context.payload}></rete-control>`;
+				}
+			}
+		}));
 		this.render.addPreset(Presets.minimap.setup({size: 200}));
 		this.render.addPreset(Presets.contextMenu.setup());
 

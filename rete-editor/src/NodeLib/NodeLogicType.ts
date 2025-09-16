@@ -1,8 +1,9 @@
-import {ClassicPreset} from 'rete';
+import {ClassicPreset, getUID} from 'rete';
 import {SocketLib} from "./SocketLib";
 import type {NeedSkipBuffer} from "./OpInterface";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
+import type {Control} from "rete/_types/presets/classic";
 
 export class NodeLogicAnd extends ClassicPreset.Node implements NeedSkipBuffer {
 	width = 200;
@@ -183,15 +184,30 @@ export class NodeLogicConstant extends ClassicPreset.Node implements NeedSkipBuf
 	width = 200;
 	height!: number;
 
+	styles() {
+		return `input { color: black; }`;
+	}
+
 	needSkipBuffer = true;
 
 	constructor(label: string) {
 		super('逻辑常量计算器: ' + label);
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
-		this.addControl('inputValue', new ClassicPreset.InputControl('number', {
+		// this.addControl('inputValue', new ClassicPreset.InputControl('number', {
+		// 	initial: 0,
+		// 	change: (v) => (this.inputValue = v)
+		// }));
+		this.addControl('inputValue', {
+			id: getUID(),
+			index: 0,
 			initial: 0,
-			change: (v) => (this.inputValue = v)
-		}));
+			change: (v: number) => {
+				this.inputValue = v;
+				console.log('NodeLogicConstant change', v);
+			},
+			isCustomNumberInput: true,
+			readonly: false,
+		} as Control);
 	}
 
 	inputValue = 0;
@@ -241,3 +257,18 @@ export type NodeLogicType =
 	NodeLogicConstant |
 	NodeLogicEqual
 	;
+
+export const NodeMenuLogic = (editor: ReteEditorInterface): [string, () => Promise<NodeLogicType>][] => {
+	return [
+		['逻辑与计算器', () => NodeLogicAnd.create(editor)],
+		['逻辑或计算器', () => NodeLogicOr.create(editor)],
+		['逻辑非计算器', () => NodeLogicNot.create(editor)],
+		['逻辑与非计算器', () => NodeLogicNand.create(editor)],
+		['逻辑或非计算器', () => NodeLogicNor.create(editor)],
+		['逻辑异或计算器', () => NodeLogicXor.create(editor)],
+		['逻辑同或计算器', () => NodeLogicXnor.create(editor)],
+		['逻辑缓冲计算器', () => NodeLogicBuffer.create(editor)],
+		['逻辑常量计算器', () => NodeLogicConstant.create(editor)],
+		['逻辑等于计算器', () => NodeLogicEqual.create(editor)],
+	] as const;
+};

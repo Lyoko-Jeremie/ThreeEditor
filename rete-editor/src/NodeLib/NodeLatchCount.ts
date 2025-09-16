@@ -32,3 +32,9 @@ export class NodeLatchCount extends ClassicPreset.Node  implements NeedSkipBuffe
 		return nameDialog(editor, '碰撞计数器 名称', (name) => new NodeLatchCount(name));
 	}
 }
+
+export const NodeMenuLatchCount = (editor: ReteEditorInterface): [string, () => Promise<NodeLatchCount>] => {
+	return [
+		"碰撞计数器", async () => NodeLatchCount.create(editor),
+	] as const;
+};

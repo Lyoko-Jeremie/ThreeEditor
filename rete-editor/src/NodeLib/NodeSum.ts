@@ -24,3 +24,9 @@ export class NodeSum extends ClassicPreset.Node implements NeedSkipBuffer {
 		return nameDialog(editor, '求和计算器 名称', (name) => new NodeSum(name));
 	}
 }
+
+export const NodeMenuSum = (editor: ReteEditorInterface): [string, () => Promise<NodeSum>] => {
+	return [
+		"求和计算器", async () => NodeSum.create(editor),
+	] as const;
+};

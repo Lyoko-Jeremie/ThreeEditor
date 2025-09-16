@@ -4,7 +4,7 @@ import type {NeedSkipBuffer} from "./OpInterface";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 
-export class NodeLatch extends ClassicPreset.Node  implements NeedSkipBuffer {
+export class NodeLatch extends ClassicPreset.Node implements NeedSkipBuffer {
 	width = 200;
 	height!: number;
 
@@ -32,3 +32,9 @@ export class NodeLatch extends ClassicPreset.Node  implements NeedSkipBuffer {
 		return nameDialog(editor, '碰撞锁存器 名称', (name) => new NodeLatch(name));
 	}
 }
+
+export const NodeMenuLatch = (editor: ReteEditorInterface): [string, () => Promise<NodeLatch>] => {
+	return [
+		"碰撞锁存器", async () => NodeLatch.create(editor),
+	] as const;
+};

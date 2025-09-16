@@ -9,8 +9,7 @@ import {type ContextMenuExtra, ContextMenuPlugin, Presets as ContextMenuPresets}
 import {AutoArrangePlugin, Presets as ArrangePresets} from "rete-auto-arrange-plugin";
 import {DataflowEngine} from "rete-engine";
 import {structures} from "rete-structures";
-import Swal from 'sweetalert2';
-import {html, LitElement} from "lit";
+import {html} from "lit";
 import type {NodeAllType, Schemes} from "./NodeLib/ConnectionLib";
 import type {ReteEditorInterface} from "./ReteEditorInterface";
 import {NodeMenuScore} from "./NodeLib/NodeScore";
@@ -19,6 +18,7 @@ import {NodeMenuLatchCount} from "./NodeLib/NodeLatchCount";
 import {NodeMenuSum} from "./NodeLib/NodeSum";
 import {NodeMenuLogic} from "./NodeLib/NodeLogicType";
 import {NodeSensor} from "./NodeLib/NodeSensor";
+import type {SerializationDataType} from "./NodeLib/NodeParent";
 
 export {
 	ClassicPreset,
@@ -43,58 +43,6 @@ export function runLater<T extends any = void>(f: () => T | Promise<T>, timeout 
 	re.promise.finally(() => (void 0));	// do nothing . only to avoid unhandled rejection error
 	return re.promise;
 }
-
-// input patch
-// @customElement('custom-number-input')
-export class CustomNumberInput extends LitElement {
-	// @property({type: Object}) accessor data: {
-	// 	initial: number,
-	// 	change: (v: number) => any,
-	// 	isCustomNumberInput: boolean,
-	// } | null = null;
-	static properties = {
-		data: {
-			type: Object,
-		},
-	};
-
-	declare data: {
-		initial: number,
-		change: (v: number) => any,
-		isCustomNumberInput: boolean,
-	} | null;
-
-	render() {
-		if (!this.data) return html``;
-		const d: any = this.data;
-
-		return html`
-			<input
-				type="number"
-				.value="${d.initial}"
-				?readonly="${d.readonly}"
-				@input="${this.handleInput}"
-				@pointerdown=${(e: MouseEvent) => e.stopPropagation()}
-				@doubleclick=${(e: MouseEvent) => e.stopPropagation()}
-				@click=${(e: MouseEvent) => e.stopPropagation()}
-				@dblclick=${(e: MouseEvent) => e.stopPropagation()}
-			/>
-		`;
-	}
-
-	handleInput(e: InputEvent) {
-		// console.log('handleInput', e, this.data);
-		if (!this.data) return;
-		const d: any = this.data;
-
-		const target = e.target as HTMLInputElement;
-		const val = +target.value;
-
-		d.change(val);
-	}
-}
-
-customElements.define("custom-number-input", CustomNumberInput);
 
 export class ReteEditor implements ReteEditorInterface {
 	engine = new DataflowEngine<Schemes>();
@@ -285,15 +233,56 @@ export class ReteEditor implements ReteEditorInterface {
 		}
 	}
 
-	async serialization(): Promise<Record<string, any>> {
+	versionSerializationExportDataType: number = 1;
+
+	async serialization(): Promise<SerializationExportDataType> {
 		// TODO
 		const nodes = this.editor.getNodes();
-		const conn = this.editor.getConnections();
-		return {};
+		const connections = this.editor.getConnections();
+		return {
+			version: this.versionSerializationExportDataType,
+			nodes: nodes.map(T => T.serialization()),
+			connections: connections.map(T => {
+				return {
+					id: T.id,
+					source: T.source,
+					sourceOutput: T.sourceOutput,
+					target: T.target,
+					targetInput: T.targetInput,
+					connectionType: T.connectionType,
+				};
+			}),
+		};
 	}
 
-	async deserialization(data?: Record<string, any>) {
-		// TODO
+	async deserialization(data: SerializationExportDataType) {
+		if (this.versionSerializationExportDataType < data.version) {
+			console.error('version not match', this.versionSerializationExportDataType, data.version);
+			return false;
+		}
+		await this.editor.clear();
+		// TODO nodes
+		// this.editor.addNode()
+
+		// TODO connections
+		// this.editor.addConnection()
+
+		await this.updateAllNodeSizes();
+		this.updateMinimap();
+		await this.reLayout();
+		await this.reZoom();
 	}
 
+}
+
+export type SerializationExportDataType = {
+	version: number,
+	nodes: SerializationDataType[],
+	connections: {
+		id: string,
+		source: string,
+		sourceOutput: string,
+		target: string,
+		targetInput: string,
+	}[],
 }

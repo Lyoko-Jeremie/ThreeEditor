@@ -9,13 +9,24 @@ import type {NodeLogicType} from "./NodeLogicType";
 export type NodeLatchType = NodeLatch | NodeLatchCount;
 export type NodeCalcType = NodeLogicType | NodeLatchType | NodeSum;
 
-export class ConnectionScore<A extends NodeCalcType, B extends NodeScore> extends ClassicPreset.Connection<A, B> {
+export abstract class ConnectionParent<A extends ClassicPreset.Node, B extends ClassicPreset.Node> extends ClassicPreset.Connection<A, B> {
+	static connectionTypeStatic: string;
+	abstract connectionType: string;
 }
 
-export class ConnectionCalc<A extends NodeCalcType, B extends NodeCalcType> extends ClassicPreset.Connection<A, B> {
+export class ConnectionScore<A extends NodeCalcType, B extends NodeScore> extends ConnectionParent<A, B> {
+	static connectionTypeStatic = 'Calc-Score';
+	connectionType = 'Calc-Score';
 }
 
-export class ConnectionSensor<A extends NodeSensor, B extends NodeLatchType> extends ClassicPreset.Connection<A, B> {
+export class ConnectionCalc<A extends NodeCalcType, B extends NodeCalcType> extends ConnectionParent<A, B> {
+	static connectionTypeStatic = 'Calc-Calc';
+	connectionType = 'Calc-Calc';
+}
+
+export class ConnectionSensor<A extends NodeSensor, B extends NodeLatchType> extends ConnectionParent<A, B> {
+	static connectionTypeStatic = 'Sensor-Latch';
+	connectionType = 'Sensor-Latch';
 }
 
 

@@ -1,6 +1,6 @@
-import {ReteEditor, runLater} from "./ReteEditor";
+import {ReteEditor, runLater, type SerializationExportDataType} from "./ReteEditor";
 
-async function initializeReteEditor(container: HTMLElement, data?: Record<string, any>) {
+async function initializeReteEditor(container: HTMLElement, data?: SerializationExportDataType) {
 
 	const reteEditor = new ReteEditor();
 	await reteEditor.initEngine();
@@ -67,7 +67,7 @@ async function initializeReteEditor(container: HTMLElement, data?: Record<string
 
 
 	await runLater(async () => {
-		await reteEditor.deserialization(data);
+		data && await reteEditor.deserialization(data);
 		await reteEditor.updateAllNodeSizes();
 		await reteEditor.reZoom();
 	}, 100);

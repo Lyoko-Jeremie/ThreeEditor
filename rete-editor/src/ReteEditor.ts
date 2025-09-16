@@ -1,9 +1,6 @@
-import {NodeEditor, type GetSchemes, ClassicPreset} from 'rete';
+import {NodeEditor, ClassicPreset} from 'rete';
 import {AreaPlugin, AreaExtensions} from 'rete-area-plugin';
-import {
-	ConnectionPlugin,
-	Presets as ConnectionPresets,
-} from 'rete-connection-plugin';
+import {ConnectionPlugin, Presets as ConnectionPresets,} from 'rete-connection-plugin';
 import {LitPlugin, Presets, type LitArea2D} from '@retejs/lit-plugin';
 import {type MinimapExtra, MinimapPlugin} from "rete-minimap-plugin";
 import {HistoryPlugin, type HistoryActions, Presets as PresetsHistory, HistoryExtensions} from "rete-history-plugin";
@@ -12,38 +9,12 @@ import {type ContextMenuExtra, ContextMenuPlugin, Presets as ContextMenuPresets}
 import {AutoArrangePlugin, Presets as ArrangePresets} from "rete-auto-arrange-plugin";
 import {DataflowEngine} from "rete-engine";
 import Swal from 'sweetalert2';
+import type {NodeAllType, Schemes} from "./NodeLib/ConnectionLib";
 
 export {
 	ClassicPreset,
-}
+};
 
-// import { MyComponent1, MyComponent2 } from './components';
-
-export class Node extends ClassicPreset.Node {
-	width = 200;
-	height!: number;
-
-	constructor(label: string, id: string) {
-		super(label);
-		this.id = id;
-	}
-
-	data(inputs: { left?: number[]; right?: number[] }): { value: number } {
-		const {left, right} = inputs;
-		const value = (left && left[0] || 0) + (right && right[0] || 0)
-
-		return {value};
-	}
-}
-
-class Connection<N extends Node> extends ClassicPreset.Connection<N, N> {
-}
-
-
-type Schemes = GetSchemes<
-	Node,
-	Connection<Node>
->;
 type AreaExtra =
 	LitArea2D<Schemes>
 	| MinimapExtra
@@ -69,7 +40,7 @@ export class ReteEditor {
 	editor = new NodeEditor<Schemes>();
 
 	connection = new ConnectionPlugin<Schemes, AreaExtra>();
-	socket = new ClassicPreset.Socket("socket");
+	// socket = new ClassicPreset.Socket("socket");
 
 	render = new LitPlugin<Schemes, AreaExtra>();
 	minimap = new MinimapPlugin<Schemes>();
@@ -80,25 +51,25 @@ export class ReteEditor {
 			// ["re layout", async () => {
 			// 	await this.reLayout();
 			// }],
-			["Node", async () => {
-				return Swal.fire({
-					title: 'New name',
-					input: 'text',
-					inputValue: '',
-					// showCancelButton: true,
-					confirmButtonText: 'Ok',
-					// cancelButtonText: 'Cancel',
-				}).then((result) => {
-					const n = new Node(result.value, 'node-' + Math.random().toString(36).slice(2, 7));
-					n.addControl(result.value, new ClassicPreset.InputControl("text", {initial: result.value}));
-					n.addOutput(result.value, new ClassicPreset.Output(this.socket, undefined, true));
-					runLater(async () => {
-						await this.updateOneNodeSize(n);
-						this.updateMinimap();
-					}, 50);
-					return n;
-				});
-			}],
+			// ["Node", async () => {
+			// 	return Swal.fire({
+			// 		title: 'New name',
+			// 		input: 'text',
+			// 		inputValue: '',
+			// 		// showCancelButton: true,
+			// 		confirmButtonText: 'Ok',
+			// 		// cancelButtonText: 'Cancel',
+			// 	}).then((result) => {
+			// 		const n = new Node(result.value, 'node-' + Math.random().toString(36).slice(2, 7));
+			// 		n.addControl(result.value, new ClassicPreset.InputControl("text", {initial: result.value}));
+			// 		n.addOutput(result.value, new ClassicPreset.Output(this.socket, undefined, true));
+			// 		runLater(async () => {
+			// 			await this.updateOneNodeSize(n);
+			// 			this.updateMinimap();
+			// 		}, 50);
+			// 		return n;
+			// 	});
+			// }],
 			// ["NodeA", () => new NodeA(socket)],
 			// ["NodeB", () => new NodeB(socket)]
 		])
@@ -180,7 +151,7 @@ export class ReteEditor {
 		// console.log('arrange', this.arrange);
 	}
 
-	async updateOneNodeSize(node: Node) {
+	async updateOneNodeSize(node: NodeAllType) {
 		const viewsElements = ((this.area as any).elements as {
 			viewsElements: Map<string, HTMLDivElement>,
 			views: WeakMap<HTMLDivElement, { type: string, element: HTMLElement, payload: any }>
@@ -196,7 +167,7 @@ export class ReteEditor {
 
 		// console.log('minimap', this.minimap);
 		// (this.minimap as any).render();
-		//
+
 		// await this.arrange.layout();
 		// console.log('arrange', this.arrange);
 	}
@@ -208,6 +179,14 @@ export class ReteEditor {
 	async destroy() {
 		await this.editor.clear();
 		this.area?.destroy();
+	}
+
+	serialization() {
+		// TODO
+	}
+
+	deserialization() {
+		// TODO
 	}
 
 }

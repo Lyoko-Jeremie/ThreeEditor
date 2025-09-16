@@ -1,0 +1,20 @@
+import {ClassicPreset} from 'rete';
+import {SocketLib} from "./SocketLib";
+import type {NeedSkipBuffer} from "./OpInterface";
+
+export class NodeSum extends ClassicPreset.Node implements NeedSkipBuffer {
+	width = 200;
+	height!: number;
+
+	needSkipBuffer = true;
+
+	constructor(label: string) {
+		super('求和计算器: ' + label);
+		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
+		this.addOutput('outputSum', new ClassicPreset.Output(SocketLib.normal, '求和', true));
+	}
+
+	data(inputs: { inputValue?: number[] }): { outputSum: number } {
+		return {outputSum: inputs.inputValue?.reduce((a, b) => a + b, 0) ?? 0};
+	}
+}

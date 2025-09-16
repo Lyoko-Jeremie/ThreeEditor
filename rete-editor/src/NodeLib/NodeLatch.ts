@@ -5,14 +5,15 @@ import {nameDialog} from "./NameSwal";
 import {NodeParent} from "./NodeParent";
 
 export class NodeLatch extends NodeParent {
-    nodeType: string = 'NodeLatch';
+	nodeType: string = 'NodeLatch';
 	width = 200;
 	height!: number;
 
 	needSkipBuffer = false;
 
-	constructor(label: string) {
+	constructor(label: string, id?: string) {
 		super('碰撞锁存器: ' + label);
+		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '正在碰撞', false));
 		this.addOutput('latchState', new ClassicPreset.Output(SocketLib.normal, '状态', true));
 	}
@@ -31,6 +32,10 @@ export class NodeLatch extends NodeParent {
 
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '碰撞锁存器 名称', (name) => new NodeLatch(name));
+	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
 	}
 }
 

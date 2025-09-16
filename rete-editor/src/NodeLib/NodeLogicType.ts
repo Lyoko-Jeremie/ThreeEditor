@@ -12,8 +12,9 @@ export class NodeLogicAnd extends NodeParent {
 
 	needSkipBuffer = true;
 
-	constructor(label: string) {
+	constructor(label: string, id?: string) {
 		super('逻辑与计算器: ' + label);
+		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
 	}
@@ -25,6 +26,10 @@ export class NodeLogicAnd extends NodeParent {
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '逻辑与计算器 名称', (name) => new NodeLogicAnd(name));
 	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
+	}
 }
 
 export class NodeLogicOr extends NodeParent {
@@ -34,8 +39,9 @@ export class NodeLogicOr extends NodeParent {
 
 	needSkipBuffer = true;
 
-	constructor(label: string) {
+	constructor(label: string, id?: string) {
 		super('逻辑或计算器: ' + label);
+		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
 	}
@@ -47,6 +53,10 @@ export class NodeLogicOr extends NodeParent {
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '逻辑或计算器 名称', (name) => new NodeLogicOr(name));
 	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
+	}
 }
 
 export class NodeLogicNot extends NodeParent {
@@ -56,8 +66,9 @@ export class NodeLogicNot extends NodeParent {
 
 	needSkipBuffer = true;
 
-	constructor(label: string) {
+	constructor(label: string, id?: string) {
 		super('逻辑非计算器: ' + label);
+		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', false));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
 	}
@@ -69,6 +80,10 @@ export class NodeLogicNot extends NodeParent {
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '逻辑非计算器 名称', (name) => new NodeLogicNot(name));
 	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
+	}
 }
 
 export class NodeLogicNand extends NodeParent {
@@ -78,8 +93,9 @@ export class NodeLogicNand extends NodeParent {
 
 	needSkipBuffer = true;
 
-	constructor(label: string) {
+	constructor(label: string, id?: string) {
 		super('逻辑与非计算器: ' + label);
+		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
 	}
@@ -91,6 +107,10 @@ export class NodeLogicNand extends NodeParent {
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '逻辑与非计算器 名称', (name) => new NodeLogicNand(name));
 	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
+	}
 }
 
 export class NodeLogicNor extends NodeParent {
@@ -100,8 +120,9 @@ export class NodeLogicNor extends NodeParent {
 
 	needSkipBuffer = true;
 
-	constructor(label: string) {
+	constructor(label: string, id?: string) {
 		super('逻辑或非计算器: ' + label);
+		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
 	}
@@ -113,6 +134,10 @@ export class NodeLogicNor extends NodeParent {
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '逻辑或非计算器 名称', (name) => new NodeLogicNor(name));
 	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
+	}
 }
 
 export class NodeLogicXor extends NodeParent {
@@ -122,8 +147,9 @@ export class NodeLogicXor extends NodeParent {
 
 	needSkipBuffer = true;
 
-	constructor(label: string) {
+	constructor(label: string, id?: string) {
 		super('逻辑异或计算器: ' + label);
+		this.id = id ?? this.id;
 		this.addInput('inputValue1', new ClassicPreset.Input(SocketLib.normal, '输入1', false));
 		this.addInput('inputValue2', new ClassicPreset.Input(SocketLib.normal, '输入2', false));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
@@ -138,6 +164,10 @@ export class NodeLogicXor extends NodeParent {
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '逻辑异或计算器 名称', (name) => new NodeLogicXor(name));
 	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
+	}
 }
 
 export class NodeLogicXnor extends NodeParent {
@@ -147,8 +177,9 @@ export class NodeLogicXnor extends NodeParent {
 
 	needSkipBuffer = true;
 
-	constructor(label: string) {
+	constructor(label: string, id?: string) {
 		super('逻辑同或计算器: ' + label);
+		this.id = id ?? this.id;
 		this.addInput('inputValue1', new ClassicPreset.Input(SocketLib.normal, '输入1', false));
 		this.addInput('inputValue2', new ClassicPreset.Input(SocketLib.normal, '输入2', false));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
@@ -163,6 +194,10 @@ export class NodeLogicXnor extends NodeParent {
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '逻辑同或计算器 名称', (name) => new NodeLogicXnor(name));
 	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
+	}
 }
 
 // 同相器（同相缓冲门）
@@ -173,8 +208,9 @@ export class NodeLogicBuffer extends NodeParent {
 
 	needSkipBuffer = true;
 
-	constructor(label: string) {
+	constructor(label: string, id?: string) {
 		super('逻辑缓冲计算器: ' + label);
+		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入'));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
 	}
@@ -185,6 +221,10 @@ export class NodeLogicBuffer extends NodeParent {
 
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '逻辑缓冲计算器 名称', (name) => new NodeLogicBuffer(name));
+	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
 	}
 }
 
@@ -199,8 +239,9 @@ export class NodeLogicConstant extends NodeParent {
 
 	needSkipBuffer = true;
 
-	constructor(label: string) {
+	constructor(label: string, id?: string) {
 		super('逻辑常量计算器: ' + label);
+		this.id = id ?? this.id;
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
 		// this.addControl('inputValue', new ClassicPreset.InputControl('number', {
 		// 	initial: 0,
@@ -228,6 +269,10 @@ export class NodeLogicConstant extends NodeParent {
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '逻辑常量计算器 名称', (name) => new NodeLogicConstant(name));
 	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
+	}
 }
 
 export class NodeLogicEqual extends NodeParent {
@@ -237,8 +282,9 @@ export class NodeLogicEqual extends NodeParent {
 
 	needSkipBuffer = true;
 
-	constructor(label: string) {
+	constructor(label: string, id?: string) {
 		super('逻辑等于计算器: ' + label);
+		this.id = id ?? this.id;
 		this.addInput('inputValue1', new ClassicPreset.Input(SocketLib.normal, '输入1', false));
 		this.addInput('inputValue2', new ClassicPreset.Input(SocketLib.normal, '输入2', false));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
@@ -252,6 +298,10 @@ export class NodeLogicEqual extends NodeParent {
 
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '逻辑等于计算器 名称', (name) => new NodeLogicEqual(name));
+	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
 	}
 }
 

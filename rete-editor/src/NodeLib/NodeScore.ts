@@ -11,8 +11,9 @@ export class NodeScore extends NodeParent {
 
 	needSkipBuffer = true;
 
-	constructor(label: string) {
+	constructor(label: string, id?: string) {
 		super('最终成绩节点: ' + label);
+		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入'));
 		this.addOutput('score', new ClassicPreset.Output(SocketLib.score, '成绩'));
 	}
@@ -23,6 +24,10 @@ export class NodeScore extends NodeParent {
 
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '最终成绩节点 名称', (name) => new NodeScore(name));
+	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
 	}
 }
 

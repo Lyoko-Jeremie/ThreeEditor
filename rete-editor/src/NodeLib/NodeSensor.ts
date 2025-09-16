@@ -20,4 +20,8 @@ export class NodeSensor extends NodeParent {
 	data(): { outputValue: number } {
 		return {outputValue: this.outputValue};
 	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
+	}
 }

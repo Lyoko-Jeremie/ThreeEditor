@@ -11,8 +11,9 @@ export class NodeSum extends NodeParent {
 
 	needSkipBuffer = true;
 
-	constructor(label: string) {
+	constructor(label: string, id?: string) {
 		super('求和计算器: ' + label);
+		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
 		this.addOutput('outputSum', new ClassicPreset.Output(SocketLib.normal, '求和', true));
 	}
@@ -23,6 +24,10 @@ export class NodeSum extends NodeParent {
 
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '求和计算器 名称', (name) => new NodeSum(name));
+	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
 	}
 }
 

@@ -11,8 +11,9 @@ export class NodeLatchCount extends NodeParent {
 
 	needSkipBuffer = false;
 
-	constructor(label: string) {
+	constructor(label: string, id?: string) {
 		super('碰撞计数器: ' + label);
+		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '正在碰撞', false));
 		this.addOutput('latchCountState', new ClassicPreset.Output(SocketLib.normal, '状态', true));
 	}
@@ -31,6 +32,10 @@ export class NodeLatchCount extends NodeParent {
 
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '碰撞计数器 名称', (name) => new NodeLatchCount(name));
+	}
+
+	serialization(): Record<string, any> {
+		return super.serialization();
 	}
 }
 

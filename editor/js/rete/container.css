@@ -1,4 +1,3 @@
-
 :root {
     /* Light Theme Variables */
     --reteModal-bg-body-light: #f0f2f5;
@@ -123,4 +122,37 @@
 
 #reteModal-theme-toggle-btn:hover {
     opacity: 0.8;
+}
+
+#reteModal-header-btn-group button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--reteModal-close-btn-color-light);
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s, transform 0.2s;
+    outline: none;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+}
+
+#reteModal-header-btn-group button:hover {
+    color: var(--reteModal-text-color-light);
+    background: rgba(100, 100, 100, 0.08);
+    transform: scale(1.08);
+}
+
+#reteModal-relayout-btn {
+    font-size: 1.3rem;
+}
+
+#reteModal-save-btn {
+    font-size: 1.2rem;
+}
+
+#reteModal-help-btn {
+    font-size: 1.2rem;
 }

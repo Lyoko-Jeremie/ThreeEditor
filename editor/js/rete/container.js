@@ -5,6 +5,10 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	const reteModalContent = document.getElementById( 'reteModal-content' );
 	const reteModalCloseBtn = document.getElementById( 'reteModal-close-btn' );
 	const reteModalThemeToggleBtn = document.getElementById( 'reteModal-theme-toggle-btn' );
+	const reteModalReLayoutBtn = document.getElementById( 'reteModal-relayout-btn' );
+	const reteModalSaveBtn = document.getElementById( 'reteModal-save-btn' );
+	const reteModalHelpBtn = document.getElementById( 'reteModal-help-btn' );
+
 	const htmlBody = document.body;
 
 	// Check for saved theme preference on page load
@@ -12,6 +16,50 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	if ( savedTheme === 'dark' ) {
 
 		htmlBody.classList.add( 'reteModal-dark-theme' );
+
+	}
+
+	// --- Re-Layout Functionality ---
+
+	if ( reteModalReLayoutBtn ) {
+
+		reteModalReLayoutBtn.addEventListener( 'click', () => {
+
+			if ( window.reLayout ) {
+
+				window.reLayout();
+
+			}
+
+		} );
+
+	}
+
+	// --- Save Functionality ---
+
+	if ( reteModalSaveBtn ) {
+
+		reteModalSaveBtn.addEventListener( 'click', () => {
+
+			if ( window.reteEditor ) {
+			// TODO
+			}
+
+		} );
+
+	}
+
+	// --- Help Functionality ---
+
+	if ( reteModalHelpBtn ) {
+
+		reteModalHelpBtn.addEventListener( 'click', () => {
+
+			// TODO
+			const helpUrl = '';
+			window.open( helpUrl, '_blank' );
+
+		} );
 
 	}
 

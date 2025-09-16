@@ -2,10 +2,10 @@ import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
-import {NodeParent} from "./NodeParent";
+import {NodeParent, type SerializationDataType} from "./NodeParent";
 
 export class NodeScore extends NodeParent {
-	nodeType: string = 'NodeScore';
+	static nodeType: string = 'NodeScore';
 	width = 200;
 	height!: number;
 
@@ -26,8 +26,16 @@ export class NodeScore extends NodeParent {
 		return nameDialog(editor, '最终成绩节点 名称', (name) => new NodeScore(name));
 	}
 
-	serialization(): Record<string, any> {
-		return super.serialization();
+	serialization(): SerializationDataType {
+		return {
+			...super.serialization(),
+			nodeType: NodeScore.nodeType,
+		};
+	}
+
+	static deserialize(data: SerializationDataType): NodeParent {
+		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		return new NodeScore(data.label, data.id);
 	}
 }
 

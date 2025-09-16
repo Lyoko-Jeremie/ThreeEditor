@@ -1,9 +1,9 @@
 import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
-import {NodeParent} from "./NodeParent";
+import {NodeParent, type SerializationDataType} from "./NodeParent";
 
 export class NodeSensor extends NodeParent {
-	nodeType: string = 'NodeSensor';
+	static nodeType: string = 'NodeSensor';
 	width = 200;
 	height!: number;
 
@@ -21,7 +21,15 @@ export class NodeSensor extends NodeParent {
 		return {outputValue: this.outputValue};
 	}
 
-	serialization(): Record<string, any> {
-		return super.serialization();
+	serialization(): SerializationDataType {
+		return {
+			...super.serialization(),
+			nodeType: NodeSensor.nodeType,
+		};
+	}
+
+	static deserialize(data: SerializationDataType): NodeParent {
+		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		return new NodeSensor(data.label, data.id);
 	}
 }

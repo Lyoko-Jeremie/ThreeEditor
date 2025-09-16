@@ -2,10 +2,10 @@ import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
 import {nameDialog} from "./NameSwal";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
-import {NodeParent} from "./NodeParent";
+import {NodeParent, type SerializationDataType} from "./NodeParent";
 
 export class NodeSum extends NodeParent {
-	nodeType: string = 'NodeSum';
+	static nodeType: string = 'NodeSum';
 	width = 200;
 	height!: number;
 
@@ -26,8 +26,16 @@ export class NodeSum extends NodeParent {
 		return nameDialog(editor, '求和计算器 名称', (name) => new NodeSum(name));
 	}
 
-	serialization(): Record<string, any> {
-		return super.serialization();
+	serialization(): SerializationDataType {
+		return {
+			...super.serialization(),
+			nodeType: NodeSum.nodeType,
+		};
+	}
+
+	static deserialize(data: SerializationDataType): NodeParent {
+		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		return new NodeSum(data.label, data.id);
 	}
 }
 

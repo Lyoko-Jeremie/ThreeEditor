@@ -3,10 +3,10 @@ import {SocketLib} from "./SocketLib";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import type {Control} from "rete/_types/presets/classic";
-import {NodeParent} from "./NodeParent";
+import {NodeParent, type SerializationDataType} from "./NodeParent";
 
 export class NodeLogicAnd extends NodeParent {
-	nodeType: string = 'NodeLogicAnd';
+	static nodeType: string = 'NodeLogicAnd';
 	width = 200;
 	height!: number;
 
@@ -27,13 +27,21 @@ export class NodeLogicAnd extends NodeParent {
 		return nameDialog(editor, '逻辑与计算器 名称', (name) => new NodeLogicAnd(name));
 	}
 
-	serialization(): Record<string, any> {
-		return super.serialization();
+	serialization(): SerializationDataType {
+		return {
+			...super.serialization(),
+			nodeType: NodeLogicAnd.nodeType,
+		};
+	}
+
+	static deserialize(data: SerializationDataType): NodeParent {
+		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		return new NodeLogicAnd(data.label, data.id);
 	}
 }
 
 export class NodeLogicOr extends NodeParent {
-	nodeType: string = 'NodeLogicOr';
+	static nodeType: string = 'NodeLogicOr';
 	width = 200;
 	height!: number;
 
@@ -54,13 +62,21 @@ export class NodeLogicOr extends NodeParent {
 		return nameDialog(editor, '逻辑或计算器 名称', (name) => new NodeLogicOr(name));
 	}
 
-	serialization(): Record<string, any> {
-		return super.serialization();
+	serialization(): SerializationDataType {
+		return {
+			...super.serialization(),
+			nodeType: NodeLogicOr.nodeType,
+		};
+	}
+
+	static deserialize(data: SerializationDataType): NodeParent {
+		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		return new NodeLogicOr(data.label, data.id);
 	}
 }
 
 export class NodeLogicNot extends NodeParent {
-	nodeType: string = 'NodeLogicNot';
+	static nodeType: string = 'NodeLogicNot';
 	width = 200;
 	height!: number;
 
@@ -81,13 +97,21 @@ export class NodeLogicNot extends NodeParent {
 		return nameDialog(editor, '逻辑非计算器 名称', (name) => new NodeLogicNot(name));
 	}
 
-	serialization(): Record<string, any> {
-		return super.serialization();
+	serialization(): SerializationDataType {
+		return {
+			...super.serialization(),
+			nodeType: NodeLogicNot.nodeType,
+		};
+	}
+
+	static deserialize(data: SerializationDataType): NodeParent {
+		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		return new NodeLogicNot(data.label, data.id);
 	}
 }
 
 export class NodeLogicNand extends NodeParent {
-	nodeType: string = 'NodeLogicNand';
+	static nodeType: string = 'NodeLogicNand';
 	width = 200;
 	height!: number;
 
@@ -108,13 +132,21 @@ export class NodeLogicNand extends NodeParent {
 		return nameDialog(editor, '逻辑与非计算器 名称', (name) => new NodeLogicNand(name));
 	}
 
-	serialization(): Record<string, any> {
-		return super.serialization();
+	serialization(): SerializationDataType {
+		return {
+			...super.serialization(),
+			nodeType: NodeLogicNand.nodeType,
+		};
+	}
+
+	static deserialize(data: SerializationDataType): NodeParent {
+		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		return new NodeLogicNand(data.label, data.id);
 	}
 }
 
 export class NodeLogicNor extends NodeParent {
-	nodeType: string = 'NodeLogicNor';
+	static nodeType: string = 'NodeLogicNor';
 	width = 200;
 	height!: number;
 
@@ -135,13 +167,21 @@ export class NodeLogicNor extends NodeParent {
 		return nameDialog(editor, '逻辑或非计算器 名称', (name) => new NodeLogicNor(name));
 	}
 
-	serialization(): Record<string, any> {
-		return super.serialization();
+	serialization(): SerializationDataType {
+		return {
+			...super.serialization(),
+			nodeType: NodeLogicNor.nodeType,
+		};
+	}
+
+	static deserialize(data: SerializationDataType): NodeParent {
+		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		return new NodeLogicNor(data.label, data.id);
 	}
 }
 
 export class NodeLogicXor extends NodeParent {
-	nodeType: string = 'NodeLogicXor';
+	static nodeType: string = 'NodeLogicXor';
 	width = 200;
 	height!: number;
 
@@ -165,13 +205,21 @@ export class NodeLogicXor extends NodeParent {
 		return nameDialog(editor, '逻辑异或计算器 名称', (name) => new NodeLogicXor(name));
 	}
 
-	serialization(): Record<string, any> {
-		return super.serialization();
+	serialization(): SerializationDataType {
+		return {
+			...super.serialization(),
+			nodeType: NodeLogicXor.nodeType,
+		};
+	}
+
+	static deserialize(data: SerializationDataType): NodeParent {
+		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		return new NodeLogicXor(data.label, data.id);
 	}
 }
 
 export class NodeLogicXnor extends NodeParent {
-	nodeType: string = 'NodeLogicXnor';
+	static nodeType: string = 'NodeLogicXnor';
 	width = 200;
 	height!: number;
 
@@ -195,14 +243,22 @@ export class NodeLogicXnor extends NodeParent {
 		return nameDialog(editor, '逻辑同或计算器 名称', (name) => new NodeLogicXnor(name));
 	}
 
-	serialization(): Record<string, any> {
-		return super.serialization();
+	serialization(): SerializationDataType {
+		return {
+			...super.serialization(),
+			nodeType: NodeLogicXnor.nodeType,
+		};
+	}
+
+	static deserialize(data: SerializationDataType): NodeParent {
+		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		return new NodeLogicXnor(data.label, data.id);
 	}
 }
 
 // 同相器（同相缓冲门）
 export class NodeLogicBuffer extends NodeParent {
-	nodeType: string = 'NodeLogicBuffer';
+	static nodeType: string = 'NodeLogicBuffer';
 	width = 200;
 	height!: number;
 
@@ -223,13 +279,21 @@ export class NodeLogicBuffer extends NodeParent {
 		return nameDialog(editor, '逻辑缓冲计算器 名称', (name) => new NodeLogicBuffer(name));
 	}
 
-	serialization(): Record<string, any> {
-		return super.serialization();
+	serialization(): SerializationDataType {
+		return {
+			...super.serialization(),
+			nodeType: NodeLogicBuffer.nodeType,
+		};
+	}
+
+	static deserialize(data: SerializationDataType): NodeParent {
+		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		return new NodeLogicBuffer(data.label, data.id);
 	}
 }
 
 export class NodeLogicConstant extends NodeParent {
-	nodeType: string = 'NodeLogicConstant';
+	static nodeType: string = 'NodeLogicConstant';
 	width = 200;
 	height!: number;
 
@@ -270,13 +334,21 @@ export class NodeLogicConstant extends NodeParent {
 		return nameDialog(editor, '逻辑常量计算器 名称', (name) => new NodeLogicConstant(name));
 	}
 
-	serialization(): Record<string, any> {
-		return super.serialization();
+	serialization(): SerializationDataType {
+		return {
+			...super.serialization(),
+			nodeType: NodeLogicConstant.nodeType,
+		};
+	}
+
+	static deserialize(data: SerializationDataType): NodeParent {
+		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		return new NodeLogicConstant(data.label, data.id);
 	}
 }
 
 export class NodeLogicEqual extends NodeParent {
-	nodeType: string = 'NodeLogicEqual';
+	static nodeType: string = 'NodeLogicEqual';
 	width = 200;
 	height!: number;
 
@@ -300,8 +372,16 @@ export class NodeLogicEqual extends NodeParent {
 		return nameDialog(editor, '逻辑等于计算器 名称', (name) => new NodeLogicEqual(name));
 	}
 
-	serialization(): Record<string, any> {
-		return super.serialization();
+	serialization(): SerializationDataType {
+		return {
+			...super.serialization(),
+			nodeType: NodeLogicEqual.nodeType,
+		};
+	}
+
+	static deserialize(data: SerializationDataType): NodeParent {
+		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		return new NodeLogicEqual(data.label, data.id);
 	}
 }
 

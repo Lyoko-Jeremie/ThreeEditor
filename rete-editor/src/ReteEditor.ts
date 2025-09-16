@@ -181,11 +181,12 @@ export class ReteEditor {
 		this.area?.destroy();
 	}
 
-	serialization() {
+	async serialization(): Promise<Record<string, any>> {
 		// TODO
+		return {};
 	}
 
-	deserialization() {
+	async deserialization(data?: Record<string, any>) {
 		// TODO
 	}
 

@@ -1,6 +1,6 @@
 import {ReteEditor, runLater} from "./ReteEditor";
 
-async function initializeReteEditor(container: HTMLElement) {
+async function initializeReteEditor(container: HTMLElement, data?: Record<string, any>) {
 
 	const reteEditor = new ReteEditor();
 	await reteEditor.initEngine();
@@ -67,6 +67,7 @@ async function initializeReteEditor(container: HTMLElement) {
 
 
 	await runLater(async () => {
+		await reteEditor.deserialization(data);
 		await reteEditor.updateAllNodeSizes();
 		await reteEditor.reZoom();
 	}, 100);

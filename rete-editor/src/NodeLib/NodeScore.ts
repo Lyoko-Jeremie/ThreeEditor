@@ -1,6 +1,8 @@
 import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
 import type {NeedSkipBuffer} from "./OpInterface";
+import type {ReteEditorInterface} from "../ReteEditorInterface";
+import {nameDialog} from "./NameSwal";
 
 export class NodeScore extends ClassicPreset.Node implements NeedSkipBuffer {
 	width = 200;
@@ -16,6 +18,10 @@ export class NodeScore extends ClassicPreset.Node implements NeedSkipBuffer {
 
 	data(inputs: { inputValue?: number[] }): { score: number } {
 		return {score: inputs.inputValue?.[0] ?? 0};
+	}
+
+	static async create(editor: ReteEditorInterface) {
+		return nameDialog(editor, '成绩计算器 名称', (name) => new NodeScore(name));
 	}
 }
 

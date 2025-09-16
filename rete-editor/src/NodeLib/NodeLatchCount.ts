@@ -1,6 +1,8 @@
 import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
 import type {NeedSkipBuffer} from "./OpInterface";
+import type {ReteEditorInterface} from "../ReteEditorInterface";
+import {nameDialog} from "./NameSwal";
 
 export class NodeLatchCount extends ClassicPreset.Node  implements NeedSkipBuffer  {
 	width = 200;
@@ -24,5 +26,9 @@ export class NodeLatchCount extends ClassicPreset.Node  implements NeedSkipBuffe
 			}
 		}
 		return {latchCountState: this.latchCountState};
+	}
+
+	static async create(editor: ReteEditorInterface) {
+		return nameDialog(editor, '碰撞计数器 名称', (name) => new NodeLatchCount(name));
 	}
 }

@@ -1,6 +1,8 @@
 import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
 import type {NeedSkipBuffer} from "./OpInterface";
+import type {ReteEditorInterface} from "../ReteEditorInterface";
+import {nameDialog} from "./NameSwal";
 
 export class NodeLatch extends ClassicPreset.Node  implements NeedSkipBuffer {
 	width = 200;
@@ -24,5 +26,9 @@ export class NodeLatch extends ClassicPreset.Node  implements NeedSkipBuffer {
 			}
 		}
 		return {latchState: this.latchState};
+	}
+
+	static async create(editor: ReteEditorInterface) {
+		return nameDialog(editor, '碰撞锁存器 名称', (name) => new NodeLatch(name));
 	}
 }

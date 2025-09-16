@@ -10,6 +10,7 @@ import {AutoArrangePlugin, Presets as ArrangePresets} from "rete-auto-arrange-pl
 import {DataflowEngine} from "rete-engine";
 import Swal from 'sweetalert2';
 import type {NodeAllType, Schemes} from "./NodeLib/ConnectionLib";
+import type {ReteEditorInterface} from "./ReteEditorInterface";
 
 export {
 	ClassicPreset,
@@ -35,7 +36,7 @@ export function runLater<T extends any = void>(f: () => T | Promise<T>, timeout 
 	return re.promise;
 }
 
-export class ReteEditor {
+export class ReteEditor implements ReteEditorInterface {
 	engine = new DataflowEngine<Schemes>();
 	editor = new NodeEditor<Schemes>();
 

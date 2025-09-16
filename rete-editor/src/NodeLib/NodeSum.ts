@@ -1,6 +1,8 @@
 import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
 import type {NeedSkipBuffer} from "./OpInterface";
+import {nameDialog} from "./NameSwal";
+import type {ReteEditorInterface} from "../ReteEditorInterface";
 
 export class NodeSum extends ClassicPreset.Node implements NeedSkipBuffer {
 	width = 200;
@@ -16,5 +18,9 @@ export class NodeSum extends ClassicPreset.Node implements NeedSkipBuffer {
 
 	data(inputs: { inputValue?: number[] }): { outputSum: number } {
 		return {outputSum: inputs.inputValue?.reduce((a, b) => a + b, 0) ?? 0};
+	}
+
+	static async create(editor: ReteEditorInterface) {
+		return nameDialog(editor, '求和计算器 名称', (name) => new NodeSum(name));
 	}
 }

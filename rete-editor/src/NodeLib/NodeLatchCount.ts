@@ -15,8 +15,8 @@ export class NodeLatchCount extends NodeParent {
 	constructor(label: string, id?: string) {
 		super('碰撞计数器: ' + label);
 		this.id = id ?? this.id;
-		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '正在碰撞', false));
-		this.addOutput('latchCountState', new ClassicPreset.Output(SocketLib.normal, '状态', true));
+		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '是否碰撞', false));
+		this.addOutput('latchCountState', new ClassicPreset.Output(SocketLib.normal, '已经状态', true));
 	}
 
 	latchCountState = 0;

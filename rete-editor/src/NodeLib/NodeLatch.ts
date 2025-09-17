@@ -15,8 +15,8 @@ export class NodeLatch extends NodeParent {
 	constructor(label: string, id?: string) {
 		super('碰撞锁存器: ' + label);
 		this.id = id ?? this.id;
-		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '正在碰撞', false));
-		this.addOutput('latchState', new ClassicPreset.Output(SocketLib.normal, '状态', true));
+		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '是否碰撞', false));
+		this.addOutput('latchState', new ClassicPreset.Output(SocketLib.normal, '已经碰撞', true));
 	}
 
 	latchState = 0;

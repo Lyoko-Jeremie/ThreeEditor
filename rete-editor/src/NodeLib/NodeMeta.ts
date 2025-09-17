@@ -50,7 +50,7 @@ export function NodeDecorator<T extends { new(...args: any[]): {} }>(
 			static deserialize(data: NodeSerializationDataType) {
 				return options?.deserializeFn
 					? options.deserializeFn(data)
-					: new (constructor as any)(data.label, data.id);
+					: new (constructor as any)(data.labelName, data.id);
 			}
 		} as unknown as U;
 	};

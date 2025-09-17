@@ -12,8 +12,11 @@ export class NodeSum extends NodeParent {
 
 	needSkipBuffer = true;
 
+	_labelPrefix: string = '求和计算器: ';
+
 	constructor(label: string, id?: string) {
-		super('求和计算器: ' + label);
+		super(label);
+		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
 		this.addOutput('outputSum', new ClassicPreset.Output(SocketLib.normal, '求和', true));
@@ -35,8 +38,8 @@ export class NodeSum extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeSum(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeSum.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeSum(data.labelName, data.id);
 	}
 }
 

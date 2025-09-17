@@ -10,22 +10,13 @@ export class NodeSensor extends NodeParent {
 
 	needSkipBuffer = true;
 
-	_labelName: string;
+	_labelPrefix: string = '碰撞传感器: ';
 
 	constructor(label: string, id: string) {
-		super('碰撞传感器: ' + label);
-		this._labelName = label;
+		super(label);
+		this.labelName = label;
 		this.id = id;
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.sensorOutput, '正在碰撞', true));
-	}
-
-	set labelName(labelName: string) {
-		this._labelName = labelName;
-		this.label = '碰撞传感器: ' + labelName;
-	}
-
-	get labelName() {
-		return this._labelName;
 	}
 
 	outputValue: 0 | 1 = 0;
@@ -42,8 +33,8 @@ export class NodeSensor extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeSensor(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeSensor.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeSensor(data.labelName, data.id);
 	}
 
 	static isNodeSensor(node: NodeParent): node is NodeSensor {

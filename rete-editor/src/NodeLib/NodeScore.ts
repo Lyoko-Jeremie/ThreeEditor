@@ -12,8 +12,11 @@ export class NodeScore extends NodeParent {
 
 	needSkipBuffer = true;
 
+	_labelPrefix: string = '最终成绩节点: ';
+
 	constructor(label: string, id?: string) {
-		super('最终成绩节点: ' + label);
+		super(label);
+		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入'));
 		this.addOutput('score', new ClassicPreset.Output(SocketLib.score, '成绩'));
@@ -35,8 +38,8 @@ export class NodeScore extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeScore(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeScore.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeScore(data.labelName, data.id);
 	}
 }
 

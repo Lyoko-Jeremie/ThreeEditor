@@ -12,11 +12,14 @@ export class NodeLatch extends NodeParent {
 
 	needSkipBuffer = false;
 
+	_labelPrefix: string = '碰撞锁存器: ';
+
 	constructor(label: string, id?: string) {
-		super('碰撞锁存器: ' + label);
+		super(label);
+		this.labelName = label;
 		this.id = id ?? this.id;
-		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '是否碰撞', false));
-		this.addOutput('latchState', new ClassicPreset.Output(SocketLib.normal, '已经碰撞', true));
+		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '碰撞', false));
+		this.addOutput('latchState', new ClassicPreset.Output(SocketLib.normal, '已碰撞', true));
 	}
 
 	latchState = 0;
@@ -43,8 +46,8 @@ export class NodeLatch extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLatch(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeLatch.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeLatch(data.labelName, data.id);
 	}
 }
 

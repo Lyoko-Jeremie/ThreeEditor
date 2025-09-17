@@ -12,8 +12,11 @@ export class NodeLatchCount extends NodeParent {
 
 	needSkipBuffer = false;
 
+	_labelPrefix: string = '碰撞计数器: ';
+
 	constructor(label: string, id?: string) {
-		super('碰撞计数器: ' + label);
+		super(label);
+		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '是否碰撞', false));
 		this.addOutput('latchCountState', new ClassicPreset.Output(SocketLib.normal, '已经状态', true));
@@ -43,8 +46,8 @@ export class NodeLatchCount extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLatchCount(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeLatchCount.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeLatchCount(data.labelName, data.id);
 	}
 }
 

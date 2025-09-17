@@ -13,8 +13,11 @@ export class NodeLogicAnd extends NodeParent {
 
 	needSkipBuffer = true;
 
+	_labelPrefix: string = '逻辑与计算器: ';
+
 	constructor(label: string, id?: string) {
-		super('逻辑与计算器: ' + label);
+		super(label);
+		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
@@ -36,8 +39,8 @@ export class NodeLogicAnd extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLogicAnd(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeLogicAnd.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeLogicAnd(data.labelName, data.id);
 	}
 }
 
@@ -49,8 +52,11 @@ export class NodeLogicOr extends NodeParent {
 
 	needSkipBuffer = true;
 
+	_labelPrefix: string = '逻辑或计算器: ';
+
 	constructor(label: string, id?: string) {
-		super('逻辑或计算器: ' + label);
+		super(label);
+		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
@@ -61,7 +67,7 @@ export class NodeLogicOr extends NodeParent {
 	}
 
 	static async create(editor: ReteEditorInterface) {
-		return nameDialog(editor, '逻辑或计算器 名称', (name) => new NodeLogicOr(name));
+		return nameDialog(editor, '逻辑或计算�� 名称', (name) => new NodeLogicOr(name));
 	}
 
 	serialization(): NodeSerializationDataType {
@@ -72,8 +78,8 @@ export class NodeLogicOr extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLogicOr(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeLogicOr.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeLogicOr(data.labelName, data.id);
 	}
 }
 
@@ -85,8 +91,11 @@ export class NodeLogicNot extends NodeParent {
 
 	needSkipBuffer = true;
 
+	_labelPrefix: string = '逻辑非计算器: ';
+
 	constructor(label: string, id?: string) {
-		super('逻辑非计算器: ' + label);
+		super(label);
+		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', false));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
@@ -108,8 +117,8 @@ export class NodeLogicNot extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLogicNot(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeLogicNot.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeLogicNot(data.labelName, data.id);
 	}
 }
 
@@ -121,8 +130,11 @@ export class NodeLogicNand extends NodeParent {
 
 	needSkipBuffer = true;
 
+	_labelPrefix: string = '逻辑与非计算器: ';
+
 	constructor(label: string, id?: string) {
-		super('逻辑与非计算器: ' + label);
+		super(label);
+		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
@@ -144,8 +156,8 @@ export class NodeLogicNand extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLogicNand(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeLogicNand.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeLogicNand(data.labelName, data.id);
 	}
 }
 
@@ -157,8 +169,11 @@ export class NodeLogicNor extends NodeParent {
 
 	needSkipBuffer = true;
 
+	_labelPrefix: string = '逻辑或非计算器: ';
+
 	constructor(label: string, id?: string) {
-		super('逻辑或非计算器: ' + label);
+		super(label);
+		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
@@ -180,8 +195,8 @@ export class NodeLogicNor extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLogicNor(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeLogicNor.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeLogicNor(data.labelName, data.id);
 	}
 }
 
@@ -193,8 +208,11 @@ export class NodeLogicXor extends NodeParent {
 
 	needSkipBuffer = true;
 
+	_labelPrefix: string = '逻辑异或计算器: ';
+
 	constructor(label: string, id?: string) {
-		super('逻辑异或计算器: ' + label);
+		super(label);
+		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue1', new ClassicPreset.Input(SocketLib.normal, '输入1', false));
 		this.addInput('inputValue2', new ClassicPreset.Input(SocketLib.normal, '输入2', false));
@@ -219,8 +237,8 @@ export class NodeLogicXor extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLogicXor(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeLogicXor.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeLogicXor(data.labelName, data.id);
 	}
 }
 
@@ -232,8 +250,11 @@ export class NodeLogicXnor extends NodeParent {
 
 	needSkipBuffer = true;
 
+	_labelPrefix: string = '逻辑同或计算器: ';
+
 	constructor(label: string, id?: string) {
-		super('逻辑同或计算器: ' + label);
+		super(label);
+		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue1', new ClassicPreset.Input(SocketLib.normal, '输入1', false));
 		this.addInput('inputValue2', new ClassicPreset.Input(SocketLib.normal, '输入2', false));
@@ -258,8 +279,8 @@ export class NodeLogicXnor extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLogicXnor(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeLogicXnor.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeLogicXnor(data.labelName, data.id);
 	}
 }
 
@@ -272,8 +293,11 @@ export class NodeLogicBuffer extends NodeParent {
 
 	needSkipBuffer = true;
 
+	_labelPrefix: string = '逻辑缓冲计算器: ';
+
 	constructor(label: string, id?: string) {
-		super('逻辑缓冲计算器: ' + label);
+		super(label);
+		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入'));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
@@ -295,8 +319,8 @@ export class NodeLogicBuffer extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLogicBuffer(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeLogicBuffer.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeLogicBuffer(data.labelName, data.id);
 	}
 }
 
@@ -312,8 +336,11 @@ export class NodeLogicConstant extends NodeParent {
 
 	needSkipBuffer = true;
 
+	_labelPrefix: string = '逻辑常量计算器: ';
+
 	constructor(label: string, id?: string) {
-		super('逻辑常量计算器: ' + label);
+		super(label);
+		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
 		// this.addControl('inputValue', new ClassicPreset.InputControl('number', {
@@ -351,8 +378,8 @@ export class NodeLogicConstant extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLogicConstant(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeLogicConstant.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeLogicConstant(data.labelName, data.id);
 	}
 }
 
@@ -364,8 +391,11 @@ export class NodeLogicEqual extends NodeParent {
 
 	needSkipBuffer = true;
 
+	_labelPrefix: string = '逻辑等于计算器: ';
+
 	constructor(label: string, id?: string) {
-		super('逻辑等于计算器: ' + label);
+		super(label);
+		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue1', new ClassicPreset.Input(SocketLib.normal, '输入1', false));
 		this.addInput('inputValue2', new ClassicPreset.Input(SocketLib.normal, '输入2', false));
@@ -390,8 +420,8 @@ export class NodeLogicEqual extends NodeParent {
 	}
 
 	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLogicEqual(data.label, data.id);
+		if (data.nodeTypeStatic !== NodeLogicEqual.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
+		return new NodeLogicEqual(data.labelName, data.id);
 	}
 }
 

@@ -20,7 +20,7 @@ export class NodeLogicAnd extends NodeParent {
 		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出 所有输入均不为0', true));
 	}
 
 	data(inputs: { inputValue?: number[] }): { outputValue: number } {
@@ -59,7 +59,7 @@ export class NodeLogicOr extends NodeParent {
 		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出 任意输入不为0', true));
 	}
 
 	data(inputs: { inputValue?: number[] }): { outputValue: number } {
@@ -98,7 +98,7 @@ export class NodeLogicNot extends NodeParent {
 		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', false));
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出 输入为0', true));
 	}
 
 	data(inputs: { inputValue?: number[] }): { outputValue: number } {
@@ -216,7 +216,7 @@ export class NodeLogicXor extends NodeParent {
 		this.id = id ?? this.id;
 		this.addInput('inputValue1', new ClassicPreset.Input(SocketLib.normal, '输入1', false));
 		this.addInput('inputValue2', new ClassicPreset.Input(SocketLib.normal, '输入2', false));
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出 两个输入不同时为0', true));
 	}
 
 	data(inputs: { inputValue1?: number[], inputValue2?: number[] }): { outputValue: number } {
@@ -303,6 +303,8 @@ export class NodeLogicBuffer extends NodeParent {
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
 	}
 
+	// TODO ??? impl
+
 	data(inputs: { inputValue?: number[] }): { outputValue: number } {
 		return {outputValue: inputs.inputValue?.[0] ? 1 : 0};
 	}
@@ -368,7 +370,7 @@ export class NodeLogicConstant extends NodeParent {
 	inputConstValue = 0;
 
 	data(): { outputValue: number } {
-		return {outputValue: this.inputConstValue ? 1 : 0};
+		return {outputValue: +this.inputConstValue/* ? 1 : 0*/};
 	}
 
 	static async create(editor: ReteEditorInterface) {

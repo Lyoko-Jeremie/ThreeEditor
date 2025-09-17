@@ -1,4 +1,4 @@
-import type {SerializationDataType} from "./NodeParent";
+import type {NodeSerializationDataType} from "./NodeParent";
 
 // NodeMeta.ts
 export interface NodeMeta {
@@ -7,7 +7,7 @@ export interface NodeMeta {
 	width: number;
 	height: number;
 
-	serialization(): SerializationDataType;
+	serialization(): NodeSerializationDataType;
 }
 
 export interface NodeMetaStatic<T> {
@@ -15,7 +15,7 @@ export interface NodeMetaStatic<T> {
 
 	nodeTypeStatic: string;
 
-	deserialize(data: SerializationDataType): T;
+	deserialize(data: NodeSerializationDataType): T;
 }
 
 // NodeDecorator.ts
@@ -25,8 +25,8 @@ export function NodeDecorator<T extends { new(...args: any[]): {} }>(
 		nodeType?: string;
 		width?: number;
 		height?: number;
-		serializeFn?: (instance: any) => SerializationDataType;
-		deserializeFn?: (data: SerializationDataType) => any;
+		serializeFn?: (instance: any) => NodeSerializationDataType;
+		deserializeFn?: (data: NodeSerializationDataType) => any;
 	}
 ) {
 	return function <U extends T>(constructor: U) {
@@ -47,7 +47,7 @@ export function NodeDecorator<T extends { new(...args: any[]): {} }>(
 					: {...this};
 			}
 
-			static deserialize(data: SerializationDataType) {
+			static deserialize(data: NodeSerializationDataType) {
 				return options?.deserializeFn
 					? options.deserializeFn(data)
 					: new (constructor as any)(data.label, data.id);

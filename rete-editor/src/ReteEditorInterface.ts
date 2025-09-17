@@ -4,7 +4,7 @@ export interface ReteEditorInterface {
 
 	updateOneNodeSize(node: NeedSkipBuffer): Promise<void>;
 
-	updateMinimap(): void;
+	updateMinimap(): Promise<void>;
 
 	reLayout(): Promise<void>;
 }

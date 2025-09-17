@@ -10,7 +10,11 @@ import {AutoArrangePlugin, Presets as ArrangePresets} from "rete-auto-arrange-pl
 import {DataflowEngine} from "rete-engine";
 import {structures} from "rete-structures";
 import {html} from "lit";
-import type {NodeAllType, Schemes} from "./NodeLib/ConnectionLib";
+import {
+	type ConnectionType,
+	type NodeAllType,
+	type Schemes
+} from "./NodeLib/NodeLibType";
 import type {ReteEditorInterface} from "./ReteEditorInterface";
 import {NodeMenuScore} from "./NodeLib/NodeScore";
 import {NodeMenuLatch} from "./NodeLib/NodeLatch";
@@ -18,7 +22,9 @@ import {NodeMenuLatchCount} from "./NodeLib/NodeLatchCount";
 import {NodeMenuSum} from "./NodeLib/NodeSum";
 import {NodeMenuLogic} from "./NodeLib/NodeLogicType";
 import {NodeSensor} from "./NodeLib/NodeSensor";
-import type {SerializationDataType} from "./NodeLib/NodeParent";
+import {NodeParent, type NodeSerializationDataType} from "./NodeLib/NodeParent";
+import {NodeCreateTable} from "./NodeLib/NodeLib";
+import {ConnectionCreateTable, type ConnectionSerializationDataType} from "./NodeLib/ConnectionLib";
 
 export {
 	ClassicPreset,
@@ -171,13 +177,13 @@ export class ReteEditor implements ReteEditorInterface {
 		// await this.arrange.layout();
 		// console.log('arrange', this.arrange);
 
-		this.updateMinimap();
+		await this.updateMinimap();
 		await this.reLayout();
 	}
 
-	updateMinimap() {
+	async updateMinimap() {
 		// console.log('minimap', this.minimap);
-		(this.minimap as any).render();
+		await (this.minimap as any).render();
 	}
 
 	async reLayout() {
@@ -219,22 +225,56 @@ export class ReteEditor implements ReteEditorInterface {
 		const n = new NodeSensor(name, id);
 		await this.editor.addNode(n);
 		await this.updateOneNodeSize(n);
-		this.updateMinimap();
+		await this.updateMinimap();
 	}
 
 	async removeNodeSensor(id: string) {
 		// this.graph.
 		const node = this.editor.getNode(id);
 		if (node) {
-			node.inputs;
-			node.outputs;
+			await this.removeNodeConnection(node.id);
 			await this.editor.removeNode(node.id);
-			this.updateMinimap();
+			await this.updateMinimap();
+		}
+	}
+
+	async removeNodeConnection(nodeId: string) {
+		const connections = this.editor.getConnections().filter(c => c.source === nodeId || c.target === nodeId);
+		for (const conn of connections) {
+			await this.editor.removeConnection(conn.id);
 		}
 	}
 
 	async syncNodeSensor(data: { id: string, name: string }[]) {
+		const existingSensors = this.editor.getNodes().filter(n => NodeSensor.isNodeSensor(n));
+		const existingSensorsMap = new Map(existingSensors.map(n => [n.id, n as NodeSensor]));
 
+		for (const sensorData of data) {
+			const existingSensor = existingSensorsMap.get(sensorData.id);
+			if (existingSensor) {
+				// Update name if changed
+				if (existingSensor.labelName !== sensorData.name) {
+					existingSensor.labelName = sensorData.name;
+					// await this.updateOneNodeSize(existingSensor);
+				}
+				existingSensorsMap.delete(sensorData.id); // Remove from map to track which sensors remain
+			} else {
+				// Add new sensor
+				const n = new NodeSensor(sensorData.name, sensorData.id);
+				await this.editor.addNode(n);
+			}
+		}
+
+		// Remove sensors that are no longer present
+		for (const [id, sensorNode] of existingSensorsMap) {
+			await this.removeNodeConnection(sensorNode.id);
+			await this.editor.removeNode(sensorNode.id);
+		}
+
+		await this.updateAllNodeSizes();
+		await this.updateMinimap();
+		await this.reLayout();
+		await this.reZoom();
 	}
 
 	versionSerializationExportDataType: number = 1;
@@ -265,14 +305,65 @@ export class ReteEditor implements ReteEditorInterface {
 			return false;
 		}
 		await this.editor.clear();
-		// TODO nodes
-		// this.editor.addNode()
 
-		// TODO connections
-		// this.editor.addConnection()
+		const createTable = new Map(NodeCreateTable);
+		const nodeList = new Map<string, NodeParent>();
+		for (const nodeData of data.nodes) {
+			const c = createTable.get(nodeData.nodeTypeStatic);
+			if (!c) {
+				console.error('nodeTypeStatic not found', nodeData.nodeTypeStatic, nodeData);
+				return false;
+			}
+			try {
+				const node = c(nodeData);
+				nodeList.set(node.id, node);
+			} catch (e) {
+				console.error('nodeTypeStatic create error', nodeData.nodeTypeStatic, nodeData, e);
+				return false;
+			}
+		}
+
+		const connectionCreateTable = new Map(ConnectionCreateTable);
+		const connectionList = new Map<string, ConnectionType>();
+		for (const c of data.connections) {
+			const sourceNode = nodeList.get(c.source) as NodeAllType | undefined;
+			const targetNode = nodeList.get(c.target) as NodeAllType | undefined;
+			if (!sourceNode) {
+				console.error('connection source node not found', c);
+				return false;
+			}
+			if (!targetNode) {
+				console.error('connection target node not found', c);
+				return false;
+			}
+			const cc = connectionCreateTable.get(c.connectionType);
+			if (!cc) {
+				console.error('connectionTypeStatic not found', c.connectionType, c);
+				return false;
+			}
+			try {
+				const conn = cc(
+					c,
+					sourceNode,
+					targetNode,
+				);
+				connectionList.set(conn.id, conn);
+			} catch (e) {
+				console.error('connectionTypeStatic create error', c.connectionType, c, e);
+				return false;
+			}
+		}
+
+		for (const n of nodeList.values()) {
+			await this.editor.addNode(n as NodeAllType);
+		}
+
+		for (const c of connectionList.values()) {
+			await this.editor.addConnection(c);
+		}
 
 		await this.updateAllNodeSizes();
-		this.updateMinimap();
+		await this.updateMinimap();
 		await this.reLayout();
 		await this.reZoom();
 	}
@@ -281,12 +372,6 @@ export class ReteEditor implements ReteEditorInterface {
 
 export type SerializationExportDataType = {
 	version: number,
-	nodes: SerializationDataType[],
-	connections: {
-		id: string,
-		source: string,
-		sourceOutput: string,
-		target: string,
-		targetInput: string,
-	}[],
+	nodes: NodeSerializationDataType[],
+	connections: ConnectionSerializationDataType[],
 }

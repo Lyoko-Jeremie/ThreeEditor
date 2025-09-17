@@ -2,7 +2,7 @@ import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
-import {NodeParent, type SerializationDataType} from "./NodeParent";
+import {NodeParent, type NodeSerializationDataType} from "./NodeParent";
 
 export class NodeLatchCount extends NodeParent {
 	static nodeTypeStatic: string = 'NodeLatchCount';
@@ -35,14 +35,14 @@ export class NodeLatchCount extends NodeParent {
 		return nameDialog(editor, '碰撞计数器 名称', (name) => new NodeLatchCount(name));
 	}
 
-	serialization(): SerializationDataType {
+	serialization(): NodeSerializationDataType {
 		return {
 			...super.serialization(),
 			nodeTypeStatic: NodeLatchCount.nodeTypeStatic,
 		};
 	}
 
-	static deserialize(data: SerializationDataType): NodeParent {
+	static deserialize(data: NodeSerializationDataType): NodeParent {
 		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLatchCount(data.label, data.id);
 	}

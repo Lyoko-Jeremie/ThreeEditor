@@ -2,7 +2,7 @@ import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
-import {NodeParent, type SerializationDataType} from "./NodeParent";
+import {NodeParent, type NodeSerializationDataType} from "./NodeParent";
 
 export class NodeScore extends NodeParent {
 	static nodeTypeStatic: string = 'NodeScore';
@@ -27,14 +27,14 @@ export class NodeScore extends NodeParent {
 		return nameDialog(editor, '最终成绩节点 名称', (name) => new NodeScore(name));
 	}
 
-	serialization(): SerializationDataType {
+	serialization(): NodeSerializationDataType {
 		return {
 			...super.serialization(),
 			nodeTypeStatic: NodeScore.nodeTypeStatic,
 		};
 	}
 
-	static deserialize(data: SerializationDataType): NodeParent {
+	static deserialize(data: NodeSerializationDataType): NodeParent {
 		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeScore(data.label, data.id);
 	}

@@ -5,7 +5,8 @@ import {nameDialog} from "./NameSwal";
 import {NodeParent, type SerializationDataType} from "./NodeParent";
 
 export class NodeScore extends NodeParent {
-	static nodeType: string = 'NodeScore';
+	static nodeTypeStatic: string = 'NodeScore';
+	nodeType: string = 'NodeScore';
 	width = 200;
 	height!: number;
 
@@ -29,12 +30,12 @@ export class NodeScore extends NodeParent {
 	serialization(): SerializationDataType {
 		return {
 			...super.serialization(),
-			nodeType: NodeScore.nodeType,
+			nodeTypeStatic: NodeScore.nodeTypeStatic,
 		};
 	}
 
 	static deserialize(data: SerializationDataType): NodeParent {
-		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeScore(data.label, data.id);
 	}
 }

@@ -5,7 +5,8 @@ import {nameDialog} from "./NameSwal";
 import {NodeParent, type SerializationDataType} from "./NodeParent";
 
 export class NodeLatch extends NodeParent {
-	static nodeType: string = 'NodeLatch';
+	static nodeTypeStatic: string = 'NodeLatch';
+	nodeType: string = 'NodeLatch';
 	width = 200;
 	height!: number;
 
@@ -37,12 +38,12 @@ export class NodeLatch extends NodeParent {
 	serialization(): SerializationDataType {
 		return {
 			...super.serialization(),
-			nodeType: NodeLatch.nodeType,
+			nodeTypeStatic: NodeLatch.nodeTypeStatic,
 		};
 	}
 
 	static deserialize(data: SerializationDataType): NodeParent {
-		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLatch(data.label, data.id);
 	}
 }

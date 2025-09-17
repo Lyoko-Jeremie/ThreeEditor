@@ -3,7 +3,8 @@ import {SocketLib} from "./SocketLib";
 import {NodeParent, type SerializationDataType} from "./NodeParent";
 
 export class NodeSensor extends NodeParent {
-	static nodeType: string = 'NodeSensor';
+	static nodeTypeStatic: string = 'NodeSensor';
+	nodeType: string = 'NodeSensor';
 	width = 200;
 	height!: number;
 
@@ -24,12 +25,16 @@ export class NodeSensor extends NodeParent {
 	serialization(): SerializationDataType {
 		return {
 			...super.serialization(),
-			nodeType: NodeSensor.nodeType,
+			nodeTypeStatic: NodeSensor.nodeTypeStatic,
 		};
 	}
 
 	static deserialize(data: SerializationDataType): NodeParent {
-		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeSensor(data.label, data.id);
+	}
+
+	static isNodeSensor(node: NodeParent): node is NodeSensor {
+		return !!(node as NodeSensor).nodeType && (node as NodeSensor).nodeType === NodeSensor.nodeTypeStatic;
 	}
 }

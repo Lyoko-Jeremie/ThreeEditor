@@ -5,7 +5,8 @@ import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {NodeParent, type SerializationDataType} from "./NodeParent";
 
 export class NodeSum extends NodeParent {
-	static nodeType: string = 'NodeSum';
+	static nodeTypeStatic: string = 'NodeSum';
+	nodeType: string = 'NodeSum';
 	width = 200;
 	height!: number;
 
@@ -29,12 +30,12 @@ export class NodeSum extends NodeParent {
 	serialization(): SerializationDataType {
 		return {
 			...super.serialization(),
-			nodeType: NodeSum.nodeType,
+			nodeTypeStatic: NodeSum.nodeTypeStatic,
 		};
 	}
 
 	static deserialize(data: SerializationDataType): NodeParent {
-		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeSum(data.label, data.id);
 	}
 }

@@ -6,7 +6,8 @@ import type {Control} from "rete/_types/presets/classic";
 import {NodeParent, type SerializationDataType} from "./NodeParent";
 
 export class NodeLogicAnd extends NodeParent {
-	static nodeType: string = 'NodeLogicAnd';
+	static nodeTypeStatic: string = 'NodeLogicAnd';
+	nodeType: string = 'NodeLogicAnd';
 	width = 200;
 	height!: number;
 
@@ -30,18 +31,19 @@ export class NodeLogicAnd extends NodeParent {
 	serialization(): SerializationDataType {
 		return {
 			...super.serialization(),
-			nodeType: NodeLogicAnd.nodeType,
+			nodeTypeStatic: NodeLogicAnd.nodeTypeStatic,
 		};
 	}
 
 	static deserialize(data: SerializationDataType): NodeParent {
-		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicAnd(data.label, data.id);
 	}
 }
 
 export class NodeLogicOr extends NodeParent {
-	static nodeType: string = 'NodeLogicOr';
+	static nodeTypeStatic: string = 'NodeLogicOr';
+	nodeType: string = 'NodeLogicOr';
 	width = 200;
 	height!: number;
 
@@ -65,18 +67,19 @@ export class NodeLogicOr extends NodeParent {
 	serialization(): SerializationDataType {
 		return {
 			...super.serialization(),
-			nodeType: NodeLogicOr.nodeType,
+			nodeTypeStatic: NodeLogicOr.nodeTypeStatic,
 		};
 	}
 
 	static deserialize(data: SerializationDataType): NodeParent {
-		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicOr(data.label, data.id);
 	}
 }
 
 export class NodeLogicNot extends NodeParent {
-	static nodeType: string = 'NodeLogicNot';
+	static nodeTypeStatic: string = 'NodeLogicNot';
+	nodeType: string = 'NodeLogicNot';
 	width = 200;
 	height!: number;
 
@@ -100,18 +103,19 @@ export class NodeLogicNot extends NodeParent {
 	serialization(): SerializationDataType {
 		return {
 			...super.serialization(),
-			nodeType: NodeLogicNot.nodeType,
+			nodeTypeStatic: NodeLogicNot.nodeTypeStatic,
 		};
 	}
 
 	static deserialize(data: SerializationDataType): NodeParent {
-		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicNot(data.label, data.id);
 	}
 }
 
 export class NodeLogicNand extends NodeParent {
-	static nodeType: string = 'NodeLogicNand';
+	static nodeTypeStatic: string = 'NodeLogicNand';
+	nodeType: string = 'NodeLogicNand';
 	width = 200;
 	height!: number;
 
@@ -135,18 +139,19 @@ export class NodeLogicNand extends NodeParent {
 	serialization(): SerializationDataType {
 		return {
 			...super.serialization(),
-			nodeType: NodeLogicNand.nodeType,
+			nodeTypeStatic: NodeLogicNand.nodeTypeStatic,
 		};
 	}
 
 	static deserialize(data: SerializationDataType): NodeParent {
-		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicNand(data.label, data.id);
 	}
 }
 
 export class NodeLogicNor extends NodeParent {
-	static nodeType: string = 'NodeLogicNor';
+	static nodeTypeStatic: string = 'NodeLogicNor';
+	nodeType: string = 'NodeLogicNor';
 	width = 200;
 	height!: number;
 
@@ -170,18 +175,19 @@ export class NodeLogicNor extends NodeParent {
 	serialization(): SerializationDataType {
 		return {
 			...super.serialization(),
-			nodeType: NodeLogicNor.nodeType,
+			nodeTypeStatic: NodeLogicNor.nodeTypeStatic,
 		};
 	}
 
 	static deserialize(data: SerializationDataType): NodeParent {
-		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicNor(data.label, data.id);
 	}
 }
 
 export class NodeLogicXor extends NodeParent {
-	static nodeType: string = 'NodeLogicXor';
+	static nodeTypeStatic: string = 'NodeLogicXor';
+	nodeType: string = 'NodeLogicXor';
 	width = 200;
 	height!: number;
 
@@ -208,18 +214,19 @@ export class NodeLogicXor extends NodeParent {
 	serialization(): SerializationDataType {
 		return {
 			...super.serialization(),
-			nodeType: NodeLogicXor.nodeType,
+			nodeTypeStatic: NodeLogicXor.nodeTypeStatic,
 		};
 	}
 
 	static deserialize(data: SerializationDataType): NodeParent {
-		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicXor(data.label, data.id);
 	}
 }
 
 export class NodeLogicXnor extends NodeParent {
-	static nodeType: string = 'NodeLogicXnor';
+	static nodeTypeStatic: string = 'NodeLogicXnor';
+	nodeType: string = 'NodeLogicXnor';
 	width = 200;
 	height!: number;
 
@@ -246,19 +253,20 @@ export class NodeLogicXnor extends NodeParent {
 	serialization(): SerializationDataType {
 		return {
 			...super.serialization(),
-			nodeType: NodeLogicXnor.nodeType,
+			nodeTypeStatic: NodeLogicXnor.nodeTypeStatic,
 		};
 	}
 
 	static deserialize(data: SerializationDataType): NodeParent {
-		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicXnor(data.label, data.id);
 	}
 }
 
 // 同相器（同相缓冲门）
 export class NodeLogicBuffer extends NodeParent {
-	static nodeType: string = 'NodeLogicBuffer';
+	static nodeTypeStatic: string = 'NodeLogicBuffer';
+	nodeType: string = 'NodeLogicBuffer';
 	width = 200;
 	height!: number;
 
@@ -282,18 +290,19 @@ export class NodeLogicBuffer extends NodeParent {
 	serialization(): SerializationDataType {
 		return {
 			...super.serialization(),
-			nodeType: NodeLogicBuffer.nodeType,
+			nodeTypeStatic: NodeLogicBuffer.nodeTypeStatic,
 		};
 	}
 
 	static deserialize(data: SerializationDataType): NodeParent {
-		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicBuffer(data.label, data.id);
 	}
 }
 
 export class NodeLogicConstant extends NodeParent {
-	static nodeType: string = 'NodeLogicConstant';
+	static nodeTypeStatic: string = 'NodeLogicConstant';
+	nodeType: string = 'NodeLogicConstant';
 	width = 200;
 	height!: number;
 
@@ -337,18 +346,19 @@ export class NodeLogicConstant extends NodeParent {
 	serialization(): SerializationDataType {
 		return {
 			...super.serialization(),
-			nodeType: NodeLogicConstant.nodeType,
+			nodeTypeStatic: NodeLogicConstant.nodeTypeStatic,
 		};
 	}
 
 	static deserialize(data: SerializationDataType): NodeParent {
-		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicConstant(data.label, data.id);
 	}
 }
 
 export class NodeLogicEqual extends NodeParent {
-	static nodeType: string = 'NodeLogicEqual';
+	static nodeTypeStatic: string = 'NodeLogicEqual';
+	nodeType: string = 'NodeLogicEqual';
 	width = 200;
 	height!: number;
 
@@ -375,12 +385,12 @@ export class NodeLogicEqual extends NodeParent {
 	serialization(): SerializationDataType {
 		return {
 			...super.serialization(),
-			nodeType: NodeLogicEqual.nodeType,
+			nodeTypeStatic: NodeLogicEqual.nodeTypeStatic,
 		};
 	}
 
 	static deserialize(data: SerializationDataType): NodeParent {
-		if (data.nodeType !== this.nodeType) throw new Error("nodeType not match");
+		if (data.nodeTypeStatic !== this.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicEqual(data.label, data.id);
 	}
 }

@@ -233,6 +233,10 @@ export class ReteEditor implements ReteEditorInterface {
 		}
 	}
 
+	async syncNodeSensor(data: { id: string, name: string }[]) {
+
+	}
+
 	versionSerializationExportDataType: number = 1;
 
 	async serialization(): Promise<SerializationExportDataType> {

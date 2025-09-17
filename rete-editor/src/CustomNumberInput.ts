@@ -1,5 +1,7 @@
 import {html, LitElement} from "lit";
 
+// console.log('LitElement', LitElement);
+
 // input patch
 // @customElement('custom-number-input')
 export class CustomNumberInput extends LitElement {
@@ -48,6 +50,16 @@ export class CustomNumberInput extends LitElement {
 
 		d.change(val);
 	}
+
+	static register() {
+		if (!customElements.get("custom-number-input")) {
+			customElements.define("custom-number-input", CustomNumberInput);
+		}
+	}
 }
 
-customElements.define("custom-number-input", CustomNumberInput);
+// customElements.define("custom-number-input", CustomNumberInput);
+// customElements.whenDefined("custom-number-input").then(() => {
+// 	console.log("custom-number-input defined");
+// });
+// console.log('CustomNumberInput', CustomNumberInput);

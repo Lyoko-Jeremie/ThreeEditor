@@ -1,6 +1,9 @@
+import {CustomNumberInput} from './CustomNumberInput';
 import {ReteEditor, runLater, type SerializationExportDataType} from "./ReteEditor";
 
 async function initializeReteEditor(container: HTMLElement, data?: SerializationExportDataType) {
+
+	CustomNumberInput.register();
 
 	const reteEditor = new ReteEditor();
 	await reteEditor.initEngine();

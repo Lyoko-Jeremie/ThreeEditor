@@ -108,7 +108,27 @@ export class ReteEditor implements ReteEditorInterface {
 		// 	return new ClassicFlow()
 		// })
 		this.connection.addPreset(() => new ClassicFlow({
-			makeConnection(from, to, context) {
+			canMakeConnection: (from, to) => {
+				console.log('canMakeConnection', {from, to});
+				const [source, target] = getSourceTarget(from, to) || [null, null];
+
+				if (source && target) {
+					const sourceNode = this.editor.getNode(source.nodeId);
+					const targetNode = this.editor.getNode(target.nodeId);
+					if (!sourceNode || !targetNode) return false;
+					const isCanMakeConnection = createConnection(
+						sourceNode,
+						source.key,
+						targetNode,
+						target.key,
+						true,
+					);
+					console.log('canMakeConnection', isCanMakeConnection);
+					return isCanMakeConnection;
+				}
+				return false;
+			},
+			makeConnection: (from, to, context) => {
 				console.log('makeConnection', {from, to, context});
 				const [source, target] = getSourceTarget(from, to) || [null, null];
 				const {editor} = context;
@@ -121,7 +141,8 @@ export class ReteEditor implements ReteEditorInterface {
 						sourceNode,
 						source.key,
 						targetNode,
-						target.key
+						target.key,
+						false,
 					);
 					console.log('makeConnection created', connection);
 					if (!connection) {

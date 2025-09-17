@@ -116,30 +116,38 @@ export const ConnectionCreateTable = [
 	[ConnectionSensor.connectionTypeStatic, ConnectionSensor.deserialize],
 ] as const;
 
-export function createConnection<A extends NodeAllType, B extends NodeAllType>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs']): ConnectionParent<A, B> | undefined {
+export function createConnection<A extends NodeAllType, B extends NodeAllType>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], test: true): true | false | undefined;
+export function createConnection<A extends NodeAllType, B extends NodeAllType>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], test: false): ConnectionParent<A, B> | undefined;
+export function createConnection<A extends NodeAllType, B extends NodeAllType>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], test: boolean = false): ConnectionParent<A, B> | boolean | undefined {
 
 	if (isNodeLatchType(target) && !(isNodeSensorType(source))) {
+		noticeDialog('Latch节点只能接受Sensor节点的输入');
+		if (test) return false;
 		// Latch only accepts Sensor input
 		console.warn('createConnection: Latch only accepts Sensor input', {source, sourceOutput, target, targetInput});
-		noticeDialog('Latch节点只能接受Sensor节点的输入');
 		return undefined;
 	}
 	if (isNodeScoreType(source)) {
+		noticeDialog('Score节点不能作为输出端');
+		if (test) return false;
 		// Score cannot be source
 		console.warn('createConnection: Score cannot be source', {source, sourceOutput, target, targetInput});
-		noticeDialog('Score节点不能作为输出端');
 		return undefined;
 	}
 	if (isNodeCalcType(source) && isNodeScoreType(target)) {
+		if (test) return true;
 		return ConnectionScore.create(source, sourceOutput, target, targetInput);
 	}
 	if (isNodeCalcType(source) && isNodeCalcType(target)) {
+		if (test) return true;
 		return ConnectionCalc.create(source, sourceOutput, target, targetInput);
 	}
 	if (isNodeSensorType(source) && isNodeLatchType(target)) {
+		if (test) return true;
 		return ConnectionSensor.create(source, sourceOutput, target, targetInput);
 	}
 
+	if (test) return false;
 	console.error('createConnection: not supported connection type', {source, sourceOutput, target, targetInput});
 	// throw new Error('createConnection: not supported connection type');
 	return undefined;

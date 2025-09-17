@@ -12,6 +12,12 @@ export abstract class NodeParent extends ClassicPreset.Node implements NeedSkipB
 	static nodeTypeStatic: string;
 	abstract nodeType: string;
 
+	// needSkipBuffer!: boolean;
+	// static nodeTypeStatic: string;
+	// nodeType!: string;
+	// width!: number;
+	// height!: number;
+
 	serialization(): SerializationDataType {
 		return {
 			id: this.id,

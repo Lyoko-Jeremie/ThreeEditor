@@ -26,7 +26,8 @@ function getMaterial() {
 function getUserData() {
 
 	return {
-		// TODO
+		collisionType: 'simple_or_BoundingBox',
+		isSensorBox: true,
 	};
 
 }
@@ -59,9 +60,8 @@ export function menuAddSensorSimple( templateSubmenu, editor, strings ) {
 
 	} ) );
 
-	// Mesh / Sphere
-	templateSubmenu.add( factoryFunc( editor, strings, strings.getKey( 'menubar/add/mesh/sphere' ), function () {
-
+	// Mesh / Cylinder
+	templateSubmenu.add( factoryFunc( editor, strings, strings.getKey( 'menubar/add/mesh/cylinder' ), function () {
 
 		const geometry = new THREE.CylinderGeometry( 1, 1, 1, 32, 1, false, 0, Math.PI * 2 );
 		const mesh = new THREE.Mesh( geometry, getMaterial() );

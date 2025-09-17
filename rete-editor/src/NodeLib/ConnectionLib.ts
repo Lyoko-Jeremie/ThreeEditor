@@ -4,6 +4,7 @@ import type {NodeSensor} from "./NodeSensor";
 import {NodeParent} from "./NodeParent";
 import type {NodeAllType, NodeCalcType, NodeLatchType} from "./NodeLibType";
 import {isNodeCalcType, isNodeLatchType, isNodeScoreType, isNodeSensorType} from "./NodeLibTypeCheck";
+import {noticeDialog} from "./NoticeDialog";
 
 export type ConnectionSerializationDataType<T extends Record<string, any> = {}> = {
 	id: string,
@@ -120,6 +121,13 @@ export function createConnection<A extends NodeAllType, B extends NodeAllType>(s
 	if (isNodeLatchType(target) && !(isNodeSensorType(source))) {
 		// Latch only accepts Sensor input
 		console.warn('createConnection: Latch only accepts Sensor input', {source, sourceOutput, target, targetInput});
+		noticeDialog('Latch节点只能接受Sensor节点的输入');
+		return undefined;
+	}
+	if (isNodeScoreType(source)) {
+		// Score cannot be source
+		console.warn('createConnection: Score cannot be source', {source, sourceOutput, target, targetInput});
+		noticeDialog('Score节点不能作为输出端');
 		return undefined;
 	}
 	if (isNodeCalcType(source) && isNodeScoreType(target)) {

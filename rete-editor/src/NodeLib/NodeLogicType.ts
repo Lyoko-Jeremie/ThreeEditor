@@ -324,6 +324,10 @@ export class NodeLogicBuffer extends NodeParent {
 	}
 }
 
+export type NodeLogicConstantInnerData = {
+	inputConstValue?: number,
+};
+
 export class NodeLogicConstant extends NodeParent {
 	static nodeTypeStatic: string = 'NodeLogicConstant';
 	nodeType: string = 'NodeLogicConstant';
@@ -338,21 +342,22 @@ export class NodeLogicConstant extends NodeParent {
 
 	_labelPrefix: string = '逻辑常量计算器: ';
 
-	constructor(label: string, id?: string) {
+	constructor(label: string, id?: string, innerData?: NodeLogicConstantInnerData) {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
+		this.inputConstValue = innerData?.inputConstValue ?? 0;
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
 		// this.addControl('inputValue', new ClassicPreset.InputControl('number', {
 		// 	initial: 0,
 		// 	change: (v) => (this.inputValue = v)
 		// }));
-		this.addControl('inputValue', {
+		this.addControl('inputConstValue', {
 			id: getUID(),
 			index: 0,
-			initial: 0,
+			initial: this.inputConstValue,
 			change: (v: number) => {
-				this.inputValue = v;
+				this.inputConstValue = v;
 				console.log('NodeLogicConstant change', v);
 			},
 			isCustomNumberInput: true,
@@ -360,26 +365,27 @@ export class NodeLogicConstant extends NodeParent {
 		} as Control);
 	}
 
-	inputValue = 0;
+	inputConstValue = 0;
 
 	data(): { outputValue: number } {
-		return {outputValue: this.inputValue ? 1 : 0};
+		return {outputValue: this.inputConstValue ? 1 : 0};
 	}
 
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '逻辑常量计算器 名称', (name) => new NodeLogicConstant(name));
 	}
 
-	serialization(): NodeSerializationDataType {
+	serialization(): NodeSerializationDataType<NodeLogicConstantInnerData> {
 		return {
 			...super.serialization(),
 			nodeTypeStatic: NodeLogicConstant.nodeTypeStatic,
+			inputConstValue: this.inputConstValue,
 		};
 	}
 
-	static deserialize(data: NodeSerializationDataType): NodeParent {
+	static deserialize(data: NodeSerializationDataType<NodeLogicConstantInnerData>): NodeParent {
 		if (data.nodeTypeStatic !== NodeLogicConstant.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLogicConstant(data.labelName, data.id);
+		return new NodeLogicConstant(data.labelName, data.id, data);
 	}
 }
 

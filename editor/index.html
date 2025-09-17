@@ -43,6 +43,10 @@
 <!--		<script src="js/libs/sweetalert2/sweetalert2.esm.js"></script>-->
 
 		<script>
+			/**
+			 * @param {string} s - The text to display in the confirmation dialog.
+			 * @return {Promise<SweetAlertResult<Awaited<any>>>}
+			 */
 			window.SwalConfirm = function ( s ) {
 
 				return Swal.fire( {
@@ -52,6 +56,23 @@
 					showCancelButton: true,
 					confirmButtonText: '是',
 					cancelButtonText: '否',
+					theme: 'dark',
+				} );
+
+			};
+
+			/**
+			 * @param {string} title - The text to display in the notice dialog.
+			 * @return {Promise<SweetAlertResult<Awaited<any>>>}
+			 */
+			window.noticeDialog = function ( title ) {
+
+				return Swal.fire( {
+					// title: title,
+					text: title,
+					// showCancelButton: true,
+					confirmButtonText: '确定',
+					// cancelButtonText: 'Cancel',
 					theme: 'dark',
 				} );
 

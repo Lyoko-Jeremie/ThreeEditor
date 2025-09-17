@@ -56,6 +56,8 @@ document.addEventListener( 'DOMContentLoaded', () => {
 					userData.rete = r;
 					editor.execute( new SetValueCommand( editor, editor.scene, 'userData', userData ) );
 
+					return noticeDialog( '保存成功' );
+
 				} );
 
 
@@ -103,22 +105,28 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	// --- Modal Control Functionality ---
 	if ( reteModalCloseBtn ) {
 
-		reteModalCloseBtn.addEventListener( 'click', () => {
+		reteModalCloseBtn.addEventListener( 'click', async () => {
 
-			// Add a simple animation before hiding
-			reteModalContainer.style.transform = 'scale(0.9)';
-			reteModalContainer.style.opacity = '0';
-			reteModalOverlay.style.opacity = '0';
+			const r = await SwalConfirm( '确认关闭编辑器？未保存的数据将会丢失！' );
+			if ( r.isConfirmed ) {
 
-			window.destroyReteEditor();
-			window.destroyReteEditor = undefined;
+				// Add a simple animation before hiding
+				reteModalContainer.style.transform = 'scale(0.9)';
+				reteModalContainer.style.opacity = '0';
+				reteModalOverlay.style.opacity = '0';
 
-			// Hide after the animation completes
-			setTimeout( () => {
+				window.destroyReteEditor();
+				window.destroyReteEditor = undefined;
 
-				reteModalOverlay.style.display = 'none';
+				// Hide after the animation completes
+				setTimeout( () => {
 
-			}, 300 );
+					reteModalOverlay.style.display = 'none';
+
+				}, 300 );
+
+			}
+
 
 		} );
 

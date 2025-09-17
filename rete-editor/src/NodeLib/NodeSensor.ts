@@ -16,7 +16,7 @@ export class NodeSensor extends NodeParent {
 		super(label);
 		this.labelName = label;
 		this.id = id;
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.sensorOutput, '正在碰撞', true));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.sensorOutput, '正在碰撞中', true));
 	}
 
 	outputValue: 0 | 1 = 0;

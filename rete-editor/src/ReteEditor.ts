@@ -240,7 +240,13 @@ export class ReteEditor implements ReteEditorInterface {
 	}
 
 	async reLayout() {
-		await this.arrange.layout();
+		await this.arrange.layout({
+			// options: {
+			// 	'org.eclipse.elk.layered.crossingMinimization.strategy': 'MEDIAN_LAYER_SWEEP',
+			// 	'org.eclipse.elk.layered.crossingMinimization.greedySwitch.type': 'TWO_SIDED',
+			// 	'org.eclipse.elk.layered.crossingMinimization.greedySwitch.activationThreshold': 0,
+			// } as any,
+		});
 		// console.log('arrange', this.arrange);
 	}
 

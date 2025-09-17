@@ -161,21 +161,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				const data = window?.editor?.scene?.userData?.rete;
 				data && await window.reteEditor.deserialization( data ).catch( e => console.error( 'reteEditor.deserialization error:', e ) );
 
-				const sensorList = [];
 				if ( window?.editor?.scene ) {
 
-					window.editor.scene.traverse( c => {
-
-						if ( c.userData && c.userData.isSensorBox ) {
-
-							sensorList.push( {
-								name: c.name,
-								id: c.uuid,
-							} );
-
-						}
-
-					} );
+					const sensorList = window.getSensorFromScene( window.editor.scene );
 
 					window.reteEditor.syncNodeSensor( sensorList ).catch( e => console.error( 'reteEditor.syncNodeSensor error:', e ) );
 

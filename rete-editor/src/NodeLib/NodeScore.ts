@@ -41,6 +41,10 @@ export class NodeScore extends NodeParent {
 		if (data.nodeTypeStatic !== NodeScore.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeScore(data.labelName, data.id);
 	}
+
+	static isNodeScore(node: NodeParent): node is NodeScore {
+		return !!(node as NodeScore).nodeType && (node as NodeScore).nodeType === NodeScore.nodeTypeStatic;
+	}
 }
 
 export const NodeMenuScore = (editor: ReteEditorInterface): [string, () => Promise<NodeScore>] => {

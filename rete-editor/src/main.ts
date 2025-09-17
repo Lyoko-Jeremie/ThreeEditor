@@ -1,5 +1,24 @@
 import {CustomNumberInput} from './CustomNumberInput';
 import {ReteEditor, runLater, type SerializationExportDataType} from "./ReteEditor";
+import type * as THREE from '../../node_modules/@types/three';
+
+function getSensorFromScene(scene: THREE.Scene) {
+	const sensorList: {
+		name: string;
+		id: string;
+		obj: THREE.Object3D,
+	}[] = [];
+	scene.traverse((c) => {
+		if (c.userData && c.userData.isSensorBox) {
+			sensorList.push({
+				name: c.name,
+				id: c.uuid,
+				obj: c,
+			});
+		}
+	});
+	return sensorList;
+}
 
 async function initializeReteEditor(container: HTMLElement, data?: SerializationExportDataType) {
 
@@ -79,4 +98,6 @@ async function initializeReteEditor(container: HTMLElement, data?: Serialization
 
 // @ts-ignore
 window.initializeReteEditor = initializeReteEditor;
+// @ts-ignore
+window.getSensorFromScene = getSensorFromScene;
 

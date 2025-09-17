@@ -1,22 +1,18 @@
-import {NodeEditor, ClassicPreset} from 'rete';
-import {AreaPlugin, AreaExtensions} from 'rete-area-plugin';
-import {ConnectionPlugin, Presets as ConnectionPresets, getSourceTarget, ClassicFlow} from 'rete-connection-plugin';
-import {LitPlugin, Presets, type LitArea2D} from '@retejs/lit-plugin';
+import {ClassicPreset, NodeEditor} from 'rete';
+import {AreaExtensions, AreaPlugin} from 'rete-area-plugin';
+import {ClassicFlow, ConnectionPlugin, getSourceTarget} from 'rete-connection-plugin';
+import {type LitArea2D, LitPlugin, Presets} from '@retejs/lit-plugin';
 import {type MinimapExtra, MinimapPlugin} from "rete-minimap-plugin";
-import {HistoryPlugin, type HistoryActions, Presets as PresetsHistory, HistoryExtensions} from "rete-history-plugin";
+import {type HistoryActions, HistoryExtensions, HistoryPlugin, Presets as PresetsHistory} from "rete-history-plugin";
 // import {CommentPlugin, CommentExtensions} from "rete-comment-plugin";
 import {type ContextMenuExtra, ContextMenuPlugin, Presets as ContextMenuPresets} from "rete-context-menu-plugin";
 import {AutoArrangePlugin, Presets as ArrangePresets} from "rete-auto-arrange-plugin";
 import {DataflowEngine} from "rete-engine";
 import {structures} from "rete-structures";
 import {html} from "lit";
-import {
-	type ConnectionType,
-	type NodeAllType,
-	type Schemes
-} from "./NodeLib/NodeLibType";
+import {type ConnectionType, type NodeAllType, type Schemes} from "./NodeLib/NodeLibType";
 import type {ReteEditorInterface} from "./ReteEditorInterface";
-import {NodeMenuScore} from "./NodeLib/NodeScore";
+import {NodeMenuScore, NodeScore} from "./NodeLib/NodeScore";
 import {NodeMenuLatch} from "./NodeLib/NodeLatch";
 import {NodeMenuLatchCount} from "./NodeLib/NodeLatchCount";
 import {NodeMenuSum} from "./NodeLib/NodeSum";
@@ -425,6 +421,22 @@ export class ReteEditor implements ReteEditorInterface {
 		await this.updateMinimap();
 		await this.reLayout();
 		await this.reZoom();
+	}
+
+	getNode(nodeId: string): NodeAllType | undefined {
+		return this.editor.getNode(nodeId) as NodeAllType | undefined;
+	}
+
+	async engineFetchResultData(): Promise<{ [nodeId: string]: ReturnType<NodeScore['data']> }> {
+		const scoreNodes = this.editor.getNodes().filter(n => NodeScore.isNodeScore(n));
+
+		this.engine.reset();
+
+		const result: { [nodeId: string]: ReturnType<NodeScore['data']> } = {};
+		for (const n of scoreNodes) {
+			result[n.id] = await this.engine.fetch(n);
+		}
+		return result;
 	}
 
 }

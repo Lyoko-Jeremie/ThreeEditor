@@ -1,6 +1,6 @@
 import {NodeEditor, ClassicPreset} from 'rete';
 import {AreaPlugin, AreaExtensions} from 'rete-area-plugin';
-import {ConnectionPlugin, Presets as ConnectionPresets,} from 'rete-connection-plugin';
+import {ConnectionPlugin, Presets as ConnectionPresets, getSourceTarget, ClassicFlow} from 'rete-connection-plugin';
 import {LitPlugin, Presets, type LitArea2D} from '@retejs/lit-plugin';
 import {type MinimapExtra, MinimapPlugin} from "rete-minimap-plugin";
 import {HistoryPlugin, type HistoryActions, Presets as PresetsHistory, HistoryExtensions} from "rete-history-plugin";
@@ -24,7 +24,7 @@ import {NodeMenuLogic} from "./NodeLib/NodeLogicType";
 import {NodeSensor} from "./NodeLib/NodeSensor";
 import {NodeParent, type NodeSerializationDataType} from "./NodeLib/NodeParent";
 import {NodeCreateTable} from "./NodeLib/NodeLib";
-import {ConnectionCreateTable, type ConnectionSerializationDataType} from "./NodeLib/ConnectionLib";
+import {ConnectionCreateTable, type ConnectionSerializationDataType, createConnection} from "./NodeLib/ConnectionLib";
 
 export {
 	ClassicPreset,
@@ -101,7 +101,39 @@ export class ReteEditor implements ReteEditorInterface {
 	async initEngine() {
 		this.editor.use(this.engine);
 		// engine.fetch()
-		this.connection.addPreset(ConnectionPresets.classic.setup());
+		// this.connection.addPreset(ConnectionPresets.classic.setup());
+		// this.connection.addPreset(({nodeId, side, key}) => {
+		// 	if (isReadonly(nodeId, side, key)) return undefined
+		// 	if (usesBidirect(nodeId, side, key)) return new BidirectFlow()
+		// 	return new ClassicFlow()
+		// })
+		this.connection.addPreset(() => new ClassicFlow({
+			makeConnection(from, to, context) {
+				console.log('makeConnection', {from, to, context});
+				const [source, target] = getSourceTarget(from, to) || [null, null];
+				const {editor} = context;
+
+				if (source && target) {
+					const sourceNode = editor.getNode(source.nodeId);
+					const targetNode = editor.getNode(target.nodeId);
+					if (!sourceNode || !targetNode) return undefined;
+					const connection = createConnection(
+						sourceNode,
+						source.key,
+						targetNode,
+						target.key
+					);
+					console.log('makeConnection created', connection);
+					if (!connection) {
+						console.error('makeConnection: not supported connection type', {from, to});
+						return undefined;
+					}
+					editor.addConnection(connection);
+					return true; // ensure that the connection has been successfully added
+				}
+				return undefined;
+			}
+		}))
 	}
 
 	async initGraph(container: HTMLElement) {

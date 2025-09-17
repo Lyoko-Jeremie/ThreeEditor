@@ -3,6 +3,7 @@ import type {NodeScore} from "./NodeScore";
 import type {NodeSensor} from "./NodeSensor";
 import {NodeParent} from "./NodeParent";
 import type {NodeAllType, NodeCalcType, NodeLatchType} from "./NodeLibType";
+import {isNodeCalcType, isNodeLatchType, isNodeScoreType, isNodeSensorType} from "./NodeLibTypeCheck";
 
 export type ConnectionSerializationDataType<T extends Record<string, any> = {}> = {
 	id: string,
@@ -38,7 +39,10 @@ export class ConnectionScore<A extends NodeCalcType, B extends NodeScore> extend
 	}
 
 	static deserialize(data: ConnectionSerializationDataType, source: NodeAllType, target: NodeAllType): ConnectionParent<NodeParent, NodeParent> {
-		if (data.connectionType !== ConnectionScore.connectionTypeStatic) throw new Error("connectionTypeStatic not match");
+		if (data.connectionType !== ConnectionScore.connectionTypeStatic) {
+			console.error('data.connectionType', data.connectionType, ConnectionScore.connectionTypeStatic);
+			throw new Error("connectionTypeStatic not match");
+		}
 		return new ConnectionScore(
 			source as NodeCalcType,
 			data.sourceOutput,
@@ -63,7 +67,10 @@ export class ConnectionCalc<A extends NodeCalcType, B extends NodeCalcType> exte
 	}
 
 	static deserialize(data: ConnectionSerializationDataType, source: NodeAllType, target: NodeAllType): ConnectionParent<NodeParent, NodeParent> {
-		if (data.connectionType !== ConnectionScore.connectionTypeStatic) throw new Error("connectionTypeStatic not match");
+		if (data.connectionType !== ConnectionCalc.connectionTypeStatic) {
+			console.error('data.connectionType', data.connectionType, ConnectionCalc.connectionTypeStatic);
+			throw new Error("connectionTypeStatic not match");
+		}
 		return new ConnectionCalc(
 			source as NodeCalcType,
 			data.sourceOutput,
@@ -88,7 +95,10 @@ export class ConnectionSensor<A extends NodeSensor, B extends NodeLatchType> ext
 	}
 
 	static deserialize(data: ConnectionSerializationDataType, source: NodeAllType, target: NodeAllType): ConnectionParent<NodeParent, NodeParent> {
-		if (data.connectionType !== ConnectionScore.connectionTypeStatic) throw new Error("connectionTypeStatic not match");
+		if (data.connectionType !== ConnectionSensor.connectionTypeStatic) {
+			console.error('data.connectionType', data.connectionType, ConnectionSensor.connectionTypeStatic);
+			throw new Error("connectionTypeStatic not match");
+		}
 		return new ConnectionSensor(
 			source as NodeSensor,
 			data.sourceOutput,
@@ -104,3 +114,29 @@ export const ConnectionCreateTable = [
 	[ConnectionCalc.connectionTypeStatic, ConnectionCalc.deserialize],
 	[ConnectionSensor.connectionTypeStatic, ConnectionSensor.deserialize],
 ] as const;
+
+export function createConnection<A extends NodeAllType, B extends NodeAllType>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs']): ConnectionParent<A, B> | undefined {
+
+	if (isNodeLatchType(target) && !(isNodeSensorType(source))) {
+		// Latch only accepts Sensor input
+		console.warn('createConnection: Latch only accepts Sensor input', {source, sourceOutput, target, targetInput});
+		return undefined;
+	}
+	if (isNodeCalcType(source) && isNodeScoreType(target)) {
+		return ConnectionScore.create(source, sourceOutput, target, targetInput);
+	}
+	if (isNodeCalcType(source) && isNodeCalcType(target)) {
+		return ConnectionCalc.create(source, sourceOutput, target, targetInput);
+	}
+	if (isNodeSensorType(source) && isNodeLatchType(target)) {
+		return ConnectionSensor.create(source, sourceOutput, target, targetInput);
+	}
+
+	console.error('createConnection: not supported connection type', {source, sourceOutput, target, targetInput});
+	// throw new Error('createConnection: not supported connection type');
+	return undefined;
+}
+
+
+
+

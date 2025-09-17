@@ -41,32 +41,32 @@ async function initializeReteEditor(container: HTMLElement, data?: Serialization
 		await reteEditor.destroy();
 		// @ts-ignore
 		window.reteEditor = undefined;
-		// @ts-ignore
-		window.editor = undefined;
-		// @ts-ignore
-		window.area = undefined;
-		// @ts-ignore
-		window.minimap = undefined;
-		// @ts-ignore
-		window.arrange = undefined;
-		// @ts-ignore
-		window.reLayout = undefined;
-		// @ts-ignore
-		window.destroyReteEditor = undefined;
+		// // @ts-ignore
+		// window.editor = undefined;
+		// // @ts-ignore
+		// window.area = undefined;
+		// // @ts-ignore
+		// window.minimap = undefined;
+		// // @ts-ignore
+		// window.arrange = undefined;
+		// // @ts-ignore
+		// window.reLayout = undefined;
+		// // @ts-ignore
+		// window.destroyReteEditor = undefined;
 	}
 
 	// @ts-ignore
 	window.reteEditor = reteEditor;
-	// @ts-ignore
-	window.editor = editor;
-	// @ts-ignore
-	window.area = area;
-	// @ts-ignore
-	window.minimap = minimap;
-	// @ts-ignore
-	window.arrange = arrange;
-	// @ts-ignore
-	window.reLayout = reteEditor.reLayout.bind(reteEditor);
+	// // @ts-ignore
+	// window.editor = editor;
+	// // @ts-ignore
+	// window.area = area;
+	// // @ts-ignore
+	// window.minimap = minimap;
+	// // @ts-ignore
+	// window.arrange = arrange;
+	// // @ts-ignore
+	// window.reLayout = reteEditor.reLayout.bind(reteEditor);
 
 
 	await runLater(async () => {

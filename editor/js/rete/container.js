@@ -1,3 +1,5 @@
+import { SetValueCommand } from '../commands/SetValueCommand.js';
+
 document.addEventListener( 'DOMContentLoaded', () => {
 
 	const reteModalOverlay = document.getElementById( 'reteModal-overlay' );
@@ -25,9 +27,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 		reteModalReLayoutBtn.addEventListener( 'click', () => {
 
-			if ( window.reLayout ) {
+			if ( window.reteEditor?.reLayout ) {
 
-				window.reLayout();
+				window.reteEditor.reLayout().catch( e => console.error( 'reteEditor.reLayout error:', e ) );
 
 			}
 
@@ -42,7 +44,21 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		reteModalSaveBtn.addEventListener( 'click', () => {
 
 			if ( window.reteEditor ) {
-			// TODO
+
+				console.log( 'editor.scene', window.editor.scene );
+				console.log( 'editor', window.editor );
+
+				const editor = window.editor;
+				const userData = editor.scene.userData || {};
+
+				window.reteEditor.serialization().then( r => {
+
+					userData.rete = r;
+					editor.execute( new SetValueCommand( editor, editor.scene, 'userData', userData ) );
+
+				} );
+
+
 			}
 
 		} );
@@ -128,11 +144,14 @@ document.addEventListener( 'DOMContentLoaded', () => {
 
 			window.initializeReteEditor( reteModalContent );
 
-			setTimeout( () => {
+			setTimeout( async () => {
 
 				reteModalContainer.style.transform = 'scale(1)';
 				reteModalContainer.style.opacity = '1';
 				reteModalOverlay.style.opacity = '1';
+
+				const data = window?.editor?.scene?.userData?.rete;
+				data && await window.reteEditor.deserialization( data ).catch( e => console.error( 'reteEditor.deserialization error:', e ) );
 
 			}, 10 );
 

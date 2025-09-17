@@ -1268,6 +1268,8 @@ function Strings( config ) {
 
 			'menubar/add': '添加',
 
+			'menubar/add/sensor_simple': '碰撞传感器',
+
 			'menubar/add/template': '模版库',
 			'menubar/add/template/RectanglePipePanel': '方框',
 			'menubar/add/template/RectanglePipe': '立方框',

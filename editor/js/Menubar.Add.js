@@ -14,6 +14,7 @@ import {
 	buttonModelLibRect,
 	buttonModelLibSmallRing,
 } from './Menubar.Add.Model.js';
+import { menuAddSensorSimple } from './Menubar.Add.Sensor.js';
 
 function MenubarAdd( editor ) {
 
@@ -46,6 +47,33 @@ function MenubarAdd( editor ) {
 
 	} );
 	options.add( option );
+
+	// Sensor Simple
+
+	const sensorSimpleSubmenuTitle = new UIRow().setTextContent( strings.getKey( 'menubar/add/sensor_simple' ) ).addClass( 'option' ).addClass( 'submenu-title' );
+	sensorSimpleSubmenuTitle.onMouseOver( function () {
+
+		const { top, right } = sensorSimpleSubmenuTitle.dom.getBoundingClientRect();
+		const { paddingTop } = getComputedStyle( this.dom );
+		sensorSimpleSubmenu.setLeft( right + 'px' );
+		sensorSimpleSubmenu.setTop( top - parseFloat( paddingTop ) + 'px' );
+		sensorSimpleSubmenu.setStyle( 'max-height', [ `calc( 100vh - ${top}px )` ] );
+		sensorSimpleSubmenu.setDisplay( 'block' );
+
+	} );
+	sensorSimpleSubmenuTitle.onMouseOut( function () {
+
+		sensorSimpleSubmenu.setDisplay( 'none' );
+
+	} );
+	options.add( sensorSimpleSubmenuTitle );
+
+	const sensorSimpleSubmenu = new UIPanel().setPosition( 'fixed' ).addClass( 'options' ).setDisplay( 'none' );
+	sensorSimpleSubmenuTitle.add( sensorSimpleSubmenu );
+
+	// sensorSimpleSubmenuTitle.add( buttonRectanglePipePanel( editor, strings ) );
+	menuAddSensorSimple( sensorSimpleSubmenu, editor, strings );
+
 
 	// Template Mesh
 

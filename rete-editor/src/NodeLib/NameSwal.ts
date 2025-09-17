@@ -14,7 +14,7 @@ export async function nameDialog<T extends NeedSkipBuffer>(editor: ReteEditorInt
 		// cancelButtonText: 'Cancel',
 		theme: 'dark',
 	}).then(async (result) => {
-		const n = await f(result.value);
+		const n = await f(result.value || '');
 		runLater(async () => {
 			await editor.updateOneNodeSize(n);
 			editor.updateMinimap();

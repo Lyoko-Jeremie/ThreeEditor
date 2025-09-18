@@ -1,5 +1,5 @@
 import {ClassicPreset, NodeEditor} from 'rete';
-import {AreaExtensions, AreaPlugin} from 'rete-area-plugin';
+import {AreaExtensions, AreaPlugin, NodeView} from 'rete-area-plugin';
 import {ClassicFlow, ConnectionPlugin, getSourceTarget} from 'rete-connection-plugin';
 import {type LitArea2D, LitPlugin, Presets} from '@retejs/lit-plugin';
 import {type MinimapExtra, MinimapPlugin} from "rete-minimap-plugin";
@@ -202,6 +202,9 @@ export class ReteEditor implements ReteEditorInterface {
 	}
 
 	async updateAllNodeSizes() {
+		if (!this.area) {
+			return;
+		}
 		const viewsElements = ((this.area as any).elements as {
 			viewsElements: Map<string, HTMLDivElement>,
 			views: WeakMap<HTMLDivElement, { type: string, element: HTMLElement, payload: any }>
@@ -226,11 +229,14 @@ export class ReteEditor implements ReteEditorInterface {
 		// await this.arrange.layout();
 		// console.log('arrange', this.arrange);
 
-		await this.updateMinimap();
-		await this.reLayout();
+		// await this.updateMinimap();
+		// await this.reLayout();
 	}
 
 	async updateMinimap() {
+		if (!this.area) {
+			return;
+		}
 		// console.log('minimap', this.minimap);
 		await (this.minimap as any).render();
 	}
@@ -247,6 +253,9 @@ export class ReteEditor implements ReteEditorInterface {
 	}
 
 	async updateOneNodeSize(node: NodeAllType) {
+		if (!this.area) {
+			return;
+		}
 		const viewsElements = ((this.area as any).elements as {
 			viewsElements: Map<string, HTMLDivElement>,
 			views: WeakMap<HTMLDivElement, { type: string, element: HTMLElement, payload: any }>
@@ -268,6 +277,9 @@ export class ReteEditor implements ReteEditorInterface {
 	}
 
 	async reZoom() {
+		if (!this.area) {
+			return;
+		}
 		await AreaExtensions.zoomAt(this.area as any, this.editor.getNodes());
 	}
 
@@ -328,7 +340,7 @@ export class ReteEditor implements ReteEditorInterface {
 
 		await this.updateAllNodeSizes();
 		await this.updateMinimap();
-		await this.reLayout();
+		// await this.reLayout();
 		await this.reZoom();
 	}
 
@@ -337,6 +349,7 @@ export class ReteEditor implements ReteEditorInterface {
 	async serialization(): Promise<SerializationExportDataType> {
 		// TODO
 		const nodes = this.editor.getNodes();
+		const nodeViews = this.area?.nodeViews || new Map<string, NodeView>();
 		const connections = this.editor.getConnections();
 		return {
 			version: this.versionSerializationExportDataType,
@@ -351,6 +364,18 @@ export class ReteEditor implements ReteEditorInterface {
 					connectionType: T.connectionType,
 				};
 			}),
+			position: nodes.map(T => {
+				const p = nodeViews.get(T.id)?.position;
+				if (!p) {
+					console.error('node position not found', T.id);
+					return undefined;
+				}
+				return {
+					id: T.id,
+					x: p.x,
+					y: p.y,
+				};
+			}).filter(T => !!T),
 		};
 	}
 
@@ -418,8 +443,20 @@ export class ReteEditor implements ReteEditorInterface {
 		}
 
 		await this.updateAllNodeSizes();
+
+		if (this.area) {
+			for (const p of data.position) {
+				const node = this.editor.getNode(p.id);
+				if (!node) {
+					console.error('node for position not found', p);
+					continue;
+				}
+				await this.area?.translate(p.id, {x: p.x, y: p.y});
+			}
+		}
+
 		await this.updateMinimap();
-		await this.reLayout();
+		// await this.reLayout();
 		await this.reZoom();
 	}
 
@@ -445,4 +482,5 @@ export type SerializationExportDataType = {
 	version: number,
 	nodes: NodeSerializationDataType[],
 	connections: ConnectionSerializationDataType[],
+	position: { id: string, x: number, y: number }[],
 }

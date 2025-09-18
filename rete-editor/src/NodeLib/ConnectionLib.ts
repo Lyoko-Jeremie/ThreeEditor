@@ -4,7 +4,7 @@ import type {NodeSensor} from "./NodeSensor";
 import {NodeParent} from "./NodeParent";
 import type {NodeAllType, NodeCalcType, NodeLatchFlyType, NodeLatchType, Schemes} from "./NodeLibType";
 import {
-	isNodeCalcType,
+	isNodeCalcType, isNodeFlyPortType,
 	isNodeLatchFlyType,
 	isNodeLatchType,
 	isNodeScoreType,
@@ -13,6 +13,7 @@ import {
 import {noticeDialog} from "./NoticeDialog";
 import {getSourceTarget, type SocketData} from "rete-connection-plugin";
 import {SocketLib} from "./SocketLib";
+import {NodeFlyPort} from "./NodeFlyPort";
 
 export type ConnectionSerializationDataType<T extends Record<string, any> = {}> = {
 	id: string,
@@ -150,6 +151,34 @@ export class ConnectionFly<A extends NodeSensor, B extends NodeLatchFlyType> ext
 	}
 }
 
+export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeLatchFlyType> extends ConnectionParent<A, B> {
+	static connectionTypeStatic = 'Sensor-LatchFly';
+	connectionType = 'Sensor-LatchFly';
+
+	constructor(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], id?: string) {
+		super(source, sourceOutput, target, targetInput);
+		this.id = id ?? this.id;
+	}
+
+	static create<A extends NodeFlyPort, B extends NodeLatchFlyType>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs']): ConnectionFlyConfig<A, B> {
+		return new ConnectionFlyConfig(source, sourceOutput, target, targetInput);
+	}
+
+	static deserialize(data: ConnectionSerializationDataType, source: NodeAllType, target: NodeAllType): ConnectionParent<NodeParent, NodeParent> {
+		if (data.connectionType !== ConnectionFlyConfig.connectionTypeStatic) {
+			console.error('data.connectionType', data.connectionType, ConnectionFlyConfig.connectionTypeStatic);
+			throw new Error("connectionTypeStatic not match");
+		}
+		return new ConnectionFlyConfig(
+			source as NodeFlyPort,
+			data.sourceOutput,
+			target as NodeLatchFlyType,
+			data.targetInput,
+			data.id,
+		);
+	}
+}
+
 export const ConnectionCreateTable = [
 	[ConnectionScore.connectionTypeStatic, ConnectionScore.deserialize],
 	[ConnectionCalc.connectionTypeStatic, ConnectionCalc.deserialize],
@@ -223,7 +252,12 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 		sideOutput,
 	});
 
-	if ((isNodeLatchType(targetNode) || isNodeLatchFlyType(targetNode)) && !isNodeSensorType(sourceNode)) {
+	if (isNodeFlyPortType(sourceNode) && isNodeLatchFlyType(targetNode) && sideOutput.socket.name === SocketLib.flyPort.name) {
+		if (test) return true;
+		return ConnectionFlyConfig.create(sourceNode, source.key, targetNode, target.key);
+	}
+
+	if ((isNodeLatchType(targetNode) || isNodeLatchFlyType(targetNode)) && !(isNodeSensorType(sourceNode))) {
 		noticeDialog('锁存器 节点只能接受 传感器 节点的输入');
 		if (test) return false;
 		// Latch only accepts Sensor input
@@ -247,6 +281,7 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 		});
 		return undefined;
 	}
+
 	if (isNodeCalcType(sourceNode) && isNodeScoreType(targetNode)) {
 		if (test) return true;
 		return ConnectionScore.create(sourceNode, source.key, targetNode, target.key);

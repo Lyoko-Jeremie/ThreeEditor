@@ -21,6 +21,7 @@ import {NodeSensor} from "./NodeLib/NodeSensor";
 import {NodeParent, type NodeSerializationDataType} from "./NodeLib/NodeParent";
 import {NodeCreateTable} from "./NodeLib/NodeLib";
 import {ConnectionCreateTable, type ConnectionSerializationDataType, createConnection} from "./NodeLib/ConnectionLib";
+import {NodeMenuFly} from "./NodeLib/NodeFlyPort";
 
 export {
 	ClassicPreset,
@@ -89,6 +90,7 @@ export class ReteEditor implements ReteEditorInterface {
 				...NodeMenuLatch(this),
 				...NodeMenuLatchCount(this),
 			]],
+			...NodeMenuFly(this),
 			NodeMenuSum(this),
 			['逻辑操作', NodeMenuLogic(this)],
 			NodeMenuScore(this),
@@ -174,6 +176,12 @@ export class ReteEditor implements ReteEditorInterface {
 
 						return () => html`
 							<custom-number-input .data=${payload}></custom-number-input>`;
+					}
+					if ((context.payload as any).isCustomTextInput) {
+						const {payload} = context;
+
+						return () => html`
+							<custom-text-input .data=${payload}></custom-text-input>`;
 					}
 					// if (context.payload instanceof ClassicPreset.InputControl) { // don't forget to explicitly specify the built-in <rete-control>
 					// 	return () => html`<rete-control .data=${context.payload}></rete-control>`;
@@ -349,7 +357,6 @@ export class ReteEditor implements ReteEditorInterface {
 	versionSerializationExportDataType: number = 1;
 
 	async serialization(): Promise<SerializationExportDataType> {
-		// TODO
 		const nodes = this.editor.getNodes();
 		const nodeViews = this.area?.nodeViews || new Map<string, NodeView>();
 		const connections = this.editor.getConnections();

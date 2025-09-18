@@ -67,12 +67,13 @@ export class NodeLatchCountFly extends NodeParent {
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '碰撞', false));
 		this.addInput('inputFlyValue', new ClassicPreset.Input(SocketLib.sensorOutputFly, '无人机', false));
-		this.addControl('controlFlyValue', new ClassicPreset.InputControl('text', {
-			change: (v) => {
-				this.controlFlyValue = v;
-			},
-			initial: this.controlFlyValue,
-		}));
+		this.addInput('controlFlyValue', new ClassicPreset.Input(SocketLib.flyPort, '无人机端口', false));
+		// this.addControl('controlFlyValue', new ClassicPreset.InputControl('text', {
+		// 	change: (v) => {
+		// 		this.controlFlyValue = v;
+		// 	},
+		// 	initial: this.controlFlyValue,
+		// }));
 		this.addOutput('latchCountState', new ClassicPreset.Output(SocketLib.normalLogic, '已碰撞次数', true));
 	}
 

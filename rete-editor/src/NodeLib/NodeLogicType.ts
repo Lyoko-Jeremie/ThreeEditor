@@ -327,7 +327,7 @@ export class NodeLogicBuffer extends NodeParent {
 }
 
 export type NodeLogicConstantInnerData = {
-	inputConstValue?: number,
+	inputLogicConstValue?: number,
 };
 
 export class NodeLogicConstant extends NodeParent {
@@ -348,18 +348,18 @@ export class NodeLogicConstant extends NodeParent {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
-		this.inputConstValue = innerData?.inputConstValue ?? 0;
+		this.inputLogicConstValue = innerData?.inputLogicConstValue ?? 0;
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normalLogic, '输出', true));
 		// this.addControl('inputValue', new ClassicPreset.InputControl('number', {
 		// 	initial: 0,
 		// 	change: (v) => (this.inputValue = v)
 		// }));
-		this.addControl('inputConstValue', {
+		this.addControl('inputLogicConstValue', {
 			id: getUID(),
 			index: 0,
-			initial: this.inputConstValue,
+			initial: this.inputLogicConstValue,
 			change: (v: number) => {
-				this.inputConstValue = v;
+				this.inputLogicConstValue = v;
 				console.log('NodeLogicConstant change', v);
 			},
 			isCustomNumberInput: true,
@@ -367,10 +367,10 @@ export class NodeLogicConstant extends NodeParent {
 		} as Control);
 	}
 
-	inputConstValue = 0;
+	inputLogicConstValue = 0;
 
 	data(): { outputValue: number } {
-		return {outputValue: +this.inputConstValue/* ? 1 : 0*/};
+		return {outputValue: +this.inputLogicConstValue/* ? 1 : 0*/};
 	}
 
 	static async create(editor: ReteEditorInterface) {
@@ -381,7 +381,7 @@ export class NodeLogicConstant extends NodeParent {
 		return {
 			...super.serialization(),
 			nodeTypeStatic: NodeLogicConstant.nodeTypeStatic,
-			inputConstValue: this.inputConstValue,
+			inputLogicConstValue: this.inputLogicConstValue,
 		};
 	}
 

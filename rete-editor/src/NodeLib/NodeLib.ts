@@ -15,6 +15,7 @@ import {
 	NodeLogicXnor,
 	NodeLogicXor
 } from "./NodeLogicType";
+import {NodeFlyPort} from "./NodeFlyPort";
 
 export const NodeCreateTable = [
 	[NodeSensor.nodeTypeStatic, NodeSensor.deserialize],
@@ -34,4 +35,5 @@ export const NodeCreateTable = [
 	[NodeLogicBuffer.nodeTypeStatic, NodeLogicBuffer.deserialize],
 	[NodeLogicConstant.nodeTypeStatic, NodeLogicConstant.deserialize],
 	[NodeLogicEqual.nodeTypeStatic, NodeLogicEqual.deserialize],
+	[NodeFlyPort.nodeTypeStatic, NodeFlyPort.deserialize],
 ] as const;

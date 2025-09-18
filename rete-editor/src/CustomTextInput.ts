@@ -1,10 +1,6 @@
 import {html, LitElement} from "lit";
 
-// console.log('LitElement', LitElement);
-
-// input patch
-// @customElement('custom-number-input')
-export class CustomNumberInput extends LitElement {
+export class CustomTextInput extends LitElement {
 	// @property({type: Object}) accessor data: {
 	// 	initial: number,
 	// 	change: (v: number) => any,
@@ -17,9 +13,9 @@ export class CustomNumberInput extends LitElement {
 	};
 
 	declare data: {
-		initial: number,
-		change: (v: number) => any,
-		isCustomNumberInput: boolean,
+		initial: string,
+		change: (v: string) => any,
+		isCustomTextInput: boolean,
 	} | null;
 
 	render() {
@@ -28,7 +24,7 @@ export class CustomNumberInput extends LitElement {
 
 		return html`
 			<input
-				type="number"
+				type="text"
 				.value="${d.initial}"
 				?readonly="${d.readonly}"
 				@input="${this.handleInput}"
@@ -46,20 +42,14 @@ export class CustomNumberInput extends LitElement {
 		const d: any = this.data;
 
 		const target = e.target as HTMLInputElement;
-		const val = +target.value;
+		const val = target.value;
 
 		d.change(val);
 	}
 
 	static register() {
-		if (!customElements.get("custom-number-input")) {
-			customElements.define("custom-number-input", CustomNumberInput);
+		if (!customElements.get("custom-text-input")) {
+			customElements.define("custom-text-input", CustomTextInput);
 		}
 	}
 }
-
-// customElements.define("custom-number-input", CustomNumberInput);
-// customElements.whenDefined("custom-number-input").then(() => {
-// 	console.log("custom-number-input defined");
-// });
-// console.log('CustomNumberInput', CustomNumberInput);

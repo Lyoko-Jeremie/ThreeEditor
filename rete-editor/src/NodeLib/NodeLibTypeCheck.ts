@@ -17,6 +17,7 @@ import {
 } from "./NodeLogicType";
 import {NodeSensor} from "./NodeSensor";
 import {NodeScore} from "./NodeScore";
+import {NodeFlyPort} from "./NodeFlyPort";
 
 export function isNodeLogicType(node: NodeAllType): node is NodeLogicType {
 	return false
@@ -58,6 +59,9 @@ export function isNodeCalcType(node: NodeAllType): node is NodeCalcType {
 
 export function isNodeSensorType(node: NodeAllType): node is NodeSensor {
 	return NodeSensor.isNodeSensor(node);
+}
+export function isNodeFlyPortType(node: NodeAllType): node is NodeFlyPort {
+	return NodeFlyPort.isNodeFlyPort(node);
 }
 
 export function isNodeScoreType(node: NodeAllType): node is NodeScore {

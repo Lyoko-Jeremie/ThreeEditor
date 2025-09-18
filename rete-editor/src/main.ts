@@ -1,6 +1,7 @@
-import {CustomNumberInput, CustomTextInput} from './CustomNumberInput';
+import {CustomNumberInput} from './CustomNumberInput';
 import {ReteEditor, runLater, type SerializationExportDataType} from "./ReteEditor";
 import type * as THREE from '../../node_modules/@types/three';
+import {CustomTextInput} from "./CustomTextInput";
 
 function getSensorFromScene(scene: THREE.Scene) {
 	const sensorList: {

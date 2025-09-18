@@ -63,3 +63,57 @@ export class CustomNumberInput extends LitElement {
 // 	console.log("custom-number-input defined");
 // });
 // console.log('CustomNumberInput', CustomNumberInput);
+
+export class CustomTextInput extends LitElement {
+	// @property({type: Object}) accessor data: {
+	// 	initial: number,
+	// 	change: (v: number) => any,
+	// 	isCustomNumberInput: boolean,
+	// } | null = null;
+	static properties = {
+		data: {
+			type: Object,
+		},
+	};
+
+	declare data: {
+		initial: string,
+		change: (v: string) => any,
+		isCustomTextInput: boolean,
+	} | null;
+
+	render() {
+		if (!this.data) return html``;
+		const d: any = this.data;
+
+		return html`
+			<input
+				type="text"
+				.value="${d.initial}"
+				?readonly="${d.readonly}"
+				@input="${this.handleInput}"
+				@pointerdown=${(e: MouseEvent) => e.stopPropagation()}
+				@doubleclick=${(e: MouseEvent) => e.stopPropagation()}
+				@click=${(e: MouseEvent) => e.stopPropagation()}
+				@dblclick=${(e: MouseEvent) => e.stopPropagation()}
+			/>
+		`;
+	}
+
+	handleInput(e: InputEvent) {
+		// console.log('handleInput', e, this.data);
+		if (!this.data) return;
+		const d: any = this.data;
+
+		const target = e.target as HTMLInputElement;
+		const val = target.value;
+
+		d.change(val);
+	}
+
+	static register() {
+		if (!customElements.get("custom-text-input")) {
+			customElements.define("custom-text-input", CustomTextInput);
+		}
+	}
+}

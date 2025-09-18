@@ -51,8 +51,8 @@ export class NodeLatchCount extends NodeParent {
 	}
 }
 
-export const NodeMenuLatchCount = (editor: ReteEditorInterface): [string, () => Promise<NodeLatchCount>] => {
+export const NodeMenuLatchCount = (editor: ReteEditorInterface): [string, () => Promise<NodeLatchCount>][] => {
 	return [
-		"碰撞计数器", async () => NodeLatchCount.create(editor),
+		["碰撞计数器", async () => NodeLatchCount.create(editor)],
 	] as const;
 };

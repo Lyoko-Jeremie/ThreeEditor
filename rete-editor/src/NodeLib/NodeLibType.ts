@@ -1,4 +1,4 @@
-import type {NodeLatch} from "./NodeLatch";
+import {type NodeLatch, NodeLatchFly} from "./NodeLatch";
 import type {NodeLatchCount} from "./NodeLatchCount";
 import type {NodeLogicType} from "./NodeLogicType";
 import type {NodeSum} from "./NodeSum";
@@ -7,7 +7,7 @@ import type {NodeScore} from "./NodeScore";
 import type {GetSchemes} from "rete";
 import type {ConnectionCalc, ConnectionScore, ConnectionSensor} from "./ConnectionLib";
 
-export type NodeLatchType = NodeLatch | NodeLatchCount;
+export type NodeLatchType = NodeLatch | NodeLatchFly | NodeLatchCount;
 export type NodeCalcType = NodeLogicType | NodeLatchType | NodeSum;
 
 export type NodeAllType =

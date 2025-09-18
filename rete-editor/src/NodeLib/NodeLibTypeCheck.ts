@@ -1,4 +1,4 @@
-import {NodeLatch} from "./NodeLatch";
+import {NodeLatch, NodeLatchFly} from "./NodeLatch";
 import {NodeLatchCount} from "./NodeLatchCount";
 import {NodeSum} from "./NodeSum";
 import type {NodeAllType, NodeCalcType, NodeLatchType} from "./NodeLibType";
@@ -36,6 +36,7 @@ export function isNodeLogicType(node: NodeAllType): node is NodeLogicType {
 export function isNodeLatchType(node: NodeAllType): node is NodeLatchType {
 	return false
 		|| node.nodeType === NodeLatch.nodeTypeStatic
+		|| node.nodeType === NodeLatchFly.nodeTypeStatic
 		|| node.nodeType === NodeLatchCount.nodeTypeStatic
 		;
 }

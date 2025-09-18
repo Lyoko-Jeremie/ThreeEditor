@@ -17,12 +17,14 @@ export class NodeSensor extends NodeParent {
 		this.labelName = label;
 		this.id = id;
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.sensorOutput, '正在碰撞中', true));
+		this.addOutput('outputFlyValue', new ClassicPreset.Output(SocketLib.sensorOutputFly, '无人机 keyName', true));
 	}
 
 	outputValue: 0 | 1 = 0;
+	outputFlyValue: string = '';
 
-	data(): { outputValue: number } {
-		return {outputValue: this.outputValue};
+	data(): { outputValue: 0 | 1; outputFlyValue: string } {
+		return {outputValue: this.outputValue,  outputFlyValue: this.outputFlyValue};
 	}
 
 	serialization(): NodeSerializationDataType {

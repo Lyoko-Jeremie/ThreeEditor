@@ -85,9 +85,11 @@ export class ReteEditor implements ReteEditorInterface {
 			// }],
 			// ["NodeA", () => new NodeA(socket)],
 			// ["NodeB", () => new NodeB(socket)],
-			NodeMenuLatch(this),
-			NodeMenuLatchCount(this),
 			NodeMenuSum(this),
+			['碰撞记录器', [
+				...NodeMenuLatch(this),
+				...NodeMenuLatchCount(this),
+			]],
 			['逻辑操作', NodeMenuLogic(this)],
 			NodeMenuScore(this),
 		])
@@ -109,14 +111,15 @@ export class ReteEditor implements ReteEditorInterface {
 				const [source, target] = getSourceTarget(from, to) || [null, null];
 
 				if (source && target) {
-					const sourceNode = this.editor.getNode(source.nodeId);
-					const targetNode = this.editor.getNode(target.nodeId);
-					if (!sourceNode || !targetNode) return false;
+					// const sourceNode = this.editor.getNode(source.nodeId);
+					// const targetNode = this.editor.getNode(target.nodeId);
+					// if (!sourceNode || !targetNode) return false;
+					// sourceNode.inputs[source.key]; // to check key valid
+					// targetNode.inputs[target.key]; // to check key valid
 					const isCanMakeConnection = createConnection(
-						sourceNode,
-						source.key,
-						targetNode,
-						target.key,
+						this.editor,
+						from,
+						to,
 						true,
 					);
 					console.log('canMakeConnection', isCanMakeConnection);
@@ -134,10 +137,9 @@ export class ReteEditor implements ReteEditorInterface {
 					const targetNode = editor.getNode(target.nodeId);
 					if (!sourceNode || !targetNode) return undefined;
 					const connection = createConnection(
-						sourceNode,
-						source.key,
-						targetNode,
-						target.key,
+						this.editor,
+						from,
+						to,
 						false,
 					);
 					console.log('makeConnection created', connection);

@@ -1,5 +1,5 @@
 import {NodeSensor} from "./NodeSensor";
-import {NodeLatch} from "./NodeLatch";
+import {NodeLatch, NodeLatchFly} from "./NodeLatch";
 import {NodeLatchCount} from "./NodeLatchCount";
 import {NodeScore} from "./NodeScore";
 import {NodeSum} from "./NodeSum";
@@ -18,7 +18,9 @@ import {
 
 export const NodeCreateTable = [
 	[NodeSensor.nodeTypeStatic, NodeSensor.deserialize],
+	// [NodeSensor.nodeTypeStatic, NodeSensor.deserialize],
 	[NodeLatch.nodeTypeStatic, NodeLatch.deserialize],
+	[NodeLatchFly.nodeTypeStatic, NodeLatchFly.deserialize],
 	[NodeLatchCount.nodeTypeStatic, NodeLatchCount.deserialize],
 	[NodeSum.nodeTypeStatic, NodeSum.deserialize],
 	[NodeScore.nodeTypeStatic, NodeScore.deserialize],

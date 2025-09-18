@@ -18,7 +18,7 @@ export class NodeScore extends NodeParent {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
-		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入'));
+		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normalLogic, '输入'));
 		this.addOutput('score', new ClassicPreset.Output(SocketLib.score, '成绩'));
 	}
 

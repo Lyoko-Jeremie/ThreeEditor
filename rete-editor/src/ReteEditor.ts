@@ -85,11 +85,11 @@ export class ReteEditor implements ReteEditorInterface {
 			// }],
 			// ["NodeA", () => new NodeA(socket)],
 			// ["NodeB", () => new NodeB(socket)],
-			NodeMenuSum(this),
 			['碰撞记录器', [
 				...NodeMenuLatch(this),
 				...NodeMenuLatchCount(this),
 			]],
+			NodeMenuSum(this),
 			['逻辑操作', NodeMenuLogic(this)],
 			NodeMenuScore(this),
 		])
@@ -133,9 +133,9 @@ export class ReteEditor implements ReteEditorInterface {
 				const {editor} = context;
 
 				if (source && target) {
-					const sourceNode = editor.getNode(source.nodeId);
-					const targetNode = editor.getNode(target.nodeId);
-					if (!sourceNode || !targetNode) return undefined;
+					// const sourceNode = editor.getNode(source.nodeId);
+					// const targetNode = editor.getNode(target.nodeId);
+					// if (!sourceNode || !targetNode) return undefined;
 					const connection = createConnection(
 						this.editor,
 						from,

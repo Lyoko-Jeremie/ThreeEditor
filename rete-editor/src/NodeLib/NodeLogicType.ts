@@ -19,8 +19,8 @@ export class NodeLogicAnd extends NodeParent {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
-		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出 所有输入均不为0', true));
+		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normalLogic, '输入', true));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normalLogic, '输出 所有输入均不为0', true));
 	}
 
 	data(inputs: { inputValue?: number[] }): { outputValue: number } {
@@ -58,8 +58,8 @@ export class NodeLogicOr extends NodeParent {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
-		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出 任意输入不为0', true));
+		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normalLogic, '输入', true));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normalLogic, '输出 任意输入不为0', true));
 	}
 
 	data(inputs: { inputValue?: number[] }): { outputValue: number } {
@@ -97,8 +97,8 @@ export class NodeLogicNot extends NodeParent {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
-		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', false));
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出 输入为0', true));
+		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normalLogic, '输入', false));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normalLogic, '输出 输入为0', true));
 	}
 
 	data(inputs: { inputValue?: number[] }): { outputValue: number } {
@@ -136,8 +136,8 @@ export class NodeLogicNand extends NodeParent {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
-		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
+		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normalLogic, '输入', true));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normalLogic, '输出', true));
 	}
 
 	data(inputs: { inputValue?: number[] }): { outputValue: number } {
@@ -175,8 +175,8 @@ export class NodeLogicNor extends NodeParent {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
-		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
+		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normalLogic, '输入', true));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normalLogic, '输出', true));
 	}
 
 	data(inputs: { inputValue?: number[] }): { outputValue: number } {
@@ -214,9 +214,9 @@ export class NodeLogicXor extends NodeParent {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
-		this.addInput('inputValue1', new ClassicPreset.Input(SocketLib.normal, '输入1', false));
-		this.addInput('inputValue2', new ClassicPreset.Input(SocketLib.normal, '输入2', false));
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出 两个输入不同时为0', true));
+		this.addInput('inputValue1', new ClassicPreset.Input(SocketLib.normalLogic, '输入1', false));
+		this.addInput('inputValue2', new ClassicPreset.Input(SocketLib.normalLogic, '输入2', false));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normalLogic, '输出 两个输入不同时为0', true));
 	}
 
 	data(inputs: { inputValue1?: number[], inputValue2?: number[] }): { outputValue: number } {
@@ -256,9 +256,9 @@ export class NodeLogicXnor extends NodeParent {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
-		this.addInput('inputValue1', new ClassicPreset.Input(SocketLib.normal, '输入1', false));
-		this.addInput('inputValue2', new ClassicPreset.Input(SocketLib.normal, '输入2', false));
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
+		this.addInput('inputValue1', new ClassicPreset.Input(SocketLib.normalLogic, '输入1', false));
+		this.addInput('inputValue2', new ClassicPreset.Input(SocketLib.normalLogic, '输入2', false));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normalLogic, '输出', true));
 	}
 
 	data(inputs: { inputValue1?: number[], inputValue2?: number[] }): { outputValue: number } {
@@ -299,8 +299,8 @@ export class NodeLogicBuffer extends NodeParent {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
-		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入'));
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
+		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normalLogic, '输入'));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normalLogic, '输出', true));
 	}
 
 	// TODO ??? impl
@@ -349,7 +349,7 @@ export class NodeLogicConstant extends NodeParent {
 		this.labelName = label;
 		this.id = id ?? this.id;
 		this.inputConstValue = innerData?.inputConstValue ?? 0;
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normalLogic, '输出', true));
 		// this.addControl('inputValue', new ClassicPreset.InputControl('number', {
 		// 	initial: 0,
 		// 	change: (v) => (this.inputValue = v)
@@ -405,9 +405,9 @@ export class NodeLogicEqual extends NodeParent {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
-		this.addInput('inputValue1', new ClassicPreset.Input(SocketLib.normal, '输入1', false));
-		this.addInput('inputValue2', new ClassicPreset.Input(SocketLib.normal, '输入2', false));
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normal, '输出', true));
+		this.addInput('inputValue1', new ClassicPreset.Input(SocketLib.normalLogic, '输入1', false));
+		this.addInput('inputValue2', new ClassicPreset.Input(SocketLib.normalLogic, '输入2', false));
+		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normalLogic, '输出', true));
 	}
 
 	data(inputs: { inputValue1?: number[], inputValue2?: number[] }): { outputValue: number } {

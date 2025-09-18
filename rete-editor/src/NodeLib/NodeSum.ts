@@ -18,8 +18,8 @@ export class NodeSum extends NodeParent {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
-		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normal, '输入', true));
-		this.addOutput('outputSum', new ClassicPreset.Output(SocketLib.normal, '求和', true));
+		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normalLogic, '输入', true));
+		this.addOutput('outputSum', new ClassicPreset.Output(SocketLib.normalLogic, '求和', true));
 	}
 
 	data(inputs: { inputValue?: number[] }): { outputSum: number } {

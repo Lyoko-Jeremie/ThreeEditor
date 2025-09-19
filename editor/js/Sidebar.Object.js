@@ -508,7 +508,7 @@ function SidebarObject( editor ) {
 
 	// barrier
 
-	const isSensorRow = new UIRow();
+	const isSensorBoRow = new UIRow();
 	const isSensorBox = new UICheckbox().onChange( function () {
 
 		try {
@@ -537,9 +537,14 @@ function SidebarObject( editor ) {
 
 	} );
 
-	isSensorRow.add( new UIText( /*strings.getKey( 'sidebar/geometry/tube_geometry/curvetype' )*/ '是碰撞检测器' ).setClass( 'Label' ), isSensorBox );
+	isSensorBoRow.add( new UIText( /*strings.getKey( 'sidebar/geometry/tube_geometry/curvetype' )*/ '是碰撞检测器' ).setClass( 'Label' ), isSensorBox );
 
-	container.add( isSensorRow );
+	container.add( isSensorBoRow );
+
+	const isSensorBoxReadmeRow = new UIPanel();
+	isSensorBoxReadmeRow.setStyle( 'margin-bottom', [ '0.5em' ] );
+	isSensorBoxReadmeRow.add( new UIDiv().setTextContent( '设定为碰撞检测器的物体将可以被穿过，被穿过时或重叠时发出碰撞事件。其物理形状代表碰撞检测范围。可以在评分逻辑编辑器中设计碰撞检测器发出碰撞事件后的评分计算逻辑。' ) );
+	container.add( isSensorBoxReadmeRow );
 
 	// user data
 

@@ -10,7 +10,7 @@ export class NodeSensor extends NodeParent {
 
 	needSkipBuffer = true;
 
-	_labelPrefix: string = '碰撞传感器: ';
+	_labelPrefix: string = '碰撞检测器: ';
 
 	constructor(label: string, id: string) {
 		super(label);

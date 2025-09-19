@@ -6,17 +6,10 @@ import type {
 	Schemes
 } from "./NodeLibType";
 import {
-	isNodeCalcType,
-	isNodeFlyPortType,
-	isNodeLatchFlyType,
-	isNodeLatchType,
 	isNodeScoreType,
-	isNodeSensorType,
-	isNodeSwitchType
 } from "./NodeLibTypeCheck";
 import {noticeDialog} from "./NoticeDialog";
 import {getSourceTarget, type SocketData} from "rete-connection-plugin";
-import {SocketLib} from "./SocketLib";
 import {NodeFlyPort} from "./NodeFlyPort";
 import {NodeEventSuppressor} from "./NodeEventSwitch";
 import {
@@ -134,8 +127,8 @@ export class ConnectionCalc<A extends ConnectionCalcInputType, B extends Connect
 	}
 }
 
-export type ConnectionSensorInputType = NodeSensor | NodeEventSuppressor;
-export type ConnectionSensorOutputType = NodeLatchType | NodeLatchFlyType | NodeEventSuppressor;
+export type ConnectionSensorInputType = NodeSensor | NodeEventSwitchType;
+export type ConnectionSensorOutputType = NodeLatchType | NodeLatchFlyType | NodeEventSwitchType;
 
 export class ConnectionSensor<A extends ConnectionSensorInputType, B extends ConnectionSensorOutputType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Sensor-Latch';
@@ -166,13 +159,12 @@ export class ConnectionSensor<A extends ConnectionSensorInputType, B extends Con
 
 	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
 		return (
-				NodeSensor.nodeTypeStatic === source.nodeType ||
-				NodeEventSuppressor.nodeTypeStatic === source.nodeType
+				NodeSensor.nodeTypeStatic === source.nodeType
+				|| NodeEventSwitchKeyL.includes(target.nodeType)
 			)
-			&& (
-				NodeEventSuppressor.nodeTypeStatic === target.nodeType
-				|| NodeLatchKeyL.includes(target.nodeType)
+			&& (NodeLatchKeyL.includes(target.nodeType)
 				|| NodeLatchFlyKeyL.includes(target.nodeType)
+				|| NodeEventSwitchKeyL.includes(target.nodeType)
 			)
 			;
 	}
@@ -323,10 +315,12 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 		source,
 		sourceNode,
 		sideInput,
+		sourceSocketType: sideOutput.socket.name,
 		to,
 		target,
 		targetNode,
 		sideOutput,
+		targetSocketType: sideInput.socket.name,
 	});
 
 	// if (isNodeCalcType(sourceNode) && isNodeScoreType(targetNode)) {

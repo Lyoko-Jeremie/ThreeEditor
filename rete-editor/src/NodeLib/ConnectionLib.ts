@@ -1,13 +1,8 @@
 import {ClassicPreset, type NodeEditor} from 'rete';
-import type {NodeScore} from "./NodeScore";
-import type {NodeSensor} from "./NodeSensor";
+import {NodeScore} from "./NodeScore";
+import {NodeSensor} from "./NodeSensor";
 import {NodeParent} from "./NodeParent";
 import type {
-	// NodeAllType,
-	// NodeCalcType,
-	// NodeEventSwitchType,
-	// NodeLatchFlyType,
-	// NodeLatchType,
 	Schemes
 } from "./NodeLibType";
 import {
@@ -23,8 +18,18 @@ import {noticeDialog} from "./NoticeDialog";
 import {getSourceTarget, type SocketData} from "rete-connection-plugin";
 import {SocketLib} from "./SocketLib";
 import {NodeFlyPort} from "./NodeFlyPort";
-import type {NodeEventSuppressor} from "./NodeEventSwitch";
-import type {NodeAllType, NodeCalcType, NodeEventSwitchType, NodeLatchFlyType, NodeLatchType} from "./NodeLib";
+import {NodeEventSuppressor} from "./NodeEventSwitch";
+import {
+	type NodeAllType,
+	NodeCalcKeyL,
+	type NodeCalcType,
+	NodeEventSwitchKeyL,
+	type NodeEventSwitchType,
+	NodeLatchFlyKeyL,
+	type NodeLatchFlyType,
+	NodeLatchKeyL,
+	type NodeLatchType
+} from "./NodeLib";
 
 export type ConnectionSerializationDataType<T extends Record<string, any> = {}> = {
 	id: string,
@@ -46,7 +51,9 @@ export abstract class ConnectionParent<A extends ClassicPreset.Node, B extends C
 
 }
 
-export class ConnectionScore<A extends NodeCalcType, B extends NodeScore> extends ConnectionParent<A, B> {
+export type ConnectionScoreInputType = NodeCalcType | NodeLatchType | NodeLatchFlyType | NodeEventSwitchType;
+
+export class ConnectionScore<A extends ConnectionScoreInputType, B extends NodeScore> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Calc-Score';
 	connectionType = 'Calc-Score';
 
@@ -55,7 +62,7 @@ export class ConnectionScore<A extends NodeCalcType, B extends NodeScore> extend
 		this.id = id ?? this.id;
 	}
 
-	static create<A extends NodeCalcType, B extends NodeScore>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs']): ConnectionScore<A, B> {
+	static create<A extends ConnectionScoreInputType, B extends NodeScore>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs']): ConnectionScore<A, B> {
 		return new ConnectionScore(source, sourceOutput, target, targetInput);
 	}
 
@@ -65,13 +72,24 @@ export class ConnectionScore<A extends NodeCalcType, B extends NodeScore> extend
 			throw new Error("connectionTypeStatic not match");
 		}
 		return new ConnectionScore(
-			source as NodeCalcType,
+			source as ConnectionScoreInputType,
 			data.sourceOutput,
 			target as NodeScore,
 			data.targetInput,
 			data.id,
 		);
 	}
+
+	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
+		return (NodeCalcKeyL.includes(source.nodeType)
+				|| NodeLatchKeyL.includes(source.nodeType)
+				|| NodeLatchFlyKeyL.includes(source.nodeType)
+				|| NodeEventSwitchKeyL.includes(source.nodeType)
+			)
+			&& target.nodeType === NodeScore.nodeTypeStatic
+			;
+	}
+
 }
 
 export type ConnectionCalcInputType = NodeCalcType | NodeLatchType | NodeLatchFlyType;
@@ -102,6 +120,17 @@ export class ConnectionCalc<A extends ConnectionCalcInputType, B extends Connect
 			data.targetInput,
 			data.id,
 		);
+	}
+
+	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
+		return (NodeCalcKeyL.includes(source.nodeType)
+				|| NodeLatchKeyL.includes(source.nodeType)
+				|| NodeLatchFlyKeyL.includes(source.nodeType)
+			)
+			&& (NodeCalcKeyL.includes(target.nodeType)
+				|| NodeEventSwitchKeyL.includes(target.nodeType)
+			)
+			;
 	}
 }
 
@@ -134,6 +163,19 @@ export class ConnectionSensor<A extends ConnectionSensorInputType, B extends Con
 			data.id,
 		);
 	}
+
+	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
+		return (
+				NodeSensor.nodeTypeStatic === source.nodeType ||
+				NodeEventSuppressor.nodeTypeStatic === source.nodeType
+			)
+			&& (
+				NodeEventSuppressor.nodeTypeStatic === target.nodeType
+				|| NodeLatchKeyL.includes(target.nodeType)
+				|| NodeLatchFlyKeyL.includes(target.nodeType)
+			)
+			;
+	}
 }
 
 export class ConnectionFly<A extends NodeSensor, B extends NodeLatchFlyType> extends ConnectionParent<A, B> {
@@ -161,6 +203,10 @@ export class ConnectionFly<A extends NodeSensor, B extends NodeLatchFlyType> ext
 			data.targetInput,
 			data.id,
 		);
+	}
+
+	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
+		return NodeSensor.nodeTypeStatic === source.nodeType && NodeLatchFlyKeyL.includes(target.nodeType);
 	}
 }
 
@@ -190,6 +236,10 @@ export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeLatchFlyTy
 			data.id,
 		);
 	}
+
+	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
+		return NodeFlyPort.nodeTypeStatic === source.nodeType && NodeLatchFlyKeyL.includes(target.nodeType);
+	}
 }
 
 export const ConnectionCreateTable = [
@@ -197,6 +247,7 @@ export const ConnectionCreateTable = [
 	[ConnectionCalc.connectionTypeStatic, ConnectionCalc.deserialize],
 	[ConnectionSensor.connectionTypeStatic, ConnectionSensor.deserialize],
 	[ConnectionFly.connectionTypeStatic, ConnectionFly.deserialize],
+	[ConnectionFlyConfig.connectionTypeStatic, ConnectionFlyConfig.deserialize],
 ] as const;
 
 export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, to: SocketData, test: true): true | false | undefined;
@@ -228,6 +279,19 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 			sideOutput
 		});
 		if (test) return false;
+		return undefined;
+	}
+
+	if (isNodeScoreType(sourceNode)) {
+		noticeDialog('成绩 节点不能作为输出端');
+		if (test) return false;
+		// Score cannot be sourceNode
+		console.warn('createConnection: Score cannot be sourceNode', {
+			sourceNode,
+			sideInput: from.key,
+			targetNode,
+			sideOutput: target.key
+		});
 		return undefined;
 	}
 
@@ -265,62 +329,54 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 		sideOutput,
 	});
 
-	if (isNodeFlyPortType(sourceNode) && isNodeLatchFlyType(targetNode) && sideOutput.socket.name === SocketLib.flyPort.name) {
+	// if (isNodeCalcType(sourceNode) && isNodeScoreType(targetNode)) {
+	// 	if (test) return true;
+	// 	return ConnectionScore.create(sourceNode, source.key, targetNode, target.key);
+	// }
+	// if (isNodeCalcType(sourceNode) && (isNodeCalcType(targetNode) || isNodeSwitchType(targetNode))) {
+	// 	if (test) return true;
+	// 	return ConnectionCalc.create(sourceNode, source.key, targetNode, target.key);
+	// }
+	// if (isNodeSensorType(sourceNode) && isNodeLatchType(targetNode)) {
+	// 	if (test) return true;
+	// 	return ConnectionSensor.create(sourceNode, source.key, targetNode, target.key);
+	// }
+	// if (isNodeSensorType(sourceNode) && isNodeLatchFlyType(targetNode) && sideInput.socket.name === SocketLib.sensorOutput.name) {
+	// 	if (test) return true;
+	// 	return ConnectionSensor.create(sourceNode, source.key, targetNode, target.key);
+	// }
+	// if (isNodeSensorType(sourceNode) && isNodeLatchFlyType(targetNode) && sideInput.socket.name === SocketLib.sensorOutputFly.name) {
+	// 	if (test) return true;
+	// 	return ConnectionFly.create(sourceNode, source.key, targetNode, target.key);
+	// }
+	if (ConnectionScore.canConnect(sourceNode, targetNode)) {
 		if (test) return true;
-		return ConnectionFlyConfig.create(sourceNode, source.key, targetNode, target.key);
+		return ConnectionScore.create(sourceNode as NodeCalcType, source.key, targetNode as NodeScore, target.key);
 	}
-
-	if ((isNodeLatchType(targetNode) || isNodeLatchFlyType(targetNode)) && !(isNodeSensorType(sourceNode))) {
-		noticeDialog('锁存器 节点只能接受 传感器 节点的输入');
-		if (test) return false;
-		// Latch only accepts Sensor input
-		console.warn('createConnection: Latch only accepts Sensor input', {
-			sourceNode,
-			sideInput: from.key,
-			targetNode,
-			sideOutput: target.key
-		});
-		return undefined;
-	}
-	if (isNodeScoreType(sourceNode)) {
-		noticeDialog('成绩 节点不能作为输出端');
-		if (test) return false;
-		// Score cannot be sourceNode
-		console.warn('createConnection: Score cannot be sourceNode', {
-			sourceNode,
-			sideInput: from.key,
-			targetNode,
-			sideOutput: target.key
-		});
-		return undefined;
-	}
-
-	if (isNodeCalcType(sourceNode) && isNodeScoreType(targetNode)) {
+	if (ConnectionCalc.canConnect(sourceNode, targetNode)) {
 		if (test) return true;
-		return ConnectionScore.create(sourceNode, source.key, targetNode, target.key);
+		return ConnectionCalc.create(sourceNode as ConnectionCalcInputType, source.key, targetNode as ConnectionCalcOutputType, target.key);
 	}
-	if (isNodeCalcType(sourceNode) && (isNodeCalcType(targetNode) || isNodeSwitchType(targetNode))) {
+	if (ConnectionSensor.canConnect(sourceNode, targetNode)) {
 		if (test) return true;
-		return ConnectionCalc.create(sourceNode, source.key, targetNode, target.key);
+		return ConnectionSensor.create(sourceNode as ConnectionSensorInputType, source.key, targetNode as ConnectionSensorOutputType, target.key);
 	}
-	if (isNodeSensorType(sourceNode) && isNodeLatchType(targetNode)) {
+	if (ConnectionFly.canConnect(sourceNode, targetNode)) {
 		if (test) return true;
-		return ConnectionSensor.create(sourceNode, source.key, targetNode, target.key);
+		return ConnectionFly.create(sourceNode as NodeSensor, source.key, targetNode as NodeLatchFlyType, target.key);
 	}
-	if (isNodeSensorType(sourceNode) && isNodeLatchFlyType(targetNode) && sideInput.socket.name === SocketLib.sensorOutput.name) {
+	if (ConnectionFlyConfig.canConnect(sourceNode, targetNode)) {
 		if (test) return true;
-		return ConnectionSensor.create(sourceNode, source.key, targetNode, target.key);
-	}
-	if (isNodeSensorType(sourceNode) && isNodeLatchFlyType(targetNode) && sideInput.socket.name === SocketLib.sensorOutputFly.name) {
-		if (test) return true;
-		return ConnectionFly.create(sourceNode, source.key, targetNode, target.key);
+		return ConnectionFlyConfig.create(sourceNode as NodeFlyPort, source.key, targetNode as NodeLatchFlyType, target.key);
 	}
 
 	console.error('createConnection: not supported connection type', {
 		sourceNode,
 		sideInput: from.key,
+		sourceSocketType: sideOutput.socket.name,
 		targetNode,
-		sideOutput: target.key
+		sideOutput: target.key,
+		targetSocketType: sideInput.socket.name,
 	});
 	if (test) return false;
 	// throw new Error('createConnection: not supported connection type');

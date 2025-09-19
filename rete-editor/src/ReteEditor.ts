@@ -23,6 +23,7 @@ import {type NodeAllType, NodeCreateTable} from "./NodeLib/NodeLib";
 import {ConnectionCreateTable, type ConnectionSerializationDataType, createConnection} from "./NodeLib/ConnectionLib";
 import {NodeMenuFly} from "./NodeLib/NodeFlyPort";
 import {NodeMenuEventSuppressor} from "./NodeLib/NodeEventSwitch";
+import {NodeMenuFlyToSensor} from "./NodeLib/NodeFlyToSensor";
 
 export {
 	ClassicPreset,
@@ -95,6 +96,7 @@ export class ReteEditor implements ReteEditorInterface {
 				...NodeMenuEventSuppressor(this),
 			]],
 			...NodeMenuFly(this),
+			...NodeMenuFlyToSensor(this),
 			NodeMenuSum(this),
 			['逻辑操作', NodeMenuLogic(this)],
 			NodeMenuScore(this),

@@ -1058,7 +1058,7 @@ function SidebarObject( editor ) {
 
 			objectUserData.setValue( JSON.stringify( object.userData, null, '  ' ) );
 			collisionType.setValue( object.userData.collisionType || 'inherit' );
-			isSensorBox.setValue( !! object.userData.isSensor );
+			isSensorBox.setValue( !! object.userData.isSensorBox );
 
 		} catch ( error ) {
 

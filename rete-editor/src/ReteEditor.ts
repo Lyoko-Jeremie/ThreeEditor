@@ -24,6 +24,8 @@ import {ConnectionCreateTable, type ConnectionSerializationDataType, createConne
 import {NodeMenuFly} from "./NodeLib/NodeFlyPort";
 import {NodeMenuEventSuppressor} from "./NodeLib/NodeEventSwitch";
 import {NodeMenuFlyToSensor} from "./NodeLib/NodeFlyToSensor";
+import {CommentExtensions, CommentPlugin} from "rete-comment-plugin";
+import Swal from 'sweetalert2';
 
 export {
 	ClassicPreset,
@@ -204,6 +206,31 @@ export class ReteEditor implements ReteEditorInterface {
 		HistoryExtensions.keyboard(this.history);
 
 		this.editor.use(this.area);
+
+
+		// const comment = new CommentPlugin<Schemes, AreaExtra>({
+		// 	edit: async (comment) => {
+		// 		const os = comment.text;
+		// 		return Swal.fire({
+		// 			title: 'Edit comment',
+		// 			input: 'text',
+		// 			inputValue: os,
+		// 			showCancelButton: true,
+		// 			confirmButtonText: 'Save',
+		// 			cancelButtonText: 'Cancel',
+		// 		}).then((result) => {
+		// 			if (result.isConfirmed) {
+		// 				return result.value || os;
+		// 			}
+		// 			return os;
+		// 		});
+		// 	}
+		// });
+		//
+		// const selector = AreaExtensions.selector();
+		// const accumulating = AreaExtensions.accumulateOnCtrl();
+		//
+		// CommentExtensions.selectable(comment, selector, accumulating);
 
 		this.area.use(this.history);
 		this.area.use(this.minimap);

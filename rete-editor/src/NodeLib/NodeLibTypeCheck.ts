@@ -1,7 +1,7 @@
 import {NodeLatch, NodeLatchFly} from "./NodeLatch";
 import {NodeLatchCount, NodeLatchCountFly} from "./NodeLatchCount";
 import {NodeSum} from "./NodeSum";
-import type {NodeAllType, NodeCalcType, NodeLatchFlyType, NodeLatchType} from "./NodeLibType";
+import type {NodeAllType, NodeCalcType, NodeEventSwitchType, NodeLatchFlyType, NodeLatchType} from "./NodeLib";
 import {
 	NodeLogicAnd,
 	NodeLogicOr,
@@ -18,6 +18,7 @@ import {
 import {NodeSensor} from "./NodeSensor";
 import {NodeScore} from "./NodeScore";
 import {NodeFlyPort} from "./NodeFlyPort";
+import {NodeEventSuppressor, NodeEventSuppressorFly} from "./NodeEventSwitch";
 
 export function isNodeLogicType(node: NodeAllType): node is NodeLogicType {
 	return false
@@ -60,8 +61,27 @@ export function isNodeCalcType(node: NodeAllType): node is NodeCalcType {
 export function isNodeSensorType(node: NodeAllType): node is NodeSensor {
 	return NodeSensor.isNodeSensor(node);
 }
+
 export function isNodeFlyPortType(node: NodeAllType): node is NodeFlyPort {
 	return NodeFlyPort.isNodeFlyPort(node);
+}
+
+export function isNodeSwitchEventSuppressorType(node: NodeAllType): node is NodeEventSuppressor {
+	return false
+		|| node.nodeType === NodeEventSuppressor.nodeTypeStatic
+	;
+}
+export function isNodeSwitchEventSuppressorFlyType(node: NodeAllType): node is NodeEventSuppressorFly {
+	return false
+		|| node.nodeType === NodeEventSuppressorFly.nodeTypeStatic
+	;
+}
+
+export function isNodeSwitchType(node: NodeAllType): node is NodeEventSwitchType {
+	return false
+		|| isNodeSwitchEventSuppressorType(node)
+		|| isNodeSwitchEventSuppressorFlyType(node)
+	;
 }
 
 export function isNodeScoreType(node: NodeAllType): node is NodeScore {

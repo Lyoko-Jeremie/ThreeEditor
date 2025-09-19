@@ -1,6 +1,7 @@
 import {ClassicPreset} from "rete";
 import type {NeedSkipBuffer} from "./OpInterface";
 import {runLater} from "./runLater";
+import type {NodeBase} from "rete/_types/types";
 
 export type NodeSerializationDataType<T extends Record<string, any> = {}> = {
 	id: string,
@@ -8,7 +9,9 @@ export type NodeSerializationDataType<T extends Record<string, any> = {}> = {
 	nodeTypeStatic: string,
 } & T;
 
-export abstract class NodeParent extends ClassicPreset.Node implements NeedSkipBuffer {
+export abstract class NodeParent extends ClassicPreset.Node implements NeedSkipBuffer, NodeBase {
+	declare id: string;
+
 	abstract needSkipBuffer: boolean;
 	static nodeTypeStatic: string;
 	abstract nodeType: string;

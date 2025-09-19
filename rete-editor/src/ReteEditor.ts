@@ -10,7 +10,7 @@ import {AutoArrangePlugin, Presets as ArrangePresets} from "rete-auto-arrange-pl
 import {DataflowEngine} from "rete-engine";
 import {structures} from "rete-structures";
 import {html} from "lit";
-import {type ConnectionType, type NodeAllType, type Schemes} from "./NodeLib/NodeLibType";
+import {type ConnectionType, type Schemes} from "./NodeLib/NodeLibType";
 import type {ReteEditorInterface} from "./ReteEditorInterface";
 import {NodeMenuScore, NodeScore} from "./NodeLib/NodeScore";
 import {NodeMenuLatch} from "./NodeLib/NodeLatch";
@@ -19,9 +19,10 @@ import {NodeMenuSum} from "./NodeLib/NodeSum";
 import {NodeMenuLogic} from "./NodeLib/NodeLogicType";
 import {NodeSensor} from "./NodeLib/NodeSensor";
 import {NodeParent, type NodeSerializationDataType} from "./NodeLib/NodeParent";
-import {NodeCreateTable} from "./NodeLib/NodeLib";
+import {type NodeAllType, NodeCreateTable} from "./NodeLib/NodeLib";
 import {ConnectionCreateTable, type ConnectionSerializationDataType, createConnection} from "./NodeLib/ConnectionLib";
 import {NodeMenuFly} from "./NodeLib/NodeFlyPort";
+import {NodeMenuEventSuppressor} from "./NodeLib/NodeEventSwitch";
 
 export {
 	ClassicPreset,
@@ -89,6 +90,9 @@ export class ReteEditor implements ReteEditorInterface {
 			['碰撞记录器', [
 				...NodeMenuLatch(this),
 				...NodeMenuLatchCount(this),
+			]],
+			['碰撞抑制器', [
+				...NodeMenuEventSuppressor(this),
 			]],
 			...NodeMenuFly(this),
 			NodeMenuSum(this),

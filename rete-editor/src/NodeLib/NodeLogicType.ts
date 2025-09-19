@@ -433,6 +433,19 @@ export class NodeLogicEqual extends NodeParent {
 	}
 }
 
+export const NodeLogicTypeT = [
+	NodeLogicAnd,
+	NodeLogicOr,
+	NodeLogicNot,
+	NodeLogicNand,
+	NodeLogicNor,
+	NodeLogicXor,
+	NodeLogicXnor,
+	NodeLogicBuffer,
+	NodeLogicConstant,
+	NodeLogicEqual,
+] as const;
+
 export type NodeLogicType =
 	NodeLogicAnd |
 	NodeLogicOr |

@@ -2,18 +2,29 @@ import {ClassicPreset, type NodeEditor} from 'rete';
 import type {NodeScore} from "./NodeScore";
 import type {NodeSensor} from "./NodeSensor";
 import {NodeParent} from "./NodeParent";
-import type {NodeAllType, NodeCalcType, NodeLatchFlyType, NodeLatchType, Schemes} from "./NodeLibType";
+import type {
+	// NodeAllType,
+	// NodeCalcType,
+	// NodeEventSwitchType,
+	// NodeLatchFlyType,
+	// NodeLatchType,
+	Schemes
+} from "./NodeLibType";
 import {
-	isNodeCalcType, isNodeFlyPortType,
+	isNodeCalcType,
+	isNodeFlyPortType,
 	isNodeLatchFlyType,
 	isNodeLatchType,
 	isNodeScoreType,
-	isNodeSensorType
+	isNodeSensorType,
+	isNodeSwitchType
 } from "./NodeLibTypeCheck";
 import {noticeDialog} from "./NoticeDialog";
 import {getSourceTarget, type SocketData} from "rete-connection-plugin";
 import {SocketLib} from "./SocketLib";
 import {NodeFlyPort} from "./NodeFlyPort";
+import type {NodeEventSuppressor} from "./NodeEventSwitch";
+import type {NodeAllType, NodeCalcType, NodeEventSwitchType, NodeLatchFlyType, NodeLatchType} from "./NodeLib";
 
 export type ConnectionSerializationDataType<T extends Record<string, any> = {}> = {
 	id: string,
@@ -64,8 +75,9 @@ export class ConnectionScore<A extends NodeCalcType, B extends NodeScore> extend
 }
 
 export type ConnectionCalcInputType = NodeCalcType | NodeLatchType | NodeLatchFlyType;
+export type ConnectionCalcOutputType = NodeCalcType | NodeEventSwitchType;
 
-export class ConnectionCalc<A extends ConnectionCalcInputType, B extends NodeCalcType> extends ConnectionParent<A, B> {
+export class ConnectionCalc<A extends ConnectionCalcInputType, B extends ConnectionCalcOutputType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Calc-Calc';
 	connectionType = 'Calc-Calc';
 
@@ -74,7 +86,7 @@ export class ConnectionCalc<A extends ConnectionCalcInputType, B extends NodeCal
 		this.id = id ?? this.id;
 	}
 
-	static create<A extends ConnectionCalcInputType, B extends NodeCalcType>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs']): ConnectionCalc<A, B> {
+	static create<A extends ConnectionCalcInputType, B extends ConnectionCalcOutputType>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs']): ConnectionCalc<A, B> {
 		return new ConnectionCalc(source, sourceOutput, target, targetInput);
 	}
 
@@ -84,18 +96,19 @@ export class ConnectionCalc<A extends ConnectionCalcInputType, B extends NodeCal
 			throw new Error("connectionTypeStatic not match");
 		}
 		return new ConnectionCalc(
-			source as NodeCalcType,
+			source as ConnectionCalcInputType,
 			data.sourceOutput,
-			target as NodeCalcType,
+			target as ConnectionCalcOutputType,
 			data.targetInput,
 			data.id,
 		);
 	}
 }
 
-export type ConnectionSensorOutputType = NodeLatchType | NodeLatchFlyType;
+export type ConnectionSensorInputType = NodeSensor | NodeEventSuppressor;
+export type ConnectionSensorOutputType = NodeLatchType | NodeLatchFlyType | NodeEventSuppressor;
 
-export class ConnectionSensor<A extends NodeSensor, B extends ConnectionSensorOutputType> extends ConnectionParent<A, B> {
+export class ConnectionSensor<A extends ConnectionSensorInputType, B extends ConnectionSensorOutputType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Sensor-Latch';
 	connectionType = 'Sensor-Latch';
 
@@ -104,7 +117,7 @@ export class ConnectionSensor<A extends NodeSensor, B extends ConnectionSensorOu
 		this.id = id ?? this.id;
 	}
 
-	static create<A extends NodeSensor, B extends ConnectionSensorOutputType>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs']): ConnectionSensor<A, B> {
+	static create<A extends ConnectionSensorInputType, B extends ConnectionSensorOutputType>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs']): ConnectionSensor<A, B> {
 		return new ConnectionSensor(source, sourceOutput, target, targetInput);
 	}
 
@@ -114,9 +127,9 @@ export class ConnectionSensor<A extends NodeSensor, B extends ConnectionSensorOu
 			throw new Error("connectionTypeStatic not match");
 		}
 		return new ConnectionSensor(
-			source as NodeSensor,
+			source as ConnectionSensorInputType,
 			data.sourceOutput,
-			target as NodeLatchType,
+			target as ConnectionSensorOutputType,
 			data.targetInput,
 			data.id,
 		);
@@ -286,7 +299,7 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 		if (test) return true;
 		return ConnectionScore.create(sourceNode, source.key, targetNode, target.key);
 	}
-	if (isNodeCalcType(sourceNode) && isNodeCalcType(targetNode)) {
+	if (isNodeCalcType(sourceNode) && (isNodeCalcType(targetNode) || isNodeSwitchType(targetNode))) {
 		if (test) return true;
 		return ConnectionCalc.create(sourceNode, source.key, targetNode, target.key);
 	}

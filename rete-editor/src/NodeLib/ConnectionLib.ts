@@ -45,6 +45,17 @@ export abstract class ConnectionParent<A extends ClassicPreset.Node, B extends C
 }
 
 export type ConnectionScoreInputType = NodeCalcType | NodeLatchType | NodeLatchFlyType | NodeEventSwitchType;
+const checkConnectionScore = {
+	in: [
+		...NodeCalcKeyL,
+		...NodeLatchKeyL,
+		...NodeLatchFlyKeyL,
+		...NodeEventSwitchKeyL,
+	],
+	out: [
+		NodeScore.nodeTypeStatic,
+	],
+};
 
 export class ConnectionScore<A extends ConnectionScoreInputType, B extends NodeScore> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Calc-Score';
@@ -74,19 +85,24 @@ export class ConnectionScore<A extends ConnectionScoreInputType, B extends NodeS
 	}
 
 	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
-		return (NodeCalcKeyL.includes(source.nodeType)
-				|| NodeLatchKeyL.includes(source.nodeType)
-				|| NodeLatchFlyKeyL.includes(source.nodeType)
-				|| NodeEventSwitchKeyL.includes(source.nodeType)
-			)
-			&& target.nodeType === NodeScore.nodeTypeStatic
-			;
+		return checkConnectionScore.in.includes(source.nodeType) && checkConnectionScore.out.includes(target.nodeType);
 	}
 
 }
 
 export type ConnectionCalcInputType = NodeCalcType | NodeLatchType | NodeLatchFlyType;
 export type ConnectionCalcOutputType = NodeCalcType | NodeEventSwitchType;
+const checkConnectionCalc = {
+	in: [
+		...NodeCalcKeyL,
+		...NodeLatchKeyL,
+		...NodeLatchFlyKeyL,
+	],
+	out: [
+		...NodeCalcKeyL,
+		...NodeEventSwitchKeyL,
+	],
+};
 
 export class ConnectionCalc<A extends ConnectionCalcInputType, B extends ConnectionCalcOutputType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Calc-Calc';
@@ -116,19 +132,23 @@ export class ConnectionCalc<A extends ConnectionCalcInputType, B extends Connect
 	}
 
 	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
-		return (NodeCalcKeyL.includes(source.nodeType)
-				|| NodeLatchKeyL.includes(source.nodeType)
-				|| NodeLatchFlyKeyL.includes(source.nodeType)
-			)
-			&& (NodeCalcKeyL.includes(target.nodeType)
-				|| NodeEventSwitchKeyL.includes(target.nodeType)
-			)
-			;
+		return checkConnectionCalc.in.includes(source.nodeType) && checkConnectionCalc.out.includes(target.nodeType);
 	}
 }
 
 export type ConnectionSensorInputType = NodeSensor | NodeEventSwitchType;
 export type ConnectionSensorOutputType = NodeLatchType | NodeLatchFlyType | NodeEventSwitchType;
+const checkConnectionSensor = {
+	in: [
+		...NodeEventSwitchKeyL,
+		NodeSensor.nodeTypeStatic,
+	],
+	out: [
+		...NodeLatchKeyL,
+		...NodeLatchFlyKeyL,
+		...NodeEventSwitchKeyL,
+	],
+};
 
 export class ConnectionSensor<A extends ConnectionSensorInputType, B extends ConnectionSensorOutputType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Sensor-Latch';
@@ -158,17 +178,18 @@ export class ConnectionSensor<A extends ConnectionSensorInputType, B extends Con
 	}
 
 	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
-		return (
-				NodeSensor.nodeTypeStatic === source.nodeType
-				|| NodeEventSwitchKeyL.includes(target.nodeType)
-			)
-			&& (NodeLatchKeyL.includes(target.nodeType)
-				|| NodeLatchFlyKeyL.includes(target.nodeType)
-				|| NodeEventSwitchKeyL.includes(target.nodeType)
-			)
-			;
+		return checkConnectionSensor.in.includes(source.nodeType) && checkConnectionSensor.out.includes(target.nodeType);
 	}
 }
+
+const checkConnectionFly = {
+	in: [
+		NodeSensor.nodeTypeStatic,
+	],
+	out: [
+		...NodeLatchFlyKeyL,
+	],
+};
 
 export class ConnectionFly<A extends NodeSensor, B extends NodeLatchFlyType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Sensor-LatchFly';
@@ -198,9 +219,18 @@ export class ConnectionFly<A extends NodeSensor, B extends NodeLatchFlyType> ext
 	}
 
 	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
-		return NodeSensor.nodeTypeStatic === source.nodeType && NodeLatchFlyKeyL.includes(target.nodeType);
+		return checkConnectionFly.in.includes(source.nodeType) && checkConnectionFly.out.includes(target.nodeType);
 	}
 }
+
+const checkConnectionFlyConfig = {
+	in: [
+		NodeFlyPort.nodeTypeStatic,
+	],
+	out: [
+		...NodeLatchFlyKeyL,
+	],
+};
 
 export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeLatchFlyType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Sensor-LatchFly';
@@ -230,7 +260,7 @@ export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeLatchFlyTy
 	}
 
 	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
-		return NodeFlyPort.nodeTypeStatic === source.nodeType && NodeLatchFlyKeyL.includes(target.nodeType);
+		return checkConnectionFlyConfig.in.includes(source.nodeType) && checkConnectionFlyConfig.out.includes(target.nodeType);
 	}
 }
 
@@ -301,7 +331,7 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 		// }
 		// console.log('sideInput.socket.name', sideInput.socket.name);
 		// console.log('sideOutput.socket.name', sideOutput.socket.name);
-		noticeDialog(`连接端口类型不匹配: ${sideOutput.socket.name} -> ${sideInput.socket.name}`);
+		noticeDialog(`连接端口类型不匹配: ${sideInput.socket.name} -> ${sideOutput.socket.name}`);
 		if (test) return false;
 		return undefined;
 	}

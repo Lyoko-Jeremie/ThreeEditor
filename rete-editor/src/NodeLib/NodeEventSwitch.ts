@@ -68,13 +68,13 @@ export class NodeEventSuppressorFly extends NodeParent {
 		this.addOutput('outputEvent', new ClassicPreset.Output(SocketLib.sensorOutputFly, '无人机碰撞事件', true));
 	}
 
-	data(inputs: { inputSuppress?: number[], inputEvent?: number[] }): { outputEvent: number } {
+	data(inputs: { inputSuppress?: number[], inputEvent?: string[] }): { outputEvent: string } {
 		if (inputs.inputSuppress && inputs.inputEvent && inputs.inputEvent.length === 1) {
 			if (!!inputs.inputSuppress[0]) {
 				return {outputEvent: inputs.inputEvent[0]!};
 			}
 		}
-		return {outputEvent: 0};
+		return {outputEvent: ''};
 	}
 
 	static async create(editor: ReteEditorInterface) {
@@ -94,7 +94,7 @@ export class NodeEventSuppressorFly extends NodeParent {
 	}
 }
 
-export const NodeMenuEventSuppressor = (editor: ReteEditorInterface): [string, () => Promise<NodeEventSuppressor>][] => {
+export const NodeMenuEventSuppressor = (editor: ReteEditorInterface): [string, () => Promise<NodeEventSuppressor | NodeEventSuppressorFly>][] => {
 	return [
 		["碰撞事件抑制器", async () => NodeEventSuppressor.create(editor),],
 		["无人机碰撞事件抑制器", async () => NodeEventSuppressorFly.create(editor),],

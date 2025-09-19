@@ -1,6 +1,6 @@
 import {NodeSensor} from "./NodeSensor";
-import {NodeLatch, NodeLatchFly} from "./NodeLatch";
-import {NodeLatchCount, NodeLatchCountFly} from "./NodeLatchCount";
+import {NodeLatch, NodeLatchFly, NodeLatchFlyCombine} from "./NodeLatch";
+import {NodeLatchCount, NodeLatchCountFly, NodeLatchCountFlyCombine} from "./NodeLatchCount";
 import {NodeScore} from "./NodeScore";
 import {NodeSum} from "./NodeSum";
 import {
@@ -24,8 +24,10 @@ export const NodeCreateTable = [
 	[NodeSensor.nodeTypeStatic, NodeSensor.deserialize],
 	[NodeLatch.nodeTypeStatic, NodeLatch.deserialize],
 	[NodeLatchFly.nodeTypeStatic, NodeLatchFly.deserialize],
+	[NodeLatchFlyCombine.nodeTypeStatic, NodeLatchFlyCombine.deserialize],
 	[NodeLatchCount.nodeTypeStatic, NodeLatchCount.deserialize],
 	[NodeLatchCountFly.nodeTypeStatic, NodeLatchCountFly.deserialize],
+	[NodeLatchCountFlyCombine.nodeTypeStatic, NodeLatchCountFlyCombine.deserialize],
 	[NodeEventSuppressor.nodeTypeStatic, NodeEventSuppressor.deserialize],
 	[NodeEventSuppressorFly.nodeTypeStatic, NodeEventSuppressorFly.deserialize],
 	[NodeSum.nodeTypeStatic, NodeSum.deserialize],
@@ -45,8 +47,8 @@ export const NodeCreateTable = [
 
 export const NodeLatchTypeT = [NodeLatch, NodeLatchCount] as const;
 export type NodeLatchType = NodeLatch | NodeLatchCount;
-export const NodeLatchFlyTypeT = [NodeLatchFly, NodeLatchCountFly] as const;
-export type NodeLatchFlyType = NodeLatchFly | NodeLatchCountFly;
+export const NodeLatchFlyTypeT = [NodeLatchFly, NodeLatchCountFly, NodeLatchFlyCombine, NodeLatchCountFlyCombine] as const;
+export type NodeLatchFlyType = NodeLatchFly | NodeLatchCountFly | NodeLatchFlyCombine | NodeLatchCountFlyCombine;
 export const NodeCalcTypeT = [
 	...NodeLogicTypeT,
 	...NodeLatchTypeT,

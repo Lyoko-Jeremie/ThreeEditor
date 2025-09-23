@@ -1,8 +1,9 @@
-import {NodeParent, type NodeSerializationDataType} from "./NodeParent";
+import {NodeParent} from "./NodeParent";
 import {ClassicPreset} from "rete";
 import {SocketLib} from "./SocketLib";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
+import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 
 export class NodeFlyToSensor extends NodeParent {
 	static nodeTypeStatic: string = 'NodeFlyToSensor';

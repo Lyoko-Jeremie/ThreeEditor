@@ -23,15 +23,8 @@ import {
 	NodeLatchKeyL,
 	type NodeLatchType
 } from "./NodeLib";
+import type {ConnectionSerializationDataType} from "../ReteSerializationTypeDef";
 
-export type ConnectionSerializationDataType<T extends Record<string, any> = {}> = {
-	id: string,
-	source: string,
-	sourceOutput: string,
-	target: string,
-	targetInput: string,
-	connectionType: string,
-} & T;
 
 export abstract class ConnectionParent<A extends ClassicPreset.Node, B extends ClassicPreset.Node> extends ClassicPreset.Connection<A, B> {
 	static connectionTypeStatic: string;

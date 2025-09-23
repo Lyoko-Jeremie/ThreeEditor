@@ -2,7 +2,8 @@ import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
-import {NodeParent, type NodeSerializationDataType} from "./NodeParent";
+import {NodeParent} from "./NodeParent";
+import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 
 export class NodeEventSuppressor extends NodeParent {
 	static nodeTypeStatic: string = 'NodeEventSuppressor';

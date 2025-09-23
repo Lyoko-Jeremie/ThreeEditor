@@ -1,6 +1,7 @@
 import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
-import {NodeParent, type NodeSerializationDataType} from "./NodeParent";
+import {NodeParent} from "./NodeParent";
+import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 
 export class NodeSensor extends NodeParent {
 	static nodeTypeStatic: string = 'NodeSensor';

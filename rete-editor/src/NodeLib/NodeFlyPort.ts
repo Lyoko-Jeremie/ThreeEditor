@@ -1,9 +1,10 @@
 import {ClassicPreset, getUID} from 'rete';
 import {SocketLib} from "./SocketLib";
-import {NodeParent, type NodeSerializationDataType} from "./NodeParent";
+import {NodeParent} from "./NodeParent";
 import type {Control} from "rete/_types/presets/classic";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
+import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 
 export type NodeFlyPortInnerData = {
 	inputFlyConstValue?: string,

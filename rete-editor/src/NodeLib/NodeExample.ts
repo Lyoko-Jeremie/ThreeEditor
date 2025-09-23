@@ -2,7 +2,7 @@
 // import {SocketLib} from "./SocketLib";
 // import {nameDialog} from "./NameSwal";
 // import type {ReteEditorInterface} from "../ReteEditorInterface";
-// import {NodeParent, type NodeSerializationDataType} from "./NodeParent";
+// import {NodeParent} from "./NodeParent";
 // import {NodeDecorator} from "./NodeMeta";
 //
 // @NodeDecorator()

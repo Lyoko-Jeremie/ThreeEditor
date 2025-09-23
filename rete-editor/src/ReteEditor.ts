@@ -4,7 +4,7 @@ import {ClassicFlow, ConnectionPlugin, getSourceTarget} from 'rete-connection-pl
 import {type LitArea2D, LitPlugin, Presets} from '@retejs/lit-plugin';
 import {type MinimapExtra, MinimapPlugin} from "rete-minimap-plugin";
 import {type HistoryActions, HistoryExtensions, HistoryPlugin, Presets as PresetsHistory} from "rete-history-plugin";
-// import {CommentPlugin, CommentExtensions} from "rete-comment-plugin";
+import {CommentExtensions, CommentPlugin} from "rete-comment-plugin";
 import {type ContextMenuExtra, ContextMenuPlugin, Presets as ContextMenuPresets} from "rete-context-menu-plugin";
 import {AutoArrangePlugin, Presets as ArrangePresets} from "rete-auto-arrange-plugin";
 import {DataflowEngine} from "rete-engine";
@@ -18,13 +18,13 @@ import {NodeMenuLatchCount} from "./NodeLib/NodeLatchCount";
 import {NodeMenuSum} from "./NodeLib/NodeSum";
 import {NodeMenuLogic} from "./NodeLib/NodeLogicType";
 import {NodeSensor} from "./NodeLib/NodeSensor";
-import {NodeParent, type NodeSerializationDataType} from "./NodeLib/NodeParent";
+import {NodeParent} from "./NodeLib/NodeParent";
 import {type NodeAllType, NodeCreateTable} from "./NodeLib/NodeLib";
-import {ConnectionCreateTable, type ConnectionSerializationDataType, createConnection} from "./NodeLib/ConnectionLib";
+import {ConnectionCreateTable, createConnection} from "./NodeLib/ConnectionLib";
 import {NodeMenuFly} from "./NodeLib/NodeFlyPort";
 import {NodeMenuEventSuppressor} from "./NodeLib/NodeEventSwitch";
 import {NodeMenuFlyToSensor} from "./NodeLib/NodeFlyToSensor";
-import {CommentExtensions, CommentPlugin} from "rete-comment-plugin";
+import type {SerializationExportDataType} from "./ReteSerializationTypeDef";
 import Swal from 'sweetalert2';
 
 export {
@@ -518,11 +518,4 @@ export class ReteEditor implements ReteEditorInterface {
 		return result;
 	}
 
-}
-
-export type SerializationExportDataType = {
-	version: number,
-	nodes: NodeSerializationDataType[],
-	connections: ConnectionSerializationDataType[],
-	position: { id: string, x: number, y: number }[],
 }

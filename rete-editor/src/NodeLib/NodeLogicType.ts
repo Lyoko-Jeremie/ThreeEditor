@@ -3,7 +3,8 @@ import {SocketLib} from "./SocketLib";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import type {Control} from "rete/_types/presets/classic";
-import {NodeParent, type NodeSerializationDataType} from "./NodeParent";
+import {NodeParent} from "./NodeParent";
+import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 
 export class NodeLogicAnd extends NodeParent {
 	static nodeTypeStatic: string = 'NodeLogicAnd';

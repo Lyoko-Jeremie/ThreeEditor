@@ -1,6 +1,7 @@
-import type {NodeSerializationDataType} from "./NodeParent";
 
 // NodeMeta.ts
+import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
+
 export interface NodeMeta {
 	nodeTypeStatic: string;
 	nodeType: string;

@@ -2,7 +2,8 @@ import {ClassicPreset} from 'rete';
 import {SocketLib} from "./SocketLib";
 import {nameDialog} from "./NameSwal";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
-import {NodeParent, type NodeSerializationDataType} from "./NodeParent";
+import {NodeParent} from "./NodeParent";
+import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 
 export class NodeSum extends NodeParent {
 	static nodeTypeStatic: string = 'NodeSum';

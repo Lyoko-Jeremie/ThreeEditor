@@ -11,7 +11,6 @@ import {
 import {noticeDialog} from "./NoticeDialog";
 import {getSourceTarget, type SocketData} from "rete-connection-plugin";
 import {NodeFlyPort} from "./NodeFlyPort";
-import {NodeEventSuppressor} from "./NodeEventSwitch";
 import {
 	type NodeAllType,
 	NodeCalcKeyL,

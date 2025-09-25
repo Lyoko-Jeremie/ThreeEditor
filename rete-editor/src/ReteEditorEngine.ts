@@ -17,6 +17,8 @@ export type AreaExtra =
 	| ContextMenuExtra
 	;
 
+const VERSION_SERIALIZATION_EXPORT_DATA_TYPE = 1 as const;
+
 export class ReteEditorEngine {
 	engine = new DataflowEngine<Schemes>();
 	editor = new NodeEditor<Schemes>();
@@ -89,7 +91,7 @@ export class ReteEditorEngine {
 		// this.area?.destroy();
 	}
 
-	versionSerializationExportDataType: number = 1;
+	versionSerializationExportDataType: number = VERSION_SERIALIZATION_EXPORT_DATA_TYPE;
 
 	async serialization(): Promise<SerializationExportDataType> {
 		const nodes = this.editor.getNodes();

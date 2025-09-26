@@ -168,11 +168,11 @@ export class ReteEditorEngine {
 			}
 		}
 
-		for (const n of nodeList.values()) {
+		for (const n of Array.from(nodeList.values())) {
 			await this.editor.addNode(n as NodeAllType);
 		}
 
-		for (const c of connectionList.values()) {
+		for (const c of Array.from(connectionList.values())) {
 			await this.editor.addConnection(c);
 		}
 

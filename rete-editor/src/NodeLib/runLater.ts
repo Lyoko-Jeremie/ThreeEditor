@@ -1,5 +1,7 @@
+import {GetPromiseWithResolvers} from "../GetPromiseWithResolvers";
+
 export function runLater<T extends any = void>(f: () => T | Promise<T>, timeout = 0) {
-	const re = Promise.withResolvers<T>();
+	const re = GetPromiseWithResolvers<T>();
 	setTimeout(() => {
 		try {
 			const r = f();

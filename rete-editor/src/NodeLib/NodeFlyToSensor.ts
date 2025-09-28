@@ -1,6 +1,6 @@
 import {NodeParent} from "./NodeParent";
 import {ClassicPreset} from "rete";
-import {SocketLib} from "./SocketLib";
+import {type SensorOutputCollisionData, type SensorOutputFlyCollisionData, SocketLib} from "./SocketLib";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
@@ -23,8 +23,22 @@ export class NodeFlyToSensor extends NodeParent {
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.sensorOutput, '输出传感器事件', true));
 	}
 
-	data(inputs: { inputValue?: string[] }): { outputValue: number } {
-		return {outputValue: inputs.inputValue?.[0] ? 0 : 1};
+	data(inputs: { inputValue?: SensorOutputFlyCollisionData[] }): { outputValue: SensorOutputCollisionData } {
+		if (!inputs.inputValue || inputs.inputValue.length === 0) {
+			return {
+				outputValue: {
+					id: -1,
+					isStart: false,
+				} satisfies SensorOutputCollisionData,
+			}
+		}
+		const v = inputs.inputValue[0]!;
+		return {
+			outputValue: {
+				id: v.id,
+				isStart: v.isStart,
+			} satisfies SensorOutputCollisionData,
+		};
 	}
 
 	static async create(editor: ReteEditorInterface) {

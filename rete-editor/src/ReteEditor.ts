@@ -24,6 +24,8 @@ import {NodeMenuFlyToSensor} from "./NodeLib/NodeFlyToSensor";
 import type {SerializationExportDataType} from "./ReteSerializationTypeDef";
 import Swal from 'sweetalert2';
 import {type AreaExtra, ReteEditorEngine} from "./ReteEditorEngine";
+import {ConnectionCreateColorTable} from "./NodeLib/ConnectionLib";
+import {SocketColorTable} from "./NodeLib/SocketLib";
 
 export {
 	ClassicPreset,
@@ -99,6 +101,15 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 	async initGraph(container: HTMLElement) {
 		this.area = new AreaPlugin<Schemes, AreaExtra>(container);
 
+		// this.area.addPipe(context => {
+		// 	if (context.type == 'connectioncreate') {
+		// 		(context.data as any).editor = this.editor;
+		// 		(context.data as any).contextData = context.data;
+		// 		console.log('connectioncreate context', context);
+		// 	}
+		// 	return context
+		// });
+
 		AreaExtensions.selectableNodes(this.area, AreaExtensions.selector(), {
 			accumulating: AreaExtensions.accumulateOnCtrl(),
 		});
@@ -106,6 +117,7 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 		this.arrange.addPreset(ArrangePresets.classic.setup());
 
 		// this.render.addPreset(Presets.classic.setup());
+		console.log('Presets.classic', Presets.classic);
 		this.render.addPreset(Presets.classic.setup({
 			customize: {
 				control(context) {
@@ -127,6 +139,35 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 					// }
 					return () => html`
 						<rete-control .data=${context.payload}></rete-control>`;
+				},
+				connection: (d) => {
+					let strokeColor: string | undefined;
+					if ((d.payload as any).isPseudo) {
+						if (d.payload.source) {
+							const sourceNode = this.editor.getNode(d.payload.source);
+							if (sourceNode && sourceNode.outputs) {
+								const output = sourceNode.outputs[d.payload.sourceOutput];
+								if (output) {
+									strokeColor = SocketColorTable.get(output.socket.key);
+								}
+							}
+						}
+						if (d.payload.target) {
+							const targetNode = this.editor.getNode(d.payload.target);
+							if (targetNode && targetNode.inputs) {
+								const input = targetNode.inputs[d.payload.targetInput];
+								if (input) {
+									strokeColor = SocketColorTable.get(input.socket.key);
+								}
+							}
+						}
+					} else {
+						strokeColor = ConnectionCreateColorTable.get(d.payload.connectionType);
+					}
+					return (c) => {
+						return html`
+							<custom-connection .path=${c.path} .strokeColor=${strokeColor}></custom-connection>`;
+					};
 				}
 			}
 		}));

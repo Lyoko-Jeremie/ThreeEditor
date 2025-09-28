@@ -2,9 +2,15 @@ import {ClassicPreset} from "rete";
 import type {NeedSkipBuffer} from "./OpInterface";
 import type {NodeBase} from "rete/_types/types";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
+import {CustomSocket} from "./SocketLib";
 
 
-export abstract class NodeParent extends ClassicPreset.Node implements NeedSkipBuffer, NodeBase {
+export abstract class NodeParent extends ClassicPreset.Node<
+	// Input
+	Record<string, CustomSocket>,
+	// Output
+	Record<string, CustomSocket>
+> implements NeedSkipBuffer, NodeBase {
 	declare id: string;
 
 	abstract needSkipBuffer: boolean;

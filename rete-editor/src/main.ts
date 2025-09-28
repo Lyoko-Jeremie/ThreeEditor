@@ -3,6 +3,7 @@ import {ReteEditor, runLater} from "./ReteEditor";
 import type * as THREE from '../../node_modules/@types/three';
 import {CustomTextInput} from "./CustomTextInput";
 import type {SerializationExportDataType} from "./ReteSerializationTypeDef";
+import {CustomConnectionElement} from "./CustomConnectionElement";
 
 function getSensorFromScene(scene: THREE.Scene) {
 	const sensorList: {
@@ -26,6 +27,7 @@ async function initializeReteEditor(container: HTMLElement, data?: Serialization
 
 	CustomNumberInput.register();
 	CustomTextInput.register();
+	CustomConnectionElement.register();
 
 	const reteEditor = new ReteEditor();
 	await reteEditor.initEngine();

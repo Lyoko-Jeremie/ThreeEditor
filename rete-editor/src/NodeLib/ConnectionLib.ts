@@ -2,12 +2,8 @@ import {ClassicPreset, type NodeEditor} from 'rete';
 import {NodeScore} from "./NodeScore";
 import {NodeSensor} from "./NodeSensor";
 import {NodeParent} from "./NodeParent";
-import type {
-	Schemes
-} from "./NodeLibType";
-import {
-	isNodeScoreType,
-} from "./NodeLibTypeCheck";
+import type {Schemes} from "./NodeLibType";
+import {isNodeScoreType} from "./NodeLibTypeCheck";
 import {noticeDialog} from "./NoticeDialog";
 import {getSourceTarget, type SocketData} from "rete-connection-plugin";
 import {NodeFlyPort} from "./NodeFlyPort";
@@ -24,7 +20,7 @@ import {
 } from "./NodeLib";
 import type {ConnectionSerializationDataType} from "../ReteSerializationTypeDef";
 
-
+// 基类
 export abstract class ConnectionParent<A extends ClassicPreset.Node, B extends ClassicPreset.Node> extends ClassicPreset.Connection<A, B> {
 	static connectionTypeStatic: string;
 	abstract connectionType: string;
@@ -49,6 +45,7 @@ const checkConnectionScore = {
 	],
 };
 
+// 逻辑信号连接到成绩节点
 export class ConnectionScore<A extends ConnectionScoreInputType, B extends NodeScore> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Calc-Score';
 	connectionType = 'Calc-Score';
@@ -96,6 +93,7 @@ const checkConnectionCalc = {
 	],
 };
 
+// 逻辑信号
 export class ConnectionCalc<A extends ConnectionCalcInputType, B extends ConnectionCalcOutputType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Calc-Calc';
 	connectionType = 'Calc-Calc';
@@ -142,6 +140,7 @@ const checkConnectionSensor = {
 	],
 };
 
+// 通用触发信号
 export class ConnectionSensor<A extends ConnectionSensorInputType, B extends ConnectionSensorOutputType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Sensor-Latch';
 	connectionType = 'Sensor-Latch';
@@ -183,6 +182,7 @@ const checkConnectionFly = {
 	],
 };
 
+// 无人机触发信号
 export class ConnectionFly<A extends NodeSensor, B extends NodeLatchFlyType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Sensor-LatchFly';
 	connectionType = 'Sensor-LatchFly';
@@ -224,6 +224,7 @@ const checkConnectionFlyConfig = {
 	],
 };
 
+// 无人机配置信息
 export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeLatchFlyType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Sensor-LatchFly';
 	connectionType = 'Sensor-LatchFly';
@@ -263,6 +264,14 @@ export const ConnectionCreateTable = [
 	[ConnectionFly.connectionTypeStatic, ConnectionFly.deserialize],
 	[ConnectionFlyConfig.connectionTypeStatic, ConnectionFlyConfig.deserialize],
 ] as const;
+
+export const ConnectionCreateColorTable = new Map([
+	[ConnectionScore.connectionTypeStatic, '#ff9d9d'],
+	// [ConnectionCalc.connectionTypeStatic, '#ffffff'],
+	[ConnectionSensor.connectionTypeStatic, '#8bff91'],
+	[ConnectionFly.connectionTypeStatic, '#ffffff'],
+	[ConnectionFlyConfig.connectionTypeStatic, '#ffe54f'],
+] as const);
 
 export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, to: SocketData, test: true): true | false | undefined;
 export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, to: SocketData, test: false): ConnectionParent<NodeAllType, NodeAllType> | undefined;

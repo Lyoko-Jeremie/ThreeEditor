@@ -39,3 +39,9 @@ export type SensorOutputFlyCollisionData = {
 	// 是否是碰撞开始事件(否则为结束事件)
 	isStart: boolean;
 } | undefined;
+
+// 碰撞边沿变化类型（上升沿下降沿/开始碰撞结束碰撞）
+// 0 : 无变化
+// 1 : 上升沿/开始碰撞
+// 2 : 下降沿/结束碰撞
+export type CollisionEdgeType = 0 | 1 | 2;

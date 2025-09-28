@@ -50,7 +50,7 @@ export class NodeFlyPort extends NodeParent {
 	inputFlyConstValue = '';
 
 	data(): { outputValue: string } {
-		return {outputValue: this.inputFlyConstValue/* ? 1 : 0*/};
+		return {outputValue: this.inputFlyConstValue};
 	}
 
 	static isNodeFlyPort(node: NodeParent): node is NodeFlyPort {

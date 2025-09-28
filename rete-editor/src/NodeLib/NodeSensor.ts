@@ -1,5 +1,5 @@
 import {ClassicPreset} from 'rete';
-import {SocketLib} from "./SocketLib";
+import {type SensorOutputCollisionData, type SensorOutputFlyCollisionData, SocketLib} from "./SocketLib";
 import {NodeParent} from "./NodeParent";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 
@@ -17,15 +17,49 @@ export class NodeSensor extends NodeParent {
 		super(label);
 		this.labelName = label;
 		this.id = id;
-		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.sensorOutput, '正在碰撞中', true));
-		this.addOutput('outputFlyValue', new ClassicPreset.Output(SocketLib.sensorOutputFly, '无人机 keyName', true));
+		this.addOutput('outputCollision', new ClassicPreset.Output(SocketLib.sensorOutput, '碰撞事件', true));
+		this.addOutput('outputFlyCollision', new ClassicPreset.Output(SocketLib.sensorOutputFly, '无人机碰撞事件', true));
 	}
 
-	outputValue: 0 | 1 = 0;
-	outputFlyValue: string = '';
+	// 0 无碰撞， number 碰撞 id
+	outputCollision: SensorOutputCollisionData = undefined;
+	// 无人机端口字符串 keyName
+	outputFlyCollision: SensorOutputFlyCollisionData = undefined;
 
-	data(): { outputValue: 0 | 1; outputFlyValue: string } {
-		return {outputValue: this.outputValue,  outputFlyValue: this.outputFlyValue};
+	data(): { outputCollision: SensorOutputCollisionData; outputFlyCollision: SensorOutputFlyCollisionData } {
+		return {outputCollision: this.outputCollision, outputFlyCollision: this.outputFlyCollision};
+	}
+
+	// call this when every tick
+	cleanCollision() {
+		this.outputCollision = undefined;
+		this.outputFlyCollision = undefined;
+	}
+
+	collisionStart(id: number, flyKeyName: string) {
+		const isStart = true;
+		this.outputCollision = {
+			id: id,
+			isStart: isStart,
+		};
+		this.outputFlyCollision = {
+			isStart: isStart,
+			id: id,
+			fly: flyKeyName,
+		};
+	}
+
+	collisionEnd(id: number, flyKeyName: string) {
+		const isStart = false;
+		this.outputCollision = {
+			id: id,
+			isStart: isStart,
+		};
+		this.outputFlyCollision = {
+			isStart: isStart,
+			id: id,
+			fly: flyKeyName,
+		};
 	}
 
 	serialization(): NodeSerializationDataType {

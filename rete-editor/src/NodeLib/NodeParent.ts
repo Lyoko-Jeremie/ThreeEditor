@@ -5,6 +5,11 @@ import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 import {CustomSocket} from "./SocketLib";
 
 
+export interface NodeStateFull {
+	resetState(): void;
+}
+
+
 export abstract class NodeParent extends ClassicPreset.Node<
 	// Input
 	Record<string, CustomSocket>,

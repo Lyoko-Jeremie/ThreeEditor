@@ -6,11 +6,11 @@ import {
 } from "./SocketLib";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
-import {NodeParent} from "./NodeParent";
+import {NodeParent, type NodeStateFull} from "./NodeParent";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 
 
-export class NodeCollisionCatch extends NodeParent {
+export class NodeCollisionCatch extends NodeParent implements NodeStateFull {
 	static nodeTypeStatic: string = 'NodeCollisionCatch';
 	nodeType: string = 'NodeCollisionCatch';
 	width = 200;
@@ -48,6 +48,10 @@ export class NodeCollisionCatch extends NodeParent {
 		return {collisionState: this.collisionRefCount !== 0, isStartEdge: isStartEdge};
 	}
 
+	resetState() {
+		this.collisionRefCount = 0;
+	}
+
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '传感器事件捕获器 名称', (name) => new NodeCollisionCatch(name));
 	}
@@ -66,7 +70,7 @@ export class NodeCollisionCatch extends NodeParent {
 }
 
 
-export class NodeCollisionFlyCatch extends NodeParent {
+export class NodeCollisionFlyCatch extends NodeParent implements NodeStateFull {
 	static nodeTypeStatic: string = 'NodeCollisionFlyCatch';
 	nodeType: string = 'NodeCollisionFlyCatch';
 	width = 200;
@@ -109,6 +113,10 @@ export class NodeCollisionFlyCatch extends NodeParent {
 		return {collisionState: this.collisionRefCount !== 0, isStartEdge: isStartEdge};
 	}
 
+	resetState() {
+		this.collisionRefCount = 0;
+	}
+
 	static async create(editor: ReteEditorInterface) {
 		return nameDialog(editor, '无人机事件捕获器 名称', (name) => new NodeCollisionFlyCatch(name));
 	}
@@ -127,7 +135,7 @@ export class NodeCollisionFlyCatch extends NodeParent {
 }
 
 
-export class NodeCollisionCombineCatch extends NodeParent {
+export class NodeCollisionCombineCatch extends NodeParent implements NodeStateFull {
 	static nodeTypeStatic: string = 'NodeCollisionCombineCatch';
 	nodeType: string = 'NodeCollisionCombineCatch';
 	width = 200;
@@ -174,6 +182,10 @@ export class NodeCollisionCombineCatch extends NodeParent {
 			}
 		}
 		return {collisionState: this.collisionRefCount !== 0, isStartEdge: isStartEdge};
+	}
+
+	resetState() {
+		this.collisionRefCount = 0;
 	}
 
 	static async create(editor: ReteEditorInterface) {

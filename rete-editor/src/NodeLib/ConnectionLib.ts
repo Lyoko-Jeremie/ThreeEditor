@@ -28,6 +28,9 @@ export abstract class ConnectionParent<A extends NodeParent, B extends NodeParen
 	static connectionTypeStatic: string;
 	abstract connectionType: string;
 
+	static readableNameStatic: string;
+	abstract readableName: string;
+
 	// constructor(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], id?: string) {
 	// 	super(source, sourceOutput, target, targetInput);
 	// 	this.id = id ?? this.id;
@@ -52,6 +55,9 @@ const checkConnectionScore = {
 export class ConnectionScore<A extends ConnectionScoreInputType, B extends NodeScore> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Calc-Score';
 	connectionType = 'Calc-Score';
+
+	static readableNameStatic = '成绩连接';
+	readableName = '成绩连接';
 
 	constructor(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], id?: string) {
 		super(source, sourceOutput, target, targetInput);
@@ -101,6 +107,9 @@ export class ConnectionCalc<A extends ConnectionCalcInputType, B extends Connect
 	static connectionTypeStatic = 'Calc-Calc';
 	connectionType = 'Calc-Calc';
 
+	static readableNameStatic = '逻辑连接';
+	readableName = '逻辑连接';
+
 	constructor(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], id?: string) {
 		super(source, sourceOutput, target, targetInput);
 		this.id = id ?? this.id;
@@ -148,6 +157,9 @@ export class ConnectionSensor<A extends ConnectionSensorInputType, B extends Con
 	static connectionTypeStatic = 'Sensor-Latch';
 	connectionType = 'Sensor-Latch';
 
+	static readableNameStatic = '通用触发信号连接';
+	readableName = '通用触发信号连接';
+
 	constructor(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], id?: string) {
 		super(source, sourceOutput, target, targetInput);
 		this.id = id ?? this.id;
@@ -189,6 +201,9 @@ const checkConnectionFly = {
 export class ConnectionFly<A extends NodeSensor, B extends NodeLatchFlyType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Sensor-LatchFly';
 	connectionType = 'Sensor-LatchFly';
+
+	static readableNameStatic = '无人机触发信号连接';
+	readableName = '无人机触发信号连接';
 
 	constructor(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], id?: string) {
 		super(source, sourceOutput, target, targetInput);
@@ -232,6 +247,9 @@ export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeLatchFlyTy
 	static connectionTypeStatic = 'FlyConfig-LatchFly';
 	connectionType = 'FlyConfig-LatchFly';
 
+	static readableNameStatic = '无人机端口配置连接';
+	readableName = '无人机端口配置连接';
+
 	constructor(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], id?: string) {
 		super(source, sourceOutput, target, targetInput);
 		this.id = id ?? this.id;
@@ -260,13 +278,21 @@ export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeLatchFlyTy
 	}
 }
 
-export const ConnectionCreateTable = [
+export const ConnectionReadableNameTable = new Map([
+	[ConnectionScore.connectionTypeStatic, ConnectionScore.readableNameStatic],
+	[ConnectionCalc.connectionTypeStatic, ConnectionCalc.readableNameStatic],
+	[ConnectionSensor.connectionTypeStatic, ConnectionSensor.readableNameStatic],
+	[ConnectionFly.connectionTypeStatic, ConnectionFly.readableNameStatic],
+	[ConnectionFlyConfig.connectionTypeStatic, ConnectionFlyConfig.readableNameStatic],
+] as const);
+
+export const ConnectionCreateTable = new Map([
 	[ConnectionScore.connectionTypeStatic, ConnectionScore.deserialize],
 	[ConnectionCalc.connectionTypeStatic, ConnectionCalc.deserialize],
 	[ConnectionSensor.connectionTypeStatic, ConnectionSensor.deserialize],
 	[ConnectionFly.connectionTypeStatic, ConnectionFly.deserialize],
 	[ConnectionFlyConfig.connectionTypeStatic, ConnectionFlyConfig.deserialize],
-] as const;
+] as const);
 
 export const ConnectionCreateColorTable = new Map([
 	[ConnectionScore.connectionTypeStatic, '#ff9d9d'],

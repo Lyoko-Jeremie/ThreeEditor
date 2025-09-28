@@ -1,5 +1,5 @@
-import { css, html, LitElement } from 'lit'
-import { property } from 'lit/decorators.js'
+import {css, html, LitElement} from 'lit'
+import svgPathBounds from 'svg-path-bounds';
 
 type Position = {
 	x: number
@@ -24,36 +24,67 @@ export class CustomConnectionElement extends LitElement {
 		strokeColor: {
 			type: String,
 		},
+		txt: {
+			type: String,
+		},
 	};
 	declare start: Position
 	declare end: Position
 	declare path: string
+	declare txt: string
 	declare strokeColor: string | undefined
 
 	static styles = css`
-    svg {
-      overflow: visible !important;
-      position: absolute;
-      pointer-events: none;
-      width: 9999px;
-      height: 9999px;
-    }
+		svg {
+			overflow: visible !important;
+			position: absolute;
+			pointer-events: none;
+			width: 9999px;
+			height: 9999px;
 
-    path {
-      fill: none;
-      stroke-width: 5px;
-      pointer-events: auto;
-    }
-  `
+			z-index: 1;
+		}
+
+		path {
+			fill: none;
+			stroke-width: 5px;
+			pointer-events: auto;
+		}
+
+		span.txt {
+			position: absolute;
+			transform: translate(-50%, -50%);
+			//background: white;
+			padding: 2px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			font-size: 1em;
+
+			z-index: 2;
+
+			//height: 1.5em;
+		}
+	`
 
 	render() {
-		const stokeColorStyle = `stroke: ${this.strokeColor ? this.strokeColor : 'steelblue'}`;
-		console.log('stokeColorStyle', stokeColorStyle);
+		const stokeColorStyle = `stroke: ${this.strokeColor ? this.strokeColor : 'steelblue'};`;
+
+		let textStyle;
+		try {
+			const bbox = svgPathBounds(this.path);
+			const txtCenter = [(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2];
+			// console.log('this.txt', this.txt);
+			textStyle = `left: ${txtCenter[0]}px; top: ${txtCenter[1]}px; width: ${this.txt.length}em;`;
+		} catch (e) {
+		}
+
+		// console.log('stokeColorStyle', stokeColorStyle);
 		return html`
-      <svg data-testid="connection" .style=${stokeColorStyle}>
-        <path d=${this.path} ></path>
-      </svg>
-    `
+			<span class="txt" .style=${textStyle}>${this.txt}</span>
+			<svg data-testid="connection" .style=${stokeColorStyle}>
+				<path d=${this.path}></path>
+			</svg>
+		`
 	}
 
 	static register() {

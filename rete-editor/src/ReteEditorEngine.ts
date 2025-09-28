@@ -137,7 +137,7 @@ export class ReteEditorEngine {
 			}
 		}
 
-		const connectionCreateTable = new Map(ConnectionCreateTable);
+		const connectionCreateTable = ConnectionCreateTable;
 		const connectionList = new Map<string, ConnectionType>();
 		for (const c of data.connections) {
 			const sourceNode = nodeList.get(c.source) as NodeAllType | undefined;

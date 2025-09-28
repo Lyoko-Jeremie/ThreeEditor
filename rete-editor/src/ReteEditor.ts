@@ -24,7 +24,7 @@ import {NodeMenuFlyToSensor} from "./NodeLib/NodeFlyToSensor";
 import type {SerializationExportDataType} from "./ReteSerializationTypeDef";
 import Swal from 'sweetalert2';
 import {type AreaExtra, ReteEditorEngine} from "./ReteEditorEngine";
-import {ConnectionCreateColorTable} from "./NodeLib/ConnectionLib";
+import {ConnectionCreateColorTable, ConnectionCreateTable, ConnectionReadableNameTable} from "./NodeLib/ConnectionLib";
 import {SocketColorTable} from "./NodeLib/SocketLib";
 
 export {
@@ -142,6 +142,7 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 				},
 				connection: (d) => {
 					let strokeColor: string | undefined;
+					let readableName: string | undefined;
 					if ((d.payload as any).isPseudo) {
 						if (d.payload.source) {
 							const sourceNode = this.editor.getNode(d.payload.source);
@@ -149,6 +150,7 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 								const output = sourceNode.outputs[d.payload.sourceOutput];
 								if (output) {
 									strokeColor = SocketColorTable.get(output.socket.key);
+
 								}
 							}
 						}
@@ -163,10 +165,11 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 						}
 					} else {
 						strokeColor = ConnectionCreateColorTable.get(d.payload.connectionType);
+						readableName = ConnectionReadableNameTable.get(d.payload.connectionType);
 					}
 					return (c) => {
 						return html`
-							<custom-connection .path=${c.path} .strokeColor=${strokeColor}></custom-connection>`;
+							<custom-connection .path=${c.path} .strokeColor=${strokeColor} .txt="${readableName}"></custom-connection>`;
 					};
 				}
 			}

@@ -25,6 +25,7 @@ export const SocketColorTable = new Map([
 // 通用碰撞事件
 export type SensorOutputCollisionData = {
 	// 碰撞 id
+	// -1 means invalid data
 	id: number;
 	// 是否是碰撞开始事件(否则为结束事件)
 	isStart: boolean;

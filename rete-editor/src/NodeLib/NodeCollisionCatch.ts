@@ -36,7 +36,7 @@ export class NodeCollisionCatch extends NodeParent {
 		let isStartEdge = false;
 		if (inputs.inputCollision) {
 			const inputValue = inputs.inputCollision[0];
-			if (inputValue) {
+			if (inputValue && inputValue.id !== -1) {
 				if (inputValue.isStart) {
 					this.collisionRefCount++;
 					isStartEdge = true;
@@ -164,7 +164,7 @@ export class NodeCollisionCombineCatch extends NodeParent {
 			const inputValue = inputs.inputCollision[0];
 			const inputFlyValue = inputs.inputFlyCollision[0];
 			const portValue = inputs.controlFlyValue[0];
-			if (inputValue && inputFlyValue && portValue && inputFlyValue.fly === portValue) {
+			if (inputValue && inputFlyValue && portValue && inputFlyValue.fly === portValue && inputValue.id !== -1 && inputFlyValue.id !== -1) {
 				if (inputValue.isStart && inputFlyValue.isStart) {
 					this.collisionRefCount++;
 					isStartEdge = true;

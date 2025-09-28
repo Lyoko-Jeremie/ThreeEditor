@@ -96,7 +96,7 @@ export class ReteEditorEngine {
 	async serialization(): Promise<SerializationExportDataType> {
 		const nodes = this.editor.getNodes();
 		const connections = this.editor.getConnections();
-		return {
+		const r = {
 			version: this.versionSerializationExportDataType,
 			nodes: nodes.map(T => T.serialization()),
 			connections: connections.map(T => {
@@ -111,6 +111,8 @@ export class ReteEditorEngine {
 			}),
 			position: [],
 		};
+		console.log('serialization', r);
+		return r;
 	}
 
 	async deserialization(data: SerializationExportDataType) {

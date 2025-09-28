@@ -169,7 +169,8 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 					}
 					return (c) => {
 						return html`
-							<custom-connection .path=${c.path} .strokeColor=${strokeColor} .txt="${readableName}"></custom-connection>`;
+							<custom-connection .path=${c.path} .strokeColor=${strokeColor}
+											   .txt="${readableName}"></custom-connection>`;
 					};
 				}
 			}
@@ -378,6 +379,7 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 				y: p.y,
 			};
 		}).filter(T => !!T);
+		console.log('serialization data', d);
 		return d;
 	}
 

@@ -54,15 +54,17 @@ export class CustomConnectionElement extends LitElement {
 		span.txt {
 			position: absolute;
 			transform: translate(-50%, -50%);
-			//background: white;
+			background: var(--reteModal-bg-container-light);
 			padding: 2px;
-			border: 1px solid #ccc;
+			border: 1px solid rgba(110, 136, 255, 0.8);
 			border-radius: 4px;
 			font-size: 1em;
 
 			z-index: 2;
 
 			//height: 1.5em;
+
+			pointer-events: none;
 		}
 	`
 

@@ -56,8 +56,8 @@ export class ConnectionScore<A extends ConnectionScoreInputType, B extends NodeS
 	static connectionTypeStatic = 'Calc-Score';
 	connectionType = 'Calc-Score';
 
-	static readableNameStatic = '成绩连接';
-	readableName = '成绩连接';
+	static readableNameStatic = '成绩';
+	readableName = '成绩';
 
 	constructor(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], id?: string) {
 		super(source, sourceOutput, target, targetInput);
@@ -107,8 +107,8 @@ export class ConnectionCalc<A extends ConnectionCalcInputType, B extends Connect
 	static connectionTypeStatic = 'Calc-Calc';
 	connectionType = 'Calc-Calc';
 
-	static readableNameStatic = '逻辑连接';
-	readableName = '逻辑连接';
+	static readableNameStatic = '逻辑信号';
+	readableName = '逻辑信号';
 
 	constructor(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], id?: string) {
 		super(source, sourceOutput, target, targetInput);
@@ -157,8 +157,8 @@ export class ConnectionSensor<A extends ConnectionSensorInputType, B extends Con
 	static connectionTypeStatic = 'Sensor-Latch';
 	connectionType = 'Sensor-Latch';
 
-	static readableNameStatic = '通用触发信号连接';
-	readableName = '通用触发信号连接';
+	static readableNameStatic = '通用触发信号';
+	readableName = '通用触发信号';
 
 	constructor(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], id?: string) {
 		super(source, sourceOutput, target, targetInput);
@@ -202,8 +202,8 @@ export class ConnectionFly<A extends NodeSensor, B extends NodeLatchFlyType> ext
 	static connectionTypeStatic = 'Sensor-LatchFly';
 	connectionType = 'Sensor-LatchFly';
 
-	static readableNameStatic = '无人机触发信号连接';
-	readableName = '无人机触发信号连接';
+	static readableNameStatic = '无人机触发信号';
+	readableName = '无人机触发信号';
 
 	constructor(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], id?: string) {
 		super(source, sourceOutput, target, targetInput);
@@ -247,8 +247,8 @@ export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeLatchFlyTy
 	static connectionTypeStatic = 'FlyConfig-LatchFly';
 	connectionType = 'FlyConfig-LatchFly';
 
-	static readableNameStatic = '无人机端口配置连接';
-	readableName = '无人机端口配置连接';
+	static readableNameStatic = '无人机端口配置';
+	readableName = '无人机端口配置';
 
 	constructor(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], id?: string) {
 		super(source, sourceOutput, target, targetInput);

@@ -19,9 +19,12 @@ import {
 	type NodeLatchType
 } from "./NodeLib";
 import type {ConnectionSerializationDataType} from "../ReteSerializationTypeDef";
+import {CustomSocket, SocketLib} from "./SocketLib";
+
+type ConnectSideType = ClassicPreset.Output<CustomSocket>;
 
 // 基类
-export abstract class ConnectionParent<A extends ClassicPreset.Node, B extends ClassicPreset.Node> extends ClassicPreset.Connection<A, B> {
+export abstract class ConnectionParent<A extends NodeParent, B extends NodeParent> extends ClassicPreset.Connection<A, B> {
 	static connectionTypeStatic: string;
 	abstract connectionType: string;
 
@@ -45,7 +48,7 @@ const checkConnectionScore = {
 	],
 };
 
-// 逻辑信号连接到成绩节点
+// 逻辑信号连接到成绩节点 Calc-Score
 export class ConnectionScore<A extends ConnectionScoreInputType, B extends NodeScore> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Calc-Score';
 	connectionType = 'Calc-Score';
@@ -73,7 +76,7 @@ export class ConnectionScore<A extends ConnectionScoreInputType, B extends NodeS
 		);
 	}
 
-	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
+	static canConnect<A extends NodeParent, B extends NodeParent, AS extends ConnectSideType, BS extends ConnectSideType>(source: A, target: B, sideInput: AS, sideOutput: BS): boolean {
 		return checkConnectionScore.in.includes(source.nodeType) && checkConnectionScore.out.includes(target.nodeType);
 	}
 
@@ -93,7 +96,7 @@ const checkConnectionCalc = {
 	],
 };
 
-// 逻辑信号
+// 逻辑信号 Calc-Calc
 export class ConnectionCalc<A extends ConnectionCalcInputType, B extends ConnectionCalcOutputType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Calc-Calc';
 	connectionType = 'Calc-Calc';
@@ -121,7 +124,7 @@ export class ConnectionCalc<A extends ConnectionCalcInputType, B extends Connect
 		);
 	}
 
-	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
+	static canConnect<A extends NodeParent, B extends NodeParent, AS extends ConnectSideType, BS extends ConnectSideType>(source: A, target: B, sideInput: AS, sideOutput: BS): boolean {
 		return checkConnectionCalc.in.includes(source.nodeType) && checkConnectionCalc.out.includes(target.nodeType);
 	}
 }
@@ -140,7 +143,7 @@ const checkConnectionSensor = {
 	],
 };
 
-// 通用触发信号
+// 通用触发信号 Sensor-Latch
 export class ConnectionSensor<A extends ConnectionSensorInputType, B extends ConnectionSensorOutputType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Sensor-Latch';
 	connectionType = 'Sensor-Latch';
@@ -168,7 +171,7 @@ export class ConnectionSensor<A extends ConnectionSensorInputType, B extends Con
 		);
 	}
 
-	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
+	static canConnect<A extends NodeParent, B extends NodeParent, AS extends ConnectSideType, BS extends ConnectSideType>(source: A, target: B, sideInput: AS, sideOutput: BS): boolean {
 		return checkConnectionSensor.in.includes(source.nodeType) && checkConnectionSensor.out.includes(target.nodeType);
 	}
 }
@@ -182,7 +185,7 @@ const checkConnectionFly = {
 	],
 };
 
-// 无人机触发信号
+// 无人机触发信号 Sensor-LatchFly
 export class ConnectionFly<A extends NodeSensor, B extends NodeLatchFlyType> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Sensor-LatchFly';
 	connectionType = 'Sensor-LatchFly';
@@ -210,8 +213,8 @@ export class ConnectionFly<A extends NodeSensor, B extends NodeLatchFlyType> ext
 		);
 	}
 
-	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
-		return checkConnectionFly.in.includes(source.nodeType) && checkConnectionFly.out.includes(target.nodeType);
+	static canConnect<A extends NodeParent, B extends NodeParent, AS extends ConnectSideType, BS extends ConnectSideType>(source: A, target: B, sideInput: AS, sideOutput: BS): boolean {
+		return checkConnectionFly.in.includes(source.nodeType) && checkConnectionFly.out.includes(target.nodeType) && sideOutput.socket.name === SocketLib.sensorOutputFly.name;
 	}
 }
 
@@ -224,10 +227,10 @@ const checkConnectionFlyConfig = {
 	],
 };
 
-// 无人机配置信息
+// 无人机配置信息 FlyConfig-LatchFly
 export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeLatchFlyType> extends ConnectionParent<A, B> {
-	static connectionTypeStatic = 'Sensor-LatchFly';
-	connectionType = 'Sensor-LatchFly';
+	static connectionTypeStatic = 'FlyConfig-LatchFly';
+	connectionType = 'FlyConfig-LatchFly';
 
 	constructor(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs'], id?: string) {
 		super(source, sourceOutput, target, targetInput);
@@ -252,8 +255,8 @@ export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeLatchFlyTy
 		);
 	}
 
-	static canConnect<A extends NodeParent, B extends NodeParent>(source: A, target: B): boolean {
-		return checkConnectionFlyConfig.in.includes(source.nodeType) && checkConnectionFlyConfig.out.includes(target.nodeType);
+	static canConnect<A extends NodeParent, B extends NodeParent, AS extends ConnectSideType, BS extends ConnectSideType>(source: A, target: B, sideInput: AS, sideOutput: BS): boolean {
+		return checkConnectionFlyConfig.in.includes(source.nodeType) && checkConnectionFlyConfig.out.includes(target.nodeType) && sideInput.socket.name === SocketLib.flyPort.name;
 	}
 }
 
@@ -267,10 +270,10 @@ export const ConnectionCreateTable = [
 
 export const ConnectionCreateColorTable = new Map([
 	[ConnectionScore.connectionTypeStatic, '#ff9d9d'],
-	// [ConnectionCalc.connectionTypeStatic, '#ffffff'],
-	[ConnectionSensor.connectionTypeStatic, '#8bff91'],
-	[ConnectionFly.connectionTypeStatic, '#ffffff'],
-	[ConnectionFlyConfig.connectionTypeStatic, '#ffe54f'],
+	[ConnectionCalc.connectionTypeStatic, '#FF5722'],
+	[ConnectionSensor.connectionTypeStatic, '#9C27B0'],
+	[ConnectionFly.connectionTypeStatic, '#E91E63'],
+	[ConnectionFlyConfig.connectionTypeStatic, '#2196F3'],
 ] as const);
 
 export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, to: SocketData, test: true): true | false | undefined;
@@ -374,25 +377,25 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 	// 	if (test) return true;
 	// 	return ConnectionFly.create(sourceNode, source.key, targetNode, target.key);
 	// }
-	if (ConnectionScore.canConnect(sourceNode, targetNode)) {
+	if (ConnectionScore.canConnect(sourceNode, targetNode, sideInput, sideOutput)) {
 		if (test) return true;
 		return ConnectionScore.create(sourceNode as NodeCalcType, source.key, targetNode as NodeScore, target.key);
 	}
-	if (ConnectionCalc.canConnect(sourceNode, targetNode)) {
+	if (ConnectionCalc.canConnect(sourceNode, targetNode, sideInput, sideOutput)) {
 		if (test) return true;
 		return ConnectionCalc.create(sourceNode as ConnectionCalcInputType, source.key, targetNode as ConnectionCalcOutputType, target.key);
 	}
-	if (ConnectionSensor.canConnect(sourceNode, targetNode)) {
+	if (ConnectionFlyConfig.canConnect(sourceNode, targetNode, sideInput, sideOutput)) {
 		if (test) return true;
-		return ConnectionSensor.create(sourceNode as ConnectionSensorInputType, source.key, targetNode as ConnectionSensorOutputType, target.key);
+		return ConnectionFlyConfig.create(sourceNode as NodeFlyPort, source.key, targetNode as NodeLatchFlyType, target.key);
 	}
-	if (ConnectionFly.canConnect(sourceNode, targetNode)) {
+	if (ConnectionFly.canConnect(sourceNode, targetNode, sideInput, sideOutput)) {
 		if (test) return true;
 		return ConnectionFly.create(sourceNode as NodeSensor, source.key, targetNode as NodeLatchFlyType, target.key);
 	}
-	if (ConnectionFlyConfig.canConnect(sourceNode, targetNode)) {
+	if (ConnectionSensor.canConnect(sourceNode, targetNode, sideInput, sideOutput)) {
 		if (test) return true;
-		return ConnectionFlyConfig.create(sourceNode as NodeFlyPort, source.key, targetNode as NodeLatchFlyType, target.key);
+		return ConnectionSensor.create(sourceNode as ConnectionSensorInputType, source.key, targetNode as ConnectionSensorOutputType, target.key);
 	}
 
 	console.error('createConnection: not supported connection type', {

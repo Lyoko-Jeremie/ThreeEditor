@@ -16,7 +16,7 @@ export const SocketLib = {
 
 export const SocketColorTable = new Map([
 	[SocketLib.normalLogic.key, '#FF5722'],
-	[SocketLib.score.key, '#4CAF50'],
+	[SocketLib.score.key, '#ff9d9d'],
 	[SocketLib.flyPort.key, '#2196F3'],
 	[SocketLib.sensorOutput.key, '#9C27B0'],
 	[SocketLib.sensorOutputFly.key, '#E91E63'],

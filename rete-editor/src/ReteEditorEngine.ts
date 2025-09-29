@@ -9,7 +9,8 @@ import {NodeScore} from "./NodeLib/NodeScore";
 import {ConnectionCreateTable, createConnection} from "./NodeLib/ConnectionLib";
 import {type NodeAllType, NodeCreateTable} from "./NodeLib/NodeLib";
 import type {SerializationExportDataType} from "./ReteSerializationTypeDef";
-import {NodeParent} from "./NodeLib/NodeParent";
+import {NodeParent, type NodeStateFull} from "./NodeLib/NodeParent";
+import {NodeEndCheck} from "./NodeLib/NodeEndCheck";
 
 export type AreaExtra =
 	LitArea2D<Schemes>
@@ -185,16 +186,37 @@ export class ReteEditorEngine {
 		return this.editor.getNode(nodeId) as NodeAllType | undefined;
 	}
 
-	async engineFetchScoreResultData(): Promise<{ [nodeId: string]: ReturnType<NodeScore['data']> }> {
-		const scoreNodes = this.editor.getNodes().filter(n => NodeScore.isNodeScore(n));
-
+	async engineFetchScoreResultData(): Promise<{
+		score: { [nodeId: string]: ReturnType<NodeScore['data']> },
+		endCheck: { [nodeId: string]: ReturnType<NodeEndCheck['data']> },
+	}> {
 		this.engine.reset();
 
-		const result: { [nodeId: string]: ReturnType<NodeScore['data']> } = {};
+		const scoreNodes = this.editor.getNodes().filter(n => NodeScore.isNodeScore(n));
+		const endCheckNodes = this.editor.getNodes().filter(n => NodeEndCheck.isNodeEndCheck(n));
+
+		const score: { [nodeId: string]: ReturnType<NodeScore['data']> } = {};
 		for (const n of scoreNodes) {
-			result[n.id] = await this.engine.fetch(n);
+			score[n.id] = await this.engine.fetch(n);
 		}
-		return result;
+		const endCheck: { [nodeId: string]: ReturnType<NodeEndCheck['data']> } = {};
+		for (const n of endCheckNodes) {
+			endCheck[n.id] = await this.engine.fetch(n);
+		}
+
+		console.log('engineFetchScoreResultData', {score, endCheck});
+		return {score, endCheck};
+	}
+
+	async resetNodes() {
+		this.engine.reset();
+
+		const nodeList = this.editor.getNodes();
+		for (const n of nodeList) {
+			if ((n as NodeStateFull).resetState) {
+				(n as NodeStateFull).resetState();
+			}
+		}
 	}
 
 }

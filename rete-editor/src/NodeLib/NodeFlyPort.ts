@@ -5,6 +5,7 @@ import type {Control} from "rete/_types/presets/classic";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
+import {NODE_WIDTH} from "./NodeConstantConfig";
 
 export type NodeFlyPortInnerData = {
 	inputFlyConstValue?: string,
@@ -13,7 +14,7 @@ export type NodeFlyPortInnerData = {
 export class NodeFlyPort extends NodeParent {
 	static nodeTypeStatic: string = 'NodeFlyPort';
 	nodeType: string = 'NodeFlyPort';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	styles() {

@@ -8,12 +8,13 @@ import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import {NodeParent, type NodeStateFull} from "./NodeParent";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
+import {NODE_WIDTH} from "./NodeConstantConfig";
 
 
 export class NodeCollisionCatch extends NodeParent implements NodeStateFull {
 	static nodeTypeStatic: string = 'NodeCollisionCatch';
 	nodeType: string = 'NodeCollisionCatch';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = false;
@@ -80,7 +81,7 @@ export class NodeCollisionCatch extends NodeParent implements NodeStateFull {
 export class NodeCollisionFlyCatch extends NodeParent implements NodeStateFull {
 	static nodeTypeStatic: string = 'NodeCollisionFlyCatch';
 	nodeType: string = 'NodeCollisionFlyCatch';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = false;
@@ -152,7 +153,7 @@ export class NodeCollisionFlyCatch extends NodeParent implements NodeStateFull {
 export class NodeCollisionCombineCatch extends NodeParent implements NodeStateFull {
 	static nodeTypeStatic: string = 'NodeCollisionCombineCatch';
 	nodeType: string = 'NodeCollisionCombineCatch';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = false;

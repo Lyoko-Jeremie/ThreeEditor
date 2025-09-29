@@ -29,6 +29,7 @@ import {SocketColorTable, SocketNameTable} from "./NodeLib/SocketLib";
 import {NodeMenuCollisionCatch} from "./NodeLib/NodeCollisionCatch";
 import {NodeMenuLogicLatch} from "./NodeLib/NodeLogicLatch";
 import {NodeMenuEndCheck} from "./NodeLib/NodeEndCheck";
+import {NodeMenuToolsLib} from "./NodeLib/NodeToolsLib/NodeMenuToolsLib";
 
 export {
 	ClassicPreset,
@@ -98,7 +99,8 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 			['逻辑操作', NodeMenuLogic(this)],
 			NodeMenuScore(this),
 			NodeMenuEndCheck(this),
-		])
+			['工具节点', NodeMenuToolsLib(this)],
+		]),
 	});
 	// scopes = new ScopesPlugin<Schemes>({
 	// 	// exclude: id => {
@@ -289,6 +291,7 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 	}
 
 	async reLayout() {
+		await this.updateAllNodeSizes();
 		await this.arrange.layout({
 			options: {
 				// 'org.eclipse.elk.layered.crossingMinimization.strategy': 'MEDIAN_LAYER_SWEEP',
@@ -306,6 +309,7 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 
 			} as any,
 		});
+		await this.updateMinimap();
 		// console.log('arrange', this.arrange);
 	}
 

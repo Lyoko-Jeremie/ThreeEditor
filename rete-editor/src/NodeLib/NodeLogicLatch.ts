@@ -4,11 +4,12 @@ import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import {NodeParent, type NodeStateFull} from "./NodeParent";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
+import {NODE_WIDTH} from './NodeConstantConfig';
 
 export class NodeLogicLatch extends NodeParent implements NodeStateFull {
 	static nodeTypeStatic: string = 'NodeLogicLatch';
 	nodeType: string = 'NodeLogicLatch';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = false;

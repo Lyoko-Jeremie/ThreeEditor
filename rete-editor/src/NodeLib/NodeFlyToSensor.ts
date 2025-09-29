@@ -4,11 +4,12 @@ import {type SensorOutputCollisionData, type SensorOutputFlyCollisionData, Socke
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
+import {NODE_WIDTH} from "./NodeConstantConfig";
 
 export class NodeFlyToSensor extends NodeParent {
 	static nodeTypeStatic: string = 'NodeFlyToSensor';
 	nodeType: string = 'NodeFlyToSensor';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = true;

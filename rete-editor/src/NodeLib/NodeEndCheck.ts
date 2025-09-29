@@ -4,11 +4,12 @@ import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import {NodeParent, type NodeStateFull} from "./NodeParent";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
+import {NODE_WIDTH} from "./NodeConstantConfig";
 
 export class NodeEndCheck extends NodeParent implements NodeStateFull {
 	static nodeTypeStatic: string = 'NodeEndCheck';
 	nodeType: string = 'NodeEndCheck';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = true;

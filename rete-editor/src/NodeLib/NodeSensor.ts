@@ -2,11 +2,12 @@ import {ClassicPreset} from 'rete';
 import {type SensorOutputCollisionData, type SensorOutputFlyCollisionData, SocketLib} from "./SocketLib";
 import {NodeParent} from "./NodeParent";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
+import {NODE_WIDTH} from "./NodeConstantConfig";
 
 export class NodeSensor extends NodeParent {
 	static nodeTypeStatic: string = 'NodeSensor';
 	nodeType: string = 'NodeSensor';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = true;

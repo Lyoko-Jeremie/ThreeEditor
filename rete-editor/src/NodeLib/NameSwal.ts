@@ -18,7 +18,16 @@ export async function nameDialog<T extends NeedSkipBuffer>(editor: ReteEditorInt
 		runLater(async () => {
 			await editor.updateOneNodeSize(n);
 			await editor.updateMinimap();
-		}, 50);
+		}, 50).catch(console.error);
 		return n;
 	});
+}
+
+export async function callNoDialog<T extends NeedSkipBuffer>(editor: ReteEditorInterface, f: () => T | Promise<T>) {
+	const n = await f();
+	runLater(async () => {
+		await editor.updateOneNodeSize(n);
+		await editor.updateMinimap();
+	}, 50).catch(console.error);
+	return n;
 }

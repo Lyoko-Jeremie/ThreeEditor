@@ -9,7 +9,7 @@
 // export class NodeExample extends NodeParent {
 // 	// static nodeTypeStatic: string = 'NodeSum';
 // 	// nodeType: string = 'NodeSum';
-// 	// width = 200;
+// 	// width = NODE_WIDTH;
 // 	// height!: number;
 //
 // 	needSkipBuffer = true;

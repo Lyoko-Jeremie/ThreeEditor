@@ -4,11 +4,12 @@ import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import {NodeParent} from "./NodeParent";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
+import {NODE_WIDTH} from "./NodeConstantConfig";
 
 export class NodeScore extends NodeParent {
 	static nodeTypeStatic: string = 'NodeScore';
 	nodeType: string = 'NodeScore';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = true;

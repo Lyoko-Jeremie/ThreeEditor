@@ -5,11 +5,12 @@ import {nameDialog} from "./NameSwal";
 import type {Control} from "rete/_types/presets/classic";
 import {NodeParent} from "./NodeParent";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
+import {NODE_WIDTH} from "./NodeConstantConfig";
 
 export class NodeLogicAnd extends NodeParent {
 	static nodeTypeStatic: string = 'NodeLogicAnd';
 	nodeType: string = 'NodeLogicAnd';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = true;
@@ -52,7 +53,7 @@ export class NodeLogicAnd extends NodeParent {
 export class NodeLogicOr extends NodeParent {
 	static nodeTypeStatic: string = 'NodeLogicOr';
 	nodeType: string = 'NodeLogicOr';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = true;
@@ -95,7 +96,7 @@ export class NodeLogicOr extends NodeParent {
 export class NodeLogicNot extends NodeParent {
 	static nodeTypeStatic: string = 'NodeLogicNot';
 	nodeType: string = 'NodeLogicNot';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = true;
@@ -138,7 +139,7 @@ export class NodeLogicNot extends NodeParent {
 export class NodeLogicNand extends NodeParent {
 	static nodeTypeStatic: string = 'NodeLogicNand';
 	nodeType: string = 'NodeLogicNand';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = true;
@@ -181,7 +182,7 @@ export class NodeLogicNand extends NodeParent {
 export class NodeLogicNor extends NodeParent {
 	static nodeTypeStatic: string = 'NodeLogicNor';
 	nodeType: string = 'NodeLogicNor';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = true;
@@ -224,7 +225,7 @@ export class NodeLogicNor extends NodeParent {
 export class NodeLogicXor extends NodeParent {
 	static nodeTypeStatic: string = 'NodeLogicXor';
 	nodeType: string = 'NodeLogicXor';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = true;
@@ -270,7 +271,7 @@ export class NodeLogicXor extends NodeParent {
 export class NodeLogicXnor extends NodeParent {
 	static nodeTypeStatic: string = 'NodeLogicXnor';
 	nodeType: string = 'NodeLogicXnor';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = true;
@@ -317,7 +318,7 @@ export class NodeLogicXnor extends NodeParent {
 export class NodeLogicBuffer extends NodeParent {
 	static nodeTypeStatic: string = 'NodeLogicBuffer';
 	nodeType: string = 'NodeLogicBuffer';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = true;
@@ -366,7 +367,7 @@ export type NodeLogicConstantInnerData = {
 export class NodeLogicConstant extends NodeParent {
 	static nodeTypeStatic: string = 'NodeLogicConstant';
 	nodeType: string = 'NodeLogicConstant';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	styles() {
@@ -431,7 +432,7 @@ export class NodeLogicConstant extends NodeParent {
 export class NodeLogicEqual extends NodeParent {
 	static nodeTypeStatic: string = 'NodeLogicEqual';
 	nodeType: string = 'NodeLogicEqual';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = true;

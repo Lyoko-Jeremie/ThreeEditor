@@ -21,6 +21,7 @@ import {CustomSocket, SocketLib} from "./SocketLib";
 import type {NodeCollisionCatch} from "./NodeCollisionCatch";
 import {NodeEndCheck} from "./NodeEndCheck";
 import {NodeLogicConstant} from "./NodeLogicType";
+import {NodeToolsLibKeyL} from "./NodeToolsLib/NodeMenuToolsLib";
 
 type ConnectSideType = ClassicPreset.Output<CustomSocket>;
 
@@ -46,6 +47,7 @@ const checkConnectionScore = {
 		...NodeLatchKeyL,
 		...NodeEventSwitchKeyL,
 		...NodeCollisionCatchKeyL,
+		...NodeToolsLibKeyL,
 	],
 	out: [
 		NodeScore.nodeTypeStatic,
@@ -100,10 +102,12 @@ const checkConnectionCalc = {
 		...NodeCalcKeyL,
 		...NodeLatchKeyL,
 		...NodeCollisionCatchKeyL,
+		...NodeToolsLibKeyL,
 	],
 	out: [
 		...NodeCalcKeyL,
 		...NodeEventSwitchKeyL,
+		...NodeToolsLibKeyL,
 		NodeEndCheck.nodeTypeStatic,
 	],
 };
@@ -158,6 +162,7 @@ const checkConnectionSensor = {
 		...NodeLatchKeyL,
 		...NodeEventSwitchKeyL,
 		...NodeCollisionCatchKeyL,
+		...NodeToolsLibKeyL,
 	],
 };
 

@@ -23,6 +23,11 @@ import {NodeFlyToSensor} from "./NodeFlyToSensor";
 import {NodeCollisionCatch, NodeCollisionCombineCatch, NodeCollisionFlyCatch} from "./NodeCollisionCatch";
 import {NodeLogicLatch} from "./NodeLogicLatch";
 import {NodeEndCheck} from "./NodeEndCheck";
+import {
+	NodeToolsLibCreateTable,
+	type NodeToolsLibType,
+	NodeToolsLibTypeT
+} from "./NodeToolsLib/NodeMenuToolsLib";
 
 export const NodeCreateTable = [
 	[NodeSensor.nodeTypeStatic, NodeSensor.deserialize],
@@ -48,6 +53,7 @@ export const NodeCreateTable = [
 	[NodeLogicEqual.nodeTypeStatic, NodeLogicEqual.deserialize],
 	[NodeFlyPort.nodeTypeStatic, NodeFlyPort.deserialize],
 	[NodeFlyToSensor.nodeTypeStatic, NodeFlyToSensor.deserialize],
+	...NodeToolsLibCreateTable,
 ] as const;
 
 export const NodeCollisionCatchTypeT = [NodeCollisionCatch, NodeCollisionFlyCatch, NodeCollisionCombineCatch] as const;
@@ -75,6 +81,7 @@ export const NodeAllTypeT = [
 	...NodeCalcTypeT,
 	NodeScore,
 	NodeEndCheck,
+	...NodeToolsLibTypeT,
 ] as const;
 export type NodeAllType =
 	NodeSensor |
@@ -84,7 +91,8 @@ export type NodeAllType =
 	NodeEventSwitchType |
 	NodeCalcType |
 	NodeScore |
-	NodeEndCheck
+	NodeEndCheck |
+	NodeToolsLibType
 	;
 
 export const NodeCollisionCatchKeyL = NodeCollisionCatchTypeT.map(n => n.nodeTypeStatic);

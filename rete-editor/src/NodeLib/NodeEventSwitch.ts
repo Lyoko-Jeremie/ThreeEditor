@@ -4,11 +4,12 @@ import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import {NodeParent} from "./NodeParent";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
+import {NODE_WIDTH} from "./NodeConstantConfig";
 
 export class NodeEventSuppressor extends NodeParent {
 	static nodeTypeStatic: string = 'NodeEventSuppressor';
 	nodeType: string = 'NodeEventSuppressor';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = false;

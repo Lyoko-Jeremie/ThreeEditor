@@ -4,11 +4,12 @@ import {nameDialog} from "./NameSwal";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {NodeParent} from "./NodeParent";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
+import {NODE_WIDTH} from "./NodeConstantConfig";
 
 export class NodeSum extends NodeParent {
 	static nodeTypeStatic: string = 'NodeSum';
 	nodeType: string = 'NodeSum';
-	width = 200;
+	width = NODE_WIDTH;
 	height!: number;
 
 	needSkipBuffer = true;

@@ -13,7 +13,7 @@ export class NodeLatch extends NodeParent {
 
 	needSkipBuffer = false;
 
-	_labelPrefix: string = '逻辑锁存器: ';
+	_labelPrefix: string = '碰撞锁存器: ';
 
 	constructor(label: string, id?: string) {
 		super(label);
@@ -36,7 +36,7 @@ export class NodeLatch extends NodeParent {
 	}
 
 	static async create(editor: ReteEditorInterface) {
-		return nameDialog(editor, '逻辑锁存器 名称', (name) => new NodeLatch(name));
+		return nameDialog(editor, '碰撞锁存器 名称', (name) => new NodeLatch(name));
 	}
 
 	serialization(): NodeSerializationDataType {
@@ -54,6 +54,6 @@ export class NodeLatch extends NodeParent {
 
 export const NodeMenuLatch = (editor: ReteEditorInterface): [string, () => Promise<NodeLatch>][] => {
 	return [
-		["逻辑锁存器", async () => NodeLatch.create(editor),],
+		["碰撞锁存器", async () => NodeLatch.create(editor),],
 	] as const;
 };

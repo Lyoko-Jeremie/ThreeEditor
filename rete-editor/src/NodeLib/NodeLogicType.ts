@@ -343,7 +343,7 @@ export class NodeLogicConstant extends NodeParent {
 
 	needSkipBuffer = true;
 
-	_labelPrefix: string = '逻辑常量计算器: ';
+	_labelPrefix: string = '逻辑常量节点: ';
 
 	constructor(label: string, id?: string, innerData?: NodeLogicConstantInnerData) {
 		super(label);
@@ -375,7 +375,7 @@ export class NodeLogicConstant extends NodeParent {
 	}
 
 	static async create(editor: ReteEditorInterface) {
-		return nameDialog(editor, '逻辑常量计算器 名称', (name) => new NodeLogicConstant(name));
+		return nameDialog(editor, '逻辑常量节点 名称', (name) => new NodeLogicConstant(name));
 	}
 
 	serialization(): NodeSerializationDataType<NodeLogicConstantInnerData> {
@@ -462,6 +462,7 @@ export type NodeLogicType =
 
 export const NodeMenuLogic = (editor: ReteEditorInterface): [string, () => Promise<NodeLogicType>][] => {
 	return [
+		['逻辑常量节点', () => NodeLogicConstant.create(editor)],
 		['逻辑与计算器', () => NodeLogicAnd.create(editor)],
 		['逻辑或计算器', () => NodeLogicOr.create(editor)],
 		['逻辑非计算器', () => NodeLogicNot.create(editor)],
@@ -470,7 +471,6 @@ export const NodeMenuLogic = (editor: ReteEditorInterface): [string, () => Promi
 		['逻辑异或计算器', () => NodeLogicXor.create(editor)],
 		['逻辑同或计算器', () => NodeLogicXnor.create(editor)],
 		['逻辑缓冲计算器', () => NodeLogicBuffer.create(editor)],
-		['逻辑常量计算器', () => NodeLogicConstant.create(editor)],
 		['逻辑等于计算器', () => NodeLogicEqual.create(editor)],
 	] as const;
 };

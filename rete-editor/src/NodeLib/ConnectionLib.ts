@@ -19,6 +19,8 @@ import {
 import type {ConnectionSerializationDataType} from "../ReteSerializationTypeDef";
 import {CustomSocket, SocketLib} from "./SocketLib";
 import type {NodeCollisionCatch} from "./NodeCollisionCatch";
+import {NodeEndCheck} from "./NodeEndCheck";
+import {NodeLogicConstant} from "./NodeLogicType";
 
 type ConnectSideType = ClassicPreset.Output<CustomSocket>;
 
@@ -47,6 +49,7 @@ const checkConnectionScore = {
 	],
 	out: [
 		NodeScore.nodeTypeStatic,
+		NodeEndCheck.nodeTypeStatic,
 	],
 };
 
@@ -84,6 +87,7 @@ export class ConnectionScore<A extends ConnectionScoreInputType, B extends NodeS
 	static canConnect<A extends NodeParent, B extends NodeParent, AS extends ConnectSideType, BS extends ConnectSideType>(source: A, target: B, sideInput: AS, sideOutput: BS): boolean {
 		return checkConnectionScore.in.includes(source.nodeType) && checkConnectionScore.out.includes(target.nodeType)
 			&& sideInput.socket.key === SocketLib.normalLogic.key && sideOutput.socket.key === SocketLib.normalLogic.key
+			&& source.nodeType !== NodeLogicConstant.nodeTypeStatic
 			;
 	}
 
@@ -100,6 +104,7 @@ const checkConnectionCalc = {
 	out: [
 		...NodeCalcKeyL,
 		...NodeEventSwitchKeyL,
+		NodeEndCheck.nodeTypeStatic,
 	],
 };
 
@@ -345,9 +350,10 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 		return undefined;
 	}
 
-	if (sourceNode.nodeType !== NodeScore.nodeTypeStatic) {
+	// TODO loop-back check
+
+	if (sourceNode.nodeType === NodeScore.nodeTypeStatic) {
 		noticeDialog('成绩 节点不能作为输出端');
-		if (test) return false;
 		// Score cannot be sourceNode
 		console.warn('createConnection: Score cannot be sourceNode', {
 			sourceNode,
@@ -355,6 +361,19 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 			targetNode,
 			sideOutput: target.key
 		});
+		if (test) return false;
+		return undefined;
+	}
+	if (sourceNode.nodeType === NodeEndCheck.nodeTypeStatic) {
+		noticeDialog('成绩完成检测 节点不能作为输出端');
+		// Score cannot be sourceNode
+		console.warn('createConnection: EndCheck cannot be sourceNode', {
+			sourceNode,
+			sideInput: from.key,
+			targetNode,
+			sideOutput: target.key
+		});
+		if (test) return false;
 		return undefined;
 	}
 

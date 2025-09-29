@@ -27,6 +27,7 @@ import {ConnectionCreateColorTable, ConnectionReadableNameTable} from "./NodeLib
 import {SocketColorTable, SocketNameTable} from "./NodeLib/SocketLib";
 import {NodeMenuCollisionCatch} from "./NodeLib/NodeCollisionCatch";
 import {NodeMenuLogicLatch} from "./NodeLib/NodeLogicLatch";
+import {NodeMenuEndCheck} from "./NodeLib/NodeEndCheck";
 
 export {
 	ClassicPreset,
@@ -95,6 +96,7 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 			NodeMenuSum(this),
 			['逻辑操作', NodeMenuLogic(this)],
 			NodeMenuScore(this),
+			NodeMenuEndCheck(this),
 		])
 	});
 	area?: AreaPlugin<Schemes, AreaExtra>;

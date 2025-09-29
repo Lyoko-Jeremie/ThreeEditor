@@ -2,10 +2,10 @@ import {ClassicPreset} from 'rete';
 import {type SensorOutputCollisionData, SocketLib} from "./SocketLib";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
-import {NodeParent} from "./NodeParent";
+import {NodeParent, type NodeStateFull} from "./NodeParent";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 
-export class NodeLatchCount extends NodeParent {
+export class NodeLatchCount extends NodeParent implements NodeStateFull {
 	static nodeTypeStatic: string = 'NodeLatchCount';
 	nodeType: string = 'NodeLatchCount';
 	width = 200;
@@ -33,6 +33,10 @@ export class NodeLatchCount extends NodeParent {
 			}
 		}
 		return {latchCountState: this.latchCountState};
+	}
+
+	resetState() {
+		this.latchCountState = 0;
 	}
 
 	static async create(editor: ReteEditorInterface) {

@@ -21,6 +21,7 @@ import {NodeFlyPort} from "./NodeFlyPort";
 import {NodeEventSuppressor, NodeEventSuppressorFly} from "./NodeEventSwitch";
 import {NodeFlyToSensor} from "./NodeFlyToSensor";
 import {NodeCollisionCatch, NodeCollisionCombineCatch, NodeCollisionFlyCatch} from "./NodeCollisionCatch";
+import {NodeLogicLatch} from "./NodeLogicLatch";
 
 export const NodeCreateTable = [
 	[NodeSensor.nodeTypeStatic, NodeSensor.deserialize],
@@ -29,6 +30,7 @@ export const NodeCreateTable = [
 	[NodeCollisionCombineCatch.nodeTypeStatic, NodeCollisionCombineCatch.deserialize],
 	[NodeLatch.nodeTypeStatic, NodeLatch.deserialize],
 	[NodeLatchCount.nodeTypeStatic, NodeLatchCount.deserialize],
+	[NodeLogicLatch.nodeTypeStatic, NodeLogicLatch.deserialize],
 	[NodeEventSuppressor.nodeTypeStatic, NodeEventSuppressor.deserialize],
 	[NodeEventSuppressorFly.nodeTypeStatic, NodeEventSuppressorFly.deserialize],
 	[NodeSum.nodeTypeStatic, NodeSum.deserialize],
@@ -55,8 +57,9 @@ export const NodeCalcTypeT = [
 	...NodeLogicTypeT,
 	...NodeLatchTypeT,
 	NodeSum,
+	NodeLogicLatch,
 ] as const;
-export type NodeCalcType = NodeLogicType | NodeLatchType | NodeSum;
+export type NodeCalcType = NodeLogicType | NodeLogicLatch | NodeLatchType | NodeSum;
 export const NodeEventSwitchTypeT = [
 	NodeEventSuppressor,
 	NodeEventSuppressorFly,
@@ -84,7 +87,7 @@ export type NodeAllType =
 
 export const NodeCollisionCatchKeyL = NodeCollisionCatchTypeT.map(n => n.nodeTypeStatic);
 export const NodeLatchKeyL = NodeLatchTypeT.map(n => n.nodeTypeStatic);
-export const NodeLogicKeyL = NodeLogicTypeT.map(n => n.nodeTypeStatic);
+// export const NodeLogicKeyL = NodeLogicTypeT.map(n => n.nodeTypeStatic);
 export const NodeCalcKeyL = NodeCalcTypeT.map(n => n.nodeTypeStatic);
 export const NodeEventSwitchKeyL = NodeEventSwitchTypeT.map(n => n.nodeTypeStatic);
 export const NodeAllKeyL = NodeAllTypeT.map(n => n.nodeTypeStatic);

@@ -1,4 +1,4 @@
-import {ClassicPreset, NodeEditor} from 'rete';
+import {ClassicPreset} from 'rete';
 import {AreaExtensions, AreaPlugin, NodeView} from 'rete-area-plugin';
 import {type LitArea2D, LitPlugin, Presets} from '@retejs/lit-plugin';
 import {type MinimapExtra, MinimapPlugin} from "rete-minimap-plugin";
@@ -8,25 +8,25 @@ import {type ContextMenuExtra, ContextMenuPlugin, Presets as ContextMenuPresets}
 import {AutoArrangePlugin, Presets as ArrangePresets} from "rete-auto-arrange-plugin";
 import {structures} from "rete-structures";
 import {html} from "lit";
-import {type ConnectionType, type Schemes} from "./NodeLib/NodeLibType";
+import {type Schemes} from "./NodeLib/NodeLibType";
 import type {ReteEditorInterface} from "./ReteEditorInterface";
-import {NodeMenuScore, NodeScore} from "./NodeLib/NodeScore";
+import {NodeMenuScore} from "./NodeLib/NodeScore";
 import {NodeMenuLatch} from "./NodeLib/NodeLatch";
 import {NodeMenuLatchCount} from "./NodeLib/NodeLatchCount";
 import {NodeMenuSum} from "./NodeLib/NodeSum";
 import {NodeMenuLogic} from "./NodeLib/NodeLogicType";
 import {NodeSensor} from "./NodeLib/NodeSensor";
-import {NodeParent} from "./NodeLib/NodeParent";
-import {type NodeAllType, NodeCreateTable} from "./NodeLib/NodeLib";
+import {type NodeAllType} from "./NodeLib/NodeLib";
 import {NodeMenuFly} from "./NodeLib/NodeFlyPort";
 import {NodeMenuEventSuppressor} from "./NodeLib/NodeEventSwitch";
 import {NodeMenuFlyToSensor} from "./NodeLib/NodeFlyToSensor";
 import type {SerializationExportDataType} from "./ReteSerializationTypeDef";
 import Swal from 'sweetalert2';
 import {type AreaExtra, ReteEditorEngine} from "./ReteEditorEngine";
-import {ConnectionCreateColorTable, ConnectionCreateTable, ConnectionReadableNameTable} from "./NodeLib/ConnectionLib";
+import {ConnectionCreateColorTable, ConnectionReadableNameTable} from "./NodeLib/ConnectionLib";
 import {SocketColorTable, SocketNameTable} from "./NodeLib/SocketLib";
 import {NodeMenuCollisionCatch} from "./NodeLib/NodeCollisionCatch";
+import {NodeMenuLogicLatch} from "./NodeLib/NodeLogicLatch";
 
 export {
 	ClassicPreset,
@@ -85,6 +85,7 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 			['碰撞记录器', [
 				...NodeMenuLatch(this),
 				...NodeMenuLatchCount(this),
+				...NodeMenuLogicLatch(this),
 			]],
 			['碰撞抑制器', [
 				...NodeMenuEventSuppressor(this),

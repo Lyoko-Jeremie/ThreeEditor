@@ -32,20 +32,23 @@ export class NodeCollisionCatch extends NodeParent implements NodeStateFull {
 	// +1 when collision start , -1 when collision end
 	collisionRefCount = 0;
 
-	data(inputs: { inputCollision?: SensorOutputCollisionData[] }): { collisionState: boolean, isStartEdge: boolean } {
-		let isStartEdge = false;
+	data(inputs: { inputCollision?: SensorOutputCollisionData[] }): {
+		collisionState: boolean,
+		isStartEdge: SensorOutputCollisionData
+	} {
+		let isStartEdgeData: SensorOutputCollisionData = {id: -1, isStart: false};
 		if (inputs.inputCollision) {
 			const inputValue = inputs.inputCollision[0];
 			if (inputValue && inputValue.id !== -1) {
 				if (inputValue.isStart) {
 					this.collisionRefCount++;
-					isStartEdge = true;
+					isStartEdgeData = inputValue;
 				} else if (!inputValue.isStart) {
 					this.collisionRefCount = Math.max(0, this.collisionRefCount - 1);
 				}
 			}
 		}
-		return {collisionState: this.collisionRefCount !== 0, isStartEdge: isStartEdge};
+		return {collisionState: this.collisionRefCount !== 0, isStartEdge: isStartEdgeData};
 	}
 
 	resetState() {
@@ -95,22 +98,25 @@ export class NodeCollisionFlyCatch extends NodeParent implements NodeStateFull {
 
 	data(inputs: { inputCollision?: SensorOutputFlyCollisionData[], controlFlyValue?: string[] }): {
 		collisionState: boolean,
-		isStartEdge: boolean
+		isStartEdge: SensorOutputCollisionData,
 	} {
-		let isStartEdge = false;
+		let isStartEdgeData: SensorOutputCollisionData = {id: -1, isStart: false};
 		if (inputs.inputCollision && inputs.controlFlyValue) {
 			const inputValue = inputs.inputCollision[0];
 			const portValue = inputs.controlFlyValue[0];
 			if (inputValue && portValue && inputValue.fly === portValue) {
 				if (inputValue.isStart) {
 					this.collisionRefCount++;
-					isStartEdge = true;
+					isStartEdgeData = {
+						id: inputValue.id,
+						isStart: true,
+					};
 				} else if (!inputValue.isStart) {
 					this.collisionRefCount = Math.max(0, this.collisionRefCount - 1);
 				}
 			}
 		}
-		return {collisionState: this.collisionRefCount !== 0, isStartEdge: isStartEdge};
+		return {collisionState: this.collisionRefCount !== 0, isStartEdge: isStartEdgeData};
 	}
 
 	resetState() {
@@ -165,9 +171,9 @@ export class NodeCollisionCombineCatch extends NodeParent implements NodeStateFu
 		controlFlyValue?: string[]
 	}): {
 		collisionState: boolean,
-		isStartEdge: boolean
+		isStartEdge: SensorOutputCollisionData,
 	} {
-		let isStartEdge = false;
+		let isStartEdgeData: SensorOutputCollisionData = {id: -1, isStart: false};
 		if (inputs.inputCollision && inputs.controlFlyValue && inputs.inputFlyCollision) {
 			const inputValue = inputs.inputCollision[0];
 			const inputFlyValue = inputs.inputFlyCollision[0];
@@ -175,13 +181,13 @@ export class NodeCollisionCombineCatch extends NodeParent implements NodeStateFu
 			if (inputValue && inputFlyValue && portValue && inputFlyValue.fly === portValue && inputValue.id !== -1 && inputFlyValue.id !== -1) {
 				if (inputValue.isStart && inputFlyValue.isStart) {
 					this.collisionRefCount++;
-					isStartEdge = true;
+					isStartEdgeData = inputValue;
 				} else if (!inputValue.isStart && !inputFlyValue.isStart) {
 					this.collisionRefCount = Math.max(0, this.collisionRefCount - 1);
 				}
 			}
 		}
-		return {collisionState: this.collisionRefCount !== 0, isStartEdge: isStartEdge};
+		return {collisionState: this.collisionRefCount !== 0, isStartEdge: isStartEdgeData};
 	}
 
 	resetState() {

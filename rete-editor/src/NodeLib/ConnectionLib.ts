@@ -14,13 +14,12 @@ import {
 	NodeCollisionCatchKeyL,
 	NodeEventSwitchKeyL,
 	type NodeEventSwitchType,
-	NodeLatchFlyKeyL,
-	type NodeLatchFlyType,
 	NodeLatchKeyL,
 	type NodeLatchType
 } from "./NodeLib";
 import type {ConnectionSerializationDataType} from "../ReteSerializationTypeDef";
 import {CustomSocket, SocketLib} from "./SocketLib";
+import type {NodeCollisionCatch} from "./NodeCollisionCatch";
 
 type ConnectSideType = ClassicPreset.Output<CustomSocket>;
 
@@ -39,12 +38,11 @@ export abstract class ConnectionParent<A extends NodeParent, B extends NodeParen
 
 }
 
-export type ConnectionScoreInputType = NodeCalcType | NodeLatchType | NodeLatchFlyType | NodeEventSwitchType;
+export type ConnectionScoreInputType = NodeCalcType | NodeLatchType | NodeEventSwitchType;
 const checkConnectionScore = {
 	in: [
 		...NodeCalcKeyL,
 		...NodeLatchKeyL,
-		...NodeLatchFlyKeyL,
 		...NodeEventSwitchKeyL,
 		...NodeCollisionCatchKeyL,
 	],
@@ -92,13 +90,12 @@ export class ConnectionScore<A extends ConnectionScoreInputType, B extends NodeS
 
 }
 
-export type ConnectionCalcInputType = NodeCalcType | NodeLatchType | NodeLatchFlyType;
+export type ConnectionCalcInputType = NodeCalcType | NodeLatchType;
 export type ConnectionCalcOutputType = NodeCalcType | NodeEventSwitchType;
 const checkConnectionCalc = {
 	in: [
 		...NodeCalcKeyL,
 		...NodeLatchKeyL,
-		...NodeLatchFlyKeyL,
 		...NodeCollisionCatchKeyL,
 	],
 	out: [
@@ -146,7 +143,7 @@ export class ConnectionCalc<A extends ConnectionCalcInputType, B extends Connect
 }
 
 export type ConnectionSensorInputType = NodeSensor | NodeEventSwitchType;
-export type ConnectionSensorOutputType = NodeLatchType | NodeLatchFlyType | NodeEventSwitchType;
+export type ConnectionSensorOutputType = NodeLatchType | NodeEventSwitchType;
 const checkConnectionSensor = {
 	in: [
 		...NodeCollisionCatchKeyL,
@@ -155,7 +152,6 @@ const checkConnectionSensor = {
 	],
 	out: [
 		...NodeLatchKeyL,
-		...NodeLatchFlyKeyL,
 		...NodeEventSwitchKeyL,
 		...NodeCollisionCatchKeyL,
 	],
@@ -205,13 +201,12 @@ const checkConnectionFly = {
 		...NodeCollisionCatchKeyL,
 	],
 	out: [
-		...NodeLatchFlyKeyL,
 		...NodeCollisionCatchKeyL,
 	],
 };
 
 // 无人机触发信号 Sensor-LatchFly
-export class ConnectionFly<A extends NodeSensor, B extends NodeLatchFlyType> extends ConnectionParent<A, B> {
+export class ConnectionFly<A extends NodeSensor, B extends NodeCollisionCatch> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'Sensor-LatchFly';
 	connectionType = 'Sensor-LatchFly';
 
@@ -223,7 +218,7 @@ export class ConnectionFly<A extends NodeSensor, B extends NodeLatchFlyType> ext
 		this.id = id ?? this.id;
 	}
 
-	static create<A extends NodeSensor, B extends NodeLatchFlyType>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs']): ConnectionFly<A, B> {
+	static create<A extends NodeSensor, B extends NodeCollisionCatch>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs']): ConnectionFly<A, B> {
 		return new ConnectionFly(source, sourceOutput, target, targetInput);
 	}
 
@@ -235,7 +230,7 @@ export class ConnectionFly<A extends NodeSensor, B extends NodeLatchFlyType> ext
 		return new ConnectionFly(
 			source as NodeSensor,
 			data.sourceOutput,
-			target as NodeLatchFlyType,
+			target as NodeCollisionCatch,
 			data.targetInput,
 			data.id,
 		);
@@ -253,13 +248,12 @@ const checkConnectionFlyConfig = {
 		NodeFlyPort.nodeTypeStatic,
 	],
 	out: [
-		...NodeLatchFlyKeyL,
 		...NodeCollisionCatchKeyL,
 	],
 };
 
 // 无人机配置信息 FlyConfig-LatchFly
-export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeLatchFlyType> extends ConnectionParent<A, B> {
+export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeCollisionCatch> extends ConnectionParent<A, B> {
 	static connectionTypeStatic = 'FlyConfig-LatchFly';
 	connectionType = 'FlyConfig-LatchFly';
 
@@ -271,7 +265,7 @@ export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeLatchFlyTy
 		this.id = id ?? this.id;
 	}
 
-	static create<A extends NodeFlyPort, B extends NodeLatchFlyType>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs']): ConnectionFlyConfig<A, B> {
+	static create<A extends NodeFlyPort, B extends NodeCollisionCatch>(source: A, sourceOutput: keyof A['outputs'], target: B, targetInput: keyof B['inputs']): ConnectionFlyConfig<A, B> {
 		return new ConnectionFlyConfig(source, sourceOutput, target, targetInput);
 	}
 
@@ -283,7 +277,7 @@ export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeLatchFlyTy
 		return new ConnectionFlyConfig(
 			source as NodeFlyPort,
 			data.sourceOutput,
-			target as NodeLatchFlyType,
+			target as NodeCollisionCatch,
 			data.targetInput,
 			data.id,
 		);
@@ -431,11 +425,11 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 	}
 	if (ConnectionFlyConfig.canConnect(sourceNode, targetNode, sideInput, sideOutput)) {
 		if (test) return true;
-		return ConnectionFlyConfig.create(sourceNode as NodeFlyPort, source.key, targetNode as NodeLatchFlyType, target.key);
+		return ConnectionFlyConfig.create(sourceNode as NodeFlyPort, source.key, targetNode as NodeCollisionCatch, target.key);
 	}
 	if (ConnectionFly.canConnect(sourceNode, targetNode, sideInput, sideOutput)) {
 		if (test) return true;
-		return ConnectionFly.create(sourceNode as NodeSensor, source.key, targetNode as NodeLatchFlyType, target.key);
+		return ConnectionFly.create(sourceNode as NodeSensor, source.key, targetNode as NodeCollisionCatch, target.key);
 	}
 	if (ConnectionSensor.canConnect(sourceNode, targetNode, sideInput, sideOutput)) {
 		if (test) return true;

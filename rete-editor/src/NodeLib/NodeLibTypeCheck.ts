@@ -1,7 +1,7 @@
-import {NodeLatch, NodeLatchFly} from "./NodeLatch";
-import {NodeLatchCount, NodeLatchCountFly} from "./NodeLatchCount";
+import {NodeLatch} from "./NodeLatch";
+import {NodeLatchCount} from "./NodeLatchCount";
 import {NodeSum} from "./NodeSum";
-import type {NodeAllType, NodeCalcType, NodeEventSwitchType, NodeLatchFlyType, NodeLatchType} from "./NodeLib";
+import type {NodeAllType, NodeCalcType, NodeEventSwitchType, NodeLatchType} from "./NodeLib";
 import {
 	NodeLogicAnd,
 	NodeLogicOr,
@@ -42,18 +42,10 @@ export function isNodeLatchType(node: NodeAllType): node is NodeLatchType {
 		;
 }
 
-export function isNodeLatchFlyType(node: NodeAllType): node is NodeLatchFlyType {
-	return false
-		|| node.nodeType === NodeLatchFly.nodeTypeStatic
-		|| node.nodeType === NodeLatchCountFly.nodeTypeStatic
-		;
-}
-
 export function isNodeCalcType(node: NodeAllType): node is NodeCalcType {
 	return false
 		|| isNodeLogicType(node)
 		|| isNodeLatchType(node)
-		|| isNodeLatchFlyType(node)
 		|| node.nodeType === NodeSum.nodeTypeStatic
 		;
 }

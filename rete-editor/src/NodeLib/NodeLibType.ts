@@ -9,14 +9,15 @@ import type {
 	ConnectionSensor
 } from "./ConnectionLib";
 import type {NodeFlyPort} from "./NodeFlyPort";
-import type {NodeAllType, NodeCalcType, NodeLatchFlyType, NodeLatchType} from "./NodeLib";
+import type {NodeAllType, NodeCalcType, NodeLatchType} from "./NodeLib";
+import type {NodeCollisionCatch} from "./NodeCollisionCatch";
 
 export type ConnectionType =
 	ConnectionSensor<NodeSensor, NodeLatchType> |
 	ConnectionCalc<NodeCalcType, NodeCalcType> |
 	ConnectionScore<NodeCalcType, NodeScore> |
-	ConnectionFly<NodeSensor, NodeLatchFlyType> |
-	ConnectionFlyConfig<NodeFlyPort, NodeLatchFlyType>
+	ConnectionFly<NodeSensor, NodeCollisionCatch> |
+	ConnectionFlyConfig<NodeFlyPort, NodeCollisionCatch>
 	;
 
 export type Schemes = GetSchemes<

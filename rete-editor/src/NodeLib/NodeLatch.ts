@@ -1,5 +1,5 @@
 import {ClassicPreset} from 'rete';
-import {SocketLib} from "./SocketLib";
+import {type SensorOutputCollisionData, SocketLib} from "./SocketLib";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import {NodeParent} from "./NodeParent";
@@ -13,30 +13,30 @@ export class NodeLatch extends NodeParent {
 
 	needSkipBuffer = false;
 
-	_labelPrefix: string = '碰撞锁存器: ';
+	_labelPrefix: string = '逻辑锁存器: ';
 
 	constructor(label: string, id?: string) {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
-		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '碰撞', false));
-		this.addOutput('latchState', new ClassicPreset.Output(SocketLib.normalLogic, '是否已碰撞', true));
+		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '逻辑输入', false));
+		this.addOutput('latchState', new ClassicPreset.Output(SocketLib.normalLogic, '逻辑输出', true));
 	}
 
 	latchState = 0;
 
-	data(inputs: { inputValue?: number[] }): { latchState: number } {
+	data(inputs: { inputValue?: SensorOutputCollisionData[] }): { latchState: number } {
 		if (inputs.inputValue) {
 			const inputValue = inputs.inputValue[0];
-			if (inputValue) {
-				this.latchState = inputValue;
+			if (inputValue && inputValue.isStart && this.latchState === 0) {
+				this.latchState = 1;
 			}
 		}
 		return {latchState: this.latchState};
 	}
 
 	static async create(editor: ReteEditorInterface) {
-		return nameDialog(editor, '碰撞锁存器 名称', (name) => new NodeLatch(name));
+		return nameDialog(editor, '逻辑锁存器 名称', (name) => new NodeLatch(name));
 	}
 
 	serialization(): NodeSerializationDataType {
@@ -52,107 +52,8 @@ export class NodeLatch extends NodeParent {
 	}
 }
 
-export class NodeLatchFly extends NodeParent {
-	static nodeTypeStatic: string = 'NodeLatchFly';
-	nodeType: string = 'NodeLatchFly';
-	width = 200;
-	height!: number;
-
-	needSkipBuffer = false;
-
-	_labelPrefix: string = '无人机碰撞锁存器: ';
-
-	constructor(label: string, id?: string) {
-		super(label);
-		this.labelName = label;
-		this.id = id ?? this.id;
-		this.addInput('inputFlyValue', new ClassicPreset.Input(SocketLib.sensorOutputFly, '无人机', false));
-		this.addInput('controlFlyValue', new ClassicPreset.Input(SocketLib.flyPort, '无人机端口', false));
-		this.addOutput('latchState', new ClassicPreset.Output(SocketLib.normalLogic, '是否已碰撞', true));
-	}
-
-	latchState = 0;
-	controlFlyValue = '';
-
-	data(inputs: { inputFlyValue?: string[] }): { latchState: number } {
-		if (inputs.inputFlyValue && inputs.inputFlyValue.length > 0 && inputs.inputFlyValue[0] === this.controlFlyValue) {
-			this.latchState = 1;
-		}
-		return {latchState: this.latchState};
-	}
-
-	static async create(editor: ReteEditorInterface) {
-		return nameDialog(editor, '无人机碰撞锁存器 名称', (name) => new NodeLatchFly(name));
-	}
-
-	serialization(): NodeSerializationDataType {
-		return {
-			...super.serialization(),
-			nodeTypeStatic: NodeLatchFly.nodeTypeStatic,
-		};
-	}
-
-	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== NodeLatchFly.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLatchFly(data.labelName, data.id);
-	}
-}
-
-
-export class NodeLatchFlyCombine extends NodeParent {
-	static nodeTypeStatic: string = 'NodeLatchFlyCombine';
-	nodeType: string = 'NodeLatchFlyCombine';
-	width = 200;
-	height!: number;
-
-	needSkipBuffer = false;
-
-	_labelPrefix: string = '无人机碰撞联合锁存器: ';
-
-	constructor(label: string, id?: string) {
-		super(label);
-		this.labelName = label;
-		this.id = id ?? this.id;
-		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '碰撞', false));
-		this.addInput('inputFlyValue', new ClassicPreset.Input(SocketLib.sensorOutputFly, '无人机', false));
-		this.addInput('controlFlyValue', new ClassicPreset.Input(SocketLib.flyPort, '无人机端口', false));
-		this.addOutput('latchState', new ClassicPreset.Output(SocketLib.normalLogic, '是否已碰撞', true));
-	}
-
-	latchState = 0;
-	controlFlyValue = '';
-
-	data(inputs: { inputValue?: number[], inputFlyValue?: string[] }): { latchState: number } {
-		if (inputs.inputValue && inputs.inputFlyValue && inputs.inputFlyValue.length > 0 && inputs.inputFlyValue[0] === this.controlFlyValue) {
-			const inputValue = inputs.inputValue[0];
-			if (inputValue) {
-				this.latchState = inputValue;
-			}
-		}
-		return {latchState: this.latchState};
-	}
-
-	static async create(editor: ReteEditorInterface) {
-		return nameDialog(editor, '无人机碰撞联合锁存器 名称', (name) => new NodeLatchFly(name));
-	}
-
-	serialization(): NodeSerializationDataType {
-		return {
-			...super.serialization(),
-			nodeTypeStatic: NodeLatchFly.nodeTypeStatic,
-		};
-	}
-
-	static deserialize(data: NodeSerializationDataType): NodeParent {
-		if (data.nodeTypeStatic !== NodeLatchFly.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
-		return new NodeLatchFly(data.labelName, data.id);
-	}
-}
-
-export const NodeMenuLatch = (editor: ReteEditorInterface): [string, () => Promise<NodeLatch | NodeLatchFly | NodeLatchFlyCombine>][] => {
+export const NodeMenuLatch = (editor: ReteEditorInterface): [string, () => Promise<NodeLatch>][] => {
 	return [
-		["碰撞锁存器", async () => NodeLatch.create(editor),],
-		["无人机碰撞锁存器", async () => NodeLatchFly.create(editor),],
-		["无人机碰撞联合锁存器", async () => NodeLatchFlyCombine.create(editor),],
+		["逻辑锁存器", async () => NodeLatch.create(editor),],
 	] as const;
 };

@@ -69,15 +69,17 @@ export class CustomConnectionElement extends LitElement {
 	`
 
 	render() {
-		const stokeColorStyle = `stroke: ${this.strokeColor ? this.strokeColor : 'steelblue'};`;
+		const color = this.strokeColor ? this.strokeColor : 'steelblue';
+		const stokeColorStyle = `stroke: ${color};`;
 
 		let textStyle;
 		try {
 			const bbox = svgPathBounds(this.path);
 			const txtCenter = [(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2];
 			// console.log('this.txt', this.txt);
-			textStyle = `left: ${txtCenter[0]}px; top: ${txtCenter[1]}px; width: ${this.txt.length}em;`;
+			textStyle = `left: ${txtCenter[0]}px; top: ${txtCenter[1]}px; width: ${this.txt.length}em; border-color: ${color}`;
 		} catch (e) {
+			textStyle = `display: none;`;
 		}
 
 		// console.log('stokeColorStyle', stokeColorStyle);

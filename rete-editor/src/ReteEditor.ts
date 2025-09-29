@@ -184,7 +184,16 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 			}
 		}));
 		this.render.addPreset(Presets.minimap.setup({size: 200}));
-		this.render.addPreset(Presets.contextMenu.setup());
+		this.render.addPreset((() => {
+			const r = Presets.contextMenu.setup({delay: 100,});
+			const oldRender = r.render;
+			r.render = (context, plugin) => {
+				context.data.searchBar = false;
+				const d = oldRender(context, plugin);
+				return d;
+			}
+			return r;
+		})());
 
 		this.history.addPreset(PresetsHistory.classic.setup())
 		HistoryExtensions.keyboard(this.history);

@@ -402,6 +402,24 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 	}
 
 	async deserialization(data: SerializationExportDataType) {
+		if (this.versionSerializationExportDataType !== data.version) {
+			console.error('version not match', this.versionSerializationExportDataType, data.version);
+			Swal.fire({
+				text: '此地图中存储的评分逻辑数据与当前编辑器版本不兼容，无法加载.',
+				html: `
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                <div class="swal2-error" style="display: block;"></div>
+                <div>此地图中存储的评分逻辑数据与当前编辑器版本不兼容，无法加载.</div>
+                <div style="font-size: 14px;">存储数据的版本:[${data.version}] . 当前编辑器版本:[${this.versionSerializationExportDataType}]</div>
+            </div>
+        `,
+				icon: 'error',
+				showConfirmButton: false,
+				showCancelButton: false,
+				showCloseButton: false,
+			}).catch(console.error);
+			return false;
+		}
 
 		const r = await super.deserialization(data);
 		if (!r) {

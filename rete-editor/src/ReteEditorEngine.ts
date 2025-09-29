@@ -117,7 +117,7 @@ export class ReteEditorEngine {
 	}
 
 	async deserialization(data: SerializationExportDataType) {
-		if (this.versionSerializationExportDataType < data.version) {
+		if (this.versionSerializationExportDataType !== data.version) {
 			console.error('version not match', this.versionSerializationExportDataType, data.version);
 			return false;
 		}

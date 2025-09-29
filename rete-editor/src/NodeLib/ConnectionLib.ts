@@ -3,7 +3,6 @@ import {NodeScore} from "./NodeScore";
 import {NodeSensor} from "./NodeSensor";
 import {NodeParent} from "./NodeParent";
 import type {Schemes} from "./NodeLibType";
-import {isNodeScoreType} from "./NodeLibTypeCheck";
 import {noticeDialog} from "./NoticeDialog";
 import {getSourceTarget, type SocketData} from "rete-connection-plugin";
 import {NodeFlyPort} from "./NodeFlyPort";
@@ -346,7 +345,7 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 		return undefined;
 	}
 
-	if (isNodeScoreType(sourceNode)) {
+	if (sourceNode.nodeType !== NodeScore.nodeTypeStatic) {
 		noticeDialog('成绩 节点不能作为输出端');
 		if (test) return false;
 		// Score cannot be sourceNode

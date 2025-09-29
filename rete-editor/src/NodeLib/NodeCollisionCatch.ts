@@ -143,7 +143,7 @@ export class NodeCollisionCombineCatch extends NodeParent implements NodeStateFu
 
 	needSkipBuffer = false;
 
-	_labelPrefix: string = '传感器事件捕获器: ';
+	_labelPrefix: string = '联合事件捕获器: ';
 
 	constructor(label: string, id?: string) {
 		super(label);
@@ -189,7 +189,7 @@ export class NodeCollisionCombineCatch extends NodeParent implements NodeStateFu
 	}
 
 	static async create(editor: ReteEditorInterface) {
-		return nameDialog(editor, '传感器事件捕获器 名称', (name) => new NodeCollisionCombineCatch(name));
+		return nameDialog(editor, '联合事件捕获器 名称', (name) => new NodeCollisionCombineCatch(name));
 	}
 
 	serialization(): NodeSerializationDataType {
@@ -205,3 +205,11 @@ export class NodeCollisionCombineCatch extends NodeParent implements NodeStateFu
 	}
 }
 
+
+export const NodeMenuCollisionCatch = (editor: ReteEditorInterface): [string, () => Promise<NodeCollisionCatch | NodeCollisionFlyCatch | NodeCollisionCombineCatch>][] => {
+	return [
+		["传感器事件捕获器", async () => NodeCollisionCatch.create(editor)],
+		["无人机事件捕获器", async () => NodeCollisionFlyCatch.create(editor)],
+		["联合事件捕获器", async () => NodeCollisionCombineCatch.create(editor)],
+	] as const;
+};

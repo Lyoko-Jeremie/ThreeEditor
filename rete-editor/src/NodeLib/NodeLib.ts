@@ -19,10 +19,14 @@ import {
 } from "./NodeLogicType";
 import {NodeFlyPort} from "./NodeFlyPort";
 import {NodeEventSuppressor, NodeEventSuppressorFly} from "./NodeEventSwitch";
-import {NodeFlyToSensor, NodeMenuFlyToSensor} from "./NodeFlyToSensor";
+import {NodeFlyToSensor} from "./NodeFlyToSensor";
+import {NodeCollisionCatch, NodeCollisionCombineCatch, NodeCollisionFlyCatch} from "./NodeCollisionCatch";
 
 export const NodeCreateTable = [
 	[NodeSensor.nodeTypeStatic, NodeSensor.deserialize],
+	[NodeCollisionCatch.nodeTypeStatic, NodeCollisionCatch.deserialize],
+	[NodeCollisionFlyCatch.nodeTypeStatic, NodeCollisionFlyCatch.deserialize],
+	[NodeCollisionCombineCatch.nodeTypeStatic, NodeCollisionCombineCatch.deserialize],
 	[NodeLatch.nodeTypeStatic, NodeLatch.deserialize],
 	[NodeLatchFly.nodeTypeStatic, NodeLatchFly.deserialize],
 	[NodeLatchFlyCombine.nodeTypeStatic, NodeLatchFlyCombine.deserialize],
@@ -47,6 +51,8 @@ export const NodeCreateTable = [
 	[NodeFlyToSensor.nodeTypeStatic, NodeFlyToSensor.deserialize],
 ] as const;
 
+export const NodeCollisionCatchTypeT = [NodeCollisionCatch, NodeCollisionFlyCatch, NodeCollisionCombineCatch] as const;
+export type NodeCollisionCatchType = NodeCollisionCatch | NodeCollisionFlyCatch | NodeCollisionCombineCatch;
 export const NodeLatchTypeT = [NodeLatch, NodeLatchCount] as const;
 export type NodeLatchType = NodeLatch | NodeLatchCount;
 export const NodeLatchFlyTypeT = [NodeLatchFly, NodeLatchCountFly, NodeLatchFlyCombine, NodeLatchCountFlyCombine] as const;
@@ -65,6 +71,7 @@ export const NodeEventSwitchTypeT = [
 export type NodeEventSwitchType = NodeEventSuppressor | NodeEventSuppressorFly | NodeFlyToSensor;
 export const NodeAllTypeT = [
 	NodeSensor,
+	...NodeCollisionCatchTypeT,
 	NodeFlyPort,
 	...NodeLatchTypeT,
 	...NodeLatchFlyTypeT,
@@ -74,6 +81,7 @@ export const NodeAllTypeT = [
 ] as const;
 export type NodeAllType =
 	NodeSensor |
+	NodeCollisionCatchType |
 	NodeFlyPort |
 	NodeLatchType |
 	NodeLatchFlyType |
@@ -82,6 +90,7 @@ export type NodeAllType =
 	NodeScore
 	;
 
+export const NodeCollisionCatchKeyL = NodeCollisionCatchTypeT.map(n => n.nodeTypeStatic);
 export const NodeLatchKeyL = NodeLatchTypeT.map(n => n.nodeTypeStatic);
 export const NodeLatchFlyKeyL = NodeLatchFlyTypeT.map(n => n.nodeTypeStatic);
 export const NodeLogicKeyL = NodeLogicTypeT.map(n => n.nodeTypeStatic);

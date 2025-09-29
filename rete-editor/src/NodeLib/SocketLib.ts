@@ -22,6 +22,14 @@ export const SocketColorTable = new Map([
 	[SocketLib.sensorOutputFly.key, '#E91E63'],
 ] as const);
 
+export const SocketNameTable = new Map([
+	[SocketLib.normalLogic.key, SocketLib.normalLogic.name],
+	[SocketLib.score.key, SocketLib.score.name],
+	[SocketLib.flyPort.key, SocketLib.flyPort.name],
+	[SocketLib.sensorOutput.key, SocketLib.sensorOutput.name],
+	[SocketLib.sensorOutputFly.key, SocketLib.sensorOutputFly.name],
+] as const);
+
 // 通用碰撞事件
 export type SensorOutputCollisionData = {
 	// 碰撞 id

@@ -11,6 +11,7 @@ import {
 	type NodeAllType,
 	NodeCalcKeyL,
 	type NodeCalcType,
+	NodeCollisionCatchKeyL,
 	NodeEventSwitchKeyL,
 	type NodeEventSwitchType,
 	NodeLatchFlyKeyL,
@@ -45,6 +46,7 @@ const checkConnectionScore = {
 		...NodeLatchKeyL,
 		...NodeLatchFlyKeyL,
 		...NodeEventSwitchKeyL,
+		...NodeCollisionCatchKeyL,
 	],
 	out: [
 		NodeScore.nodeTypeStatic,
@@ -83,7 +85,9 @@ export class ConnectionScore<A extends ConnectionScoreInputType, B extends NodeS
 	}
 
 	static canConnect<A extends NodeParent, B extends NodeParent, AS extends ConnectSideType, BS extends ConnectSideType>(source: A, target: B, sideInput: AS, sideOutput: BS): boolean {
-		return checkConnectionScore.in.includes(source.nodeType) && checkConnectionScore.out.includes(target.nodeType);
+		return checkConnectionScore.in.includes(source.nodeType) && checkConnectionScore.out.includes(target.nodeType)
+			&& sideInput.socket.key === SocketLib.normalLogic.key && sideOutput.socket.key === SocketLib.normalLogic.key
+			;
 	}
 
 }
@@ -95,6 +99,7 @@ const checkConnectionCalc = {
 		...NodeCalcKeyL,
 		...NodeLatchKeyL,
 		...NodeLatchFlyKeyL,
+		...NodeCollisionCatchKeyL,
 	],
 	out: [
 		...NodeCalcKeyL,
@@ -134,7 +139,9 @@ export class ConnectionCalc<A extends ConnectionCalcInputType, B extends Connect
 	}
 
 	static canConnect<A extends NodeParent, B extends NodeParent, AS extends ConnectSideType, BS extends ConnectSideType>(source: A, target: B, sideInput: AS, sideOutput: BS): boolean {
-		return checkConnectionCalc.in.includes(source.nodeType) && checkConnectionCalc.out.includes(target.nodeType);
+		return checkConnectionCalc.in.includes(source.nodeType) && checkConnectionCalc.out.includes(target.nodeType)
+			&& sideInput.socket.key === SocketLib.normalLogic.key && sideOutput.socket.key === SocketLib.normalLogic.key
+			;
 	}
 }
 
@@ -142,6 +149,7 @@ export type ConnectionSensorInputType = NodeSensor | NodeEventSwitchType;
 export type ConnectionSensorOutputType = NodeLatchType | NodeLatchFlyType | NodeEventSwitchType;
 const checkConnectionSensor = {
 	in: [
+		...NodeCollisionCatchKeyL,
 		...NodeEventSwitchKeyL,
 		NodeSensor.nodeTypeStatic,
 	],
@@ -149,6 +157,7 @@ const checkConnectionSensor = {
 		...NodeLatchKeyL,
 		...NodeLatchFlyKeyL,
 		...NodeEventSwitchKeyL,
+		...NodeCollisionCatchKeyL,
 	],
 };
 
@@ -184,16 +193,20 @@ export class ConnectionSensor<A extends ConnectionSensorInputType, B extends Con
 	}
 
 	static canConnect<A extends NodeParent, B extends NodeParent, AS extends ConnectSideType, BS extends ConnectSideType>(source: A, target: B, sideInput: AS, sideOutput: BS): boolean {
-		return checkConnectionSensor.in.includes(source.nodeType) && checkConnectionSensor.out.includes(target.nodeType);
+		return checkConnectionSensor.in.includes(source.nodeType) && checkConnectionSensor.out.includes(target.nodeType)
+			&& sideInput.socket.key === SocketLib.sensorOutput.key && sideOutput.socket.key === SocketLib.sensorOutput.key
+			;
 	}
 }
 
 const checkConnectionFly = {
 	in: [
 		NodeSensor.nodeTypeStatic,
+		...NodeCollisionCatchKeyL,
 	],
 	out: [
 		...NodeLatchFlyKeyL,
+		...NodeCollisionCatchKeyL,
 	],
 };
 
@@ -229,7 +242,9 @@ export class ConnectionFly<A extends NodeSensor, B extends NodeLatchFlyType> ext
 	}
 
 	static canConnect<A extends NodeParent, B extends NodeParent, AS extends ConnectSideType, BS extends ConnectSideType>(source: A, target: B, sideInput: AS, sideOutput: BS): boolean {
-		return checkConnectionFly.in.includes(source.nodeType) && checkConnectionFly.out.includes(target.nodeType) && sideOutput.socket.name === SocketLib.sensorOutputFly.name;
+		return checkConnectionFly.in.includes(source.nodeType) && checkConnectionFly.out.includes(target.nodeType)
+			&& sideInput.socket.key === SocketLib.sensorOutputFly.key && sideOutput.socket.key === SocketLib.sensorOutputFly.key
+			;
 	}
 }
 
@@ -239,6 +254,7 @@ const checkConnectionFlyConfig = {
 	],
 	out: [
 		...NodeLatchFlyKeyL,
+		...NodeCollisionCatchKeyL,
 	],
 };
 
@@ -274,7 +290,9 @@ export class ConnectionFlyConfig<A extends NodeFlyPort, B extends NodeLatchFlyTy
 	}
 
 	static canConnect<A extends NodeParent, B extends NodeParent, AS extends ConnectSideType, BS extends ConnectSideType>(source: A, target: B, sideInput: AS, sideOutput: BS): boolean {
-		return checkConnectionFlyConfig.in.includes(source.nodeType) && checkConnectionFlyConfig.out.includes(target.nodeType) && sideInput.socket.name === SocketLib.flyPort.name;
+		return checkConnectionFlyConfig.in.includes(source.nodeType) && checkConnectionFlyConfig.out.includes(target.nodeType)
+			&& sideInput.socket.key === SocketLib.flyPort.key && sideOutput.socket.key === SocketLib.flyPort.key
+			;
 	}
 }
 
@@ -347,9 +365,9 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 		return undefined;
 	}
 
-	if (sideInput.socket.name !== sideOutput.socket.name) {
-		// if ((sideInput.socket.name === SocketLib.sensorOutputFly.name || sideInput.socket.name === SocketLib.sensorOutput.name)
-		// 	&& sideOutput.socket.name === SocketLib.normalLogic.name) {
+	if (sideInput.socket.key !== sideOutput.socket.key) {
+		// if ((sideInput.socket.key === SocketLib.sensorOutputFly.key || sideInput.socket.key === SocketLib.sensorOutput.key)
+		// 	&& sideOutput.socket.key === SocketLib.normalLogic.key) {
 		// 	// allow it
 		// 	/* empty */
 		//  }else {
@@ -365,7 +383,7 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 		if (test) return false;
 		return undefined;
 	}
-	// if (sideOutput.socket.name !== SocketLib.sensorOutputFly.name) {
+	// if (sideOutput.socket.key !== SocketLib.sensorOutputFly.key) {
 	// 	if (test) return false;
 	// 	return undefined;
 	// }
@@ -395,11 +413,11 @@ export function createConnection(editor: NodeEditor<Schemes>, from: SocketData, 
 	// 	if (test) return true;
 	// 	return ConnectionSensor.create(sourceNode, source.key, targetNode, target.key);
 	// }
-	// if (isNodeSensorType(sourceNode) && isNodeLatchFlyType(targetNode) && sideInput.socket.name === SocketLib.sensorOutput.name) {
+	// if (isNodeSensorType(sourceNode) && isNodeLatchFlyType(targetNode) && sideInput.socket.key === SocketLib.sensorOutput.key) {
 	// 	if (test) return true;
 	// 	return ConnectionSensor.create(sourceNode, source.key, targetNode, target.key);
 	// }
-	// if (isNodeSensorType(sourceNode) && isNodeLatchFlyType(targetNode) && sideInput.socket.name === SocketLib.sensorOutputFly.name) {
+	// if (isNodeSensorType(sourceNode) && isNodeLatchFlyType(targetNode) && sideInput.socket.key === SocketLib.sensorOutputFly.key) {
 	// 	if (test) return true;
 	// 	return ConnectionFly.create(sourceNode, source.key, targetNode, target.key);
 	// }

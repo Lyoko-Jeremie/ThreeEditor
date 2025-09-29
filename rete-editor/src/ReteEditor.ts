@@ -25,7 +25,8 @@ import type {SerializationExportDataType} from "./ReteSerializationTypeDef";
 import Swal from 'sweetalert2';
 import {type AreaExtra, ReteEditorEngine} from "./ReteEditorEngine";
 import {ConnectionCreateColorTable, ConnectionCreateTable, ConnectionReadableNameTable} from "./NodeLib/ConnectionLib";
-import {SocketColorTable} from "./NodeLib/SocketLib";
+import {SocketColorTable, SocketNameTable} from "./NodeLib/SocketLib";
+import {NodeMenuCollisionCatch} from "./NodeLib/NodeCollisionCatch";
 
 export {
 	ClassicPreset,
@@ -78,6 +79,9 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 			// }],
 			// ["NodeA", () => new NodeA(socket)],
 			// ["NodeB", () => new NodeB(socket)],
+			['碰撞捕获器', [
+				...NodeMenuCollisionCatch(this),
+			]],
 			['碰撞记录器', [
 				...NodeMenuLatch(this),
 				...NodeMenuLatchCount(this),
@@ -150,7 +154,7 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 								const output = sourceNode.outputs[d.payload.sourceOutput];
 								if (output) {
 									strokeColor = SocketColorTable.get(output.socket.key);
-
+									readableName = SocketNameTable.get(output.socket.key);
 								}
 							}
 						}
@@ -160,6 +164,7 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 								const input = targetNode.inputs[d.payload.targetInput];
 								if (input) {
 									strokeColor = SocketColorTable.get(input.socket.key);
+									readableName = SocketNameTable.get(input.socket.key);
 								}
 							}
 						}

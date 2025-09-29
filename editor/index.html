@@ -77,6 +77,119 @@
 				} );
 
 			};
+
+			/**
+			 * 显示可取消的保存等待对话框
+			 * @param {string} message - 等待提示信息
+			 * @param {function} onCancel - 取消回调函数
+			 * @returns {Object} 包含关闭方法的对象
+			 */
+			window.showSaveWaitDialog = function ( message = '正在保存数据...', onCancel = null ) {
+
+				let isCancelled = false;
+
+				const swalInstance = Swal.fire( {
+					text: message,
+					html: `
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                <div class="swal2-loader" style="display: block;"></div>
+                <div style="color: #888; font-size: 14px;">正在保存数据，请稍候...</div>
+            </div>
+        `,
+					allowOutsideClick: false,
+					allowEscapeKey: false,
+					showConfirmButton: false,
+					showCancelButton: false,
+					// confirmButtonText: '取消操作',
+					// confirmButtonColor: '#d33',
+					theme: 'dark',
+					customClass: {
+						popup: 'save-wait-popup'
+					},
+					preConfirm: () => {
+
+						isCancelled = true;
+						if ( onCancel && typeof onCancel === 'function' ) {
+
+							onCancel();
+
+						}
+
+						return false; // 阻止默认关闭行为
+
+					}
+
+				} );
+
+				return {
+					swalInstance: swalInstance,
+
+					// 关闭对话框
+					close: () => {
+
+						if ( ! isCancelled ) {
+
+							Swal.close();
+
+						}
+
+					},
+
+					// 更新消息
+					updateMessage: ( newMessage ) => {
+
+						if ( ! isCancelled ) {
+
+							Swal.update( {
+								text: newMessage
+							} );
+
+						}
+
+					},
+
+					// 检查是否已取消
+					isCancelled: () => isCancelled,
+
+					// 成功完成
+					success: ( message = '保存成功！' ) => {
+
+						if ( ! isCancelled ) {
+
+							Swal.fire( {
+								text: message,
+								icon: 'success',
+								timer: 2000,
+								showConfirmButton: false,
+								theme: 'dark'
+							} );
+
+						}
+
+					},
+
+					// 失败处理
+					error: ( message = '保存失败！' ) => {
+
+						if ( ! isCancelled ) {
+
+							Swal.fire( {
+								text: '错误',
+								text: message,
+								icon: 'error',
+								confirmButtonText: '确定',
+								theme: 'dark'
+							} );
+
+						}
+
+					},
+
+				};
+
+			};
+
+
 		</script>
 
 <!--		<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>-->

@@ -56,9 +56,11 @@ document.addEventListener( 'DOMContentLoaded', () => {
 					userData.rete = r;
 					editor.execute( new SetValueCommand( editor, editor.scene, 'userData', userData ) );
 
+					const dialog = window.showSaveWaitDialog();
+
 					window.editor.signals.savingFinished.addOnce( ()=>{
 
-						noticeDialog( '保存成功' );
+						dialog.success();
 
 					} );
 

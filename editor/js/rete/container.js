@@ -56,7 +56,15 @@ document.addEventListener( 'DOMContentLoaded', () => {
 					userData.rete = r;
 					editor.execute( new SetValueCommand( editor, editor.scene, 'userData', userData ) );
 
-					return noticeDialog( '保存成功' );
+					window.editor.signals.savingFinished.addOnce( ()=>{
+
+						noticeDialog( '保存成功' );
+
+					} );
+
+					// call threeEditor save function to save the scene immediately.
+					// to avoid the use case that user not close the dialog and immediately flush the page , this will case the data lost.
+					window.saveEditorState();
 
 				} );
 

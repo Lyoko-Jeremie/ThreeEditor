@@ -43,6 +43,10 @@ export class NodeLogicAnd extends NodeParent {
 		if (data.nodeTypeStatic !== NodeLogicAnd.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicAnd(data.labelName, data.id);
 	}
+
+	clone() {
+		return new NodeLogicAnd(this.labelName);
+	}
 }
 
 export class NodeLogicOr extends NodeParent {
@@ -81,6 +85,10 @@ export class NodeLogicOr extends NodeParent {
 	static deserialize(data: NodeSerializationDataType): NodeParent {
 		if (data.nodeTypeStatic !== NodeLogicOr.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicOr(data.labelName, data.id);
+	}
+
+	clone() {
+		return new NodeLogicOr(this.labelName);
 	}
 }
 
@@ -121,6 +129,10 @@ export class NodeLogicNot extends NodeParent {
 		if (data.nodeTypeStatic !== NodeLogicNot.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicNot(data.labelName, data.id);
 	}
+
+	clone() {
+		return new NodeLogicNot(this.labelName);
+	}
 }
 
 export class NodeLogicNand extends NodeParent {
@@ -160,6 +172,10 @@ export class NodeLogicNand extends NodeParent {
 		if (data.nodeTypeStatic !== NodeLogicNand.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicNand(data.labelName, data.id);
 	}
+
+	clone() {
+		return new NodeLogicNand(this.labelName);
+	}
 }
 
 export class NodeLogicNor extends NodeParent {
@@ -198,6 +214,10 @@ export class NodeLogicNor extends NodeParent {
 	static deserialize(data: NodeSerializationDataType): NodeParent {
 		if (data.nodeTypeStatic !== NodeLogicNor.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicNor(data.labelName, data.id);
+	}
+
+	clone() {
+		return new NodeLogicNor(this.labelName);
 	}
 }
 
@@ -241,6 +261,10 @@ export class NodeLogicXor extends NodeParent {
 		if (data.nodeTypeStatic !== NodeLogicXor.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicXor(data.labelName, data.id);
 	}
+
+	clone() {
+		return new NodeLogicXor(this.labelName);
+	}
 }
 
 export class NodeLogicXnor extends NodeParent {
@@ -283,6 +307,10 @@ export class NodeLogicXnor extends NodeParent {
 		if (data.nodeTypeStatic !== NodeLogicXnor.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicXnor(data.labelName, data.id);
 	}
+
+	clone() {
+		return new NodeLogicXnor(this.labelName);
+	}
 }
 
 // 同相器（同相缓冲门）
@@ -324,6 +352,10 @@ export class NodeLogicBuffer extends NodeParent {
 	static deserialize(data: NodeSerializationDataType): NodeParent {
 		if (data.nodeTypeStatic !== NodeLogicBuffer.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicBuffer(data.labelName, data.id);
+	}
+
+	clone() {
+		return new NodeLogicBuffer(this.labelName);
 	}
 }
 
@@ -390,6 +422,10 @@ export class NodeLogicConstant extends NodeParent {
 		if (data.nodeTypeStatic !== NodeLogicConstant.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicConstant(data.labelName, data.id, data);
 	}
+
+	clone() {
+		return new NodeLogicConstant(this.labelName, undefined, {inputLogicConstValue: this.inputLogicConstValue});
+	}
 }
 
 export class NodeLogicEqual extends NodeParent {
@@ -431,6 +467,10 @@ export class NodeLogicEqual extends NodeParent {
 	static deserialize(data: NodeSerializationDataType): NodeParent {
 		if (data.nodeTypeStatic !== NodeLogicEqual.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLogicEqual(data.labelName, data.id);
+	}
+
+	clone() {
+		return new NodeLogicEqual(this.labelName);
 	}
 }
 

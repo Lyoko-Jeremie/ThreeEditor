@@ -56,6 +56,10 @@ export class NodeFlyToSensor extends NodeParent {
 		if (data.nodeTypeStatic !== NodeFlyToSensor.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeFlyToSensor(data.labelName, data.id);
 	}
+
+	clone() {
+		return new NodeFlyToSensor(this.labelName);
+	}
 }
 
 export const NodeMenuFlyToSensor = (editor: ReteEditorInterface): [string, () => Promise<NodeFlyToSensor>][] => {

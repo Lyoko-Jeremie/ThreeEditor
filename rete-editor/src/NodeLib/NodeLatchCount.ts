@@ -54,6 +54,10 @@ export class NodeLatchCount extends NodeParent implements NodeStateFull {
 		if (data.nodeTypeStatic !== NodeLatchCount.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLatchCount(data.labelName, data.id);
 	}
+
+	clone() {
+		return new NodeLatchCount(this.labelName);
+	}
 }
 
 export const NodeMenuLatchCount = (editor: ReteEditorInterface): [string, () => Promise<NodeLatchCount>][] => {

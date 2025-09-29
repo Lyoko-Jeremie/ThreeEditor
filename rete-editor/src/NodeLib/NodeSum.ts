@@ -42,6 +42,10 @@ export class NodeSum extends NodeParent {
 		if (data.nodeTypeStatic !== NodeSum.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeSum(data.labelName, data.id);
 	}
+
+	clone() {
+		return new NodeSum(this.labelName);
+	}
 }
 
 export const NodeMenuSum = (editor: ReteEditorInterface): [string, () => Promise<NodeSum>] => {

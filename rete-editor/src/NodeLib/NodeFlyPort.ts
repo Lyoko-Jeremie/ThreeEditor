@@ -73,6 +73,10 @@ export class NodeFlyPort extends NodeParent {
 		if (data.nodeTypeStatic !== NodeFlyPort.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeFlyPort(data.labelName, data.id, data);
 	}
+
+	clone() {
+		return new NodeFlyPort(this.labelName, undefined, {inputFlyConstValue: this.inputFlyConstValue});
+	}
 }
 
 export const NodeMenuFly = (editor: ReteEditorInterface): [string, () => Promise<NodeFlyPort>][] => {

@@ -55,6 +55,10 @@ export class NodeEventSuppressor extends NodeParent {
 		if (data.nodeTypeStatic !== NodeEventSuppressor.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeEventSuppressor(data.labelName, data.id);
 	}
+
+	clone() {
+		return new NodeEventSuppressor(this.labelName);
+	}
 }
 
 export const NodeMenuEventSuppressor = (editor: ReteEditorInterface): [string, () => Promise<NodeEventSuppressor>][] => {

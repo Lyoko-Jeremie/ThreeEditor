@@ -70,6 +70,10 @@ export class NodeCollisionCatch extends NodeParent implements NodeStateFull {
 		if (data.nodeTypeStatic !== NodeCollisionCatch.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeCollisionCatch(data.labelName, data.id);
 	}
+
+	clone() {
+		return new NodeCollisionCatch(this.labelName);
+	}
 }
 
 
@@ -137,6 +141,10 @@ export class NodeCollisionFlyCatch extends NodeParent implements NodeStateFull {
 	static deserialize(data: NodeSerializationDataType): NodeParent {
 		if (data.nodeTypeStatic !== NodeCollisionFlyCatch.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeCollisionFlyCatch(data.labelName, data.id);
+	}
+
+	clone() {
+		return new NodeCollisionFlyCatch(this.labelName);
 	}
 }
 
@@ -208,6 +216,10 @@ export class NodeCollisionCombineCatch extends NodeParent implements NodeStateFu
 	static deserialize(data: NodeSerializationDataType): NodeParent {
 		if (data.nodeTypeStatic !== NodeCollisionCombineCatch.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeCollisionCombineCatch(data.labelName, data.id);
+	}
+
+	clone() {
+		return new NodeCollisionCombineCatch(this.labelName);
 	}
 }
 

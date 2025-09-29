@@ -54,6 +54,10 @@ export class NodeLatch extends NodeParent implements NodeStateFull {
 		if (data.nodeTypeStatic !== NodeLatch.nodeTypeStatic) throw new Error("nodeTypeStatic not match");
 		return new NodeLatch(data.labelName, data.id);
 	}
+
+	clone() {
+		return new NodeLatch(this.labelName);
+	}
 }
 
 export const NodeMenuLatch = (editor: ReteEditorInterface): [string, () => Promise<NodeLatch>][] => {

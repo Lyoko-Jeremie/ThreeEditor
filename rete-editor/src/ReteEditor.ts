@@ -268,11 +268,21 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 
 	async reLayout() {
 		await this.arrange.layout({
-			// options: {
-			// 	'org.eclipse.elk.layered.crossingMinimization.strategy': 'MEDIAN_LAYER_SWEEP',
-			// 	'org.eclipse.elk.layered.crossingMinimization.greedySwitch.type': 'TWO_SIDED',
-			// 	'org.eclipse.elk.layered.crossingMinimization.greedySwitch.activationThreshold': 0,
-			// } as any,
+			options: {
+				// 'org.eclipse.elk.layered.crossingMinimization.strategy': 'MEDIAN_LAYER_SWEEP',
+				// 'org.eclipse.elk.layered.crossingMinimization.greedySwitch.type': 'TWO_SIDED',
+				// 'org.eclipse.elk.layered.crossingMinimization.greedySwitch.activationThreshold': 0,
+				// 'org.eclipse.elk.commentBox': true,
+
+				// 'org.eclipse.elk.vertiflex.layerDistance': 500,
+				// 'org.eclipse.elk.spacing.edgeNode': 500,
+				// 'org.eclipse.elk.spacing.individual': 500,
+				// 'org.eclipse.elk.spacing.nodeNode': 50,
+
+				'org.eclipse.elk.layered.spacing.nodeNodeBetweenLayers': 120,
+				'org.eclipse.elk.layered.spacing.edgeEdgeBetweenLayers': 50,
+
+			} as any,
 		});
 		// console.log('arrange', this.arrange);
 	}

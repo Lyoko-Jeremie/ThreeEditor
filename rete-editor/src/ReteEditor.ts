@@ -6,6 +6,7 @@ import {type HistoryActions, HistoryExtensions, HistoryPlugin, Presets as Preset
 import {CommentExtensions, CommentPlugin} from "rete-comment-plugin";
 import {type ContextMenuExtra, ContextMenuPlugin, Presets as ContextMenuPresets} from "rete-context-menu-plugin";
 import {AutoArrangePlugin, Presets as ArrangePresets} from "rete-auto-arrange-plugin";
+// import {ScopesPlugin, Presets as ScopesPresets} from 'rete-scopes-plugin';
 import {structures} from "rete-structures";
 import {html} from "lit";
 import {type Schemes} from "./NodeLib/NodeLibType";
@@ -99,6 +100,11 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 			NodeMenuEndCheck(this),
 		])
 	});
+	// scopes = new ScopesPlugin<Schemes>({
+	// 	// exclude: id => {
+	// 	//
+	// 	// },
+	// });
 	area?: AreaPlugin<Schemes, AreaExtra>;
 
 	constructor() {
@@ -122,6 +128,9 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 		});
 
 		this.arrange.addPreset(ArrangePresets.classic.setup());
+
+		// this.scopes.addPreset(ScopesPresets.classic.setup())
+
 
 		// this.render.addPreset(Presets.classic.setup());
 		console.log('Presets.classic', Presets.classic);
@@ -229,9 +238,11 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 		this.area.use(this.minimap);
 		// this.area.use(this.comment);
 		this.area.use(this.contextMenu);
+		// this.area.use(this.scopes);
 		this.area.use(this.arrange);
 		this.area.use(this.render);
 
+		// remove this when use rete-scopes-plugin
 		AreaExtensions.simpleNodesOrder(this.area);
 
 		this.area.use(this.connection);

@@ -165,6 +165,7 @@
   },
   "dependencies": {
     "@types/svg-path-bounds": "^1.0.2",
+    "rete-scopes-plugin": "^2.1.1",
     "svg-path-bounds": "^1.0.2"
   }
 }

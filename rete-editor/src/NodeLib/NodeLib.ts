@@ -18,7 +18,7 @@ import {
 	NodeLogicXor
 } from "./NodeLogicType";
 import {NodeFlyPort} from "./NodeFlyPort";
-import {NodeEventSuppressor, NodeEventSuppressorFly} from "./NodeEventSwitch";
+import {NodeEventSuppressor} from "./NodeEventSwitch";
 import {NodeFlyToSensor} from "./NodeFlyToSensor";
 import {NodeCollisionCatch, NodeCollisionCombineCatch, NodeCollisionFlyCatch} from "./NodeCollisionCatch";
 import {NodeLogicLatch} from "./NodeLogicLatch";
@@ -33,7 +33,6 @@ export const NodeCreateTable = [
 	[NodeLatchCount.nodeTypeStatic, NodeLatchCount.deserialize],
 	[NodeLogicLatch.nodeTypeStatic, NodeLogicLatch.deserialize],
 	[NodeEventSuppressor.nodeTypeStatic, NodeEventSuppressor.deserialize],
-	[NodeEventSuppressorFly.nodeTypeStatic, NodeEventSuppressorFly.deserialize],
 	[NodeSum.nodeTypeStatic, NodeSum.deserialize],
 	[NodeScore.nodeTypeStatic, NodeScore.deserialize],
 	[NodeEndCheck.nodeTypeStatic, NodeEndCheck.deserialize],
@@ -64,10 +63,9 @@ export const NodeCalcTypeT = [
 export type NodeCalcType = NodeLogicType | NodeLogicLatch | NodeLatchType | NodeSum;
 export const NodeEventSwitchTypeT = [
 	NodeEventSuppressor,
-	NodeEventSuppressorFly,
 	NodeFlyToSensor,
 ] as const;
-export type NodeEventSwitchType = NodeEventSuppressor | NodeEventSuppressorFly | NodeFlyToSensor;
+export type NodeEventSwitchType = NodeEventSuppressor | NodeFlyToSensor;
 export const NodeAllTypeT = [
 	NodeSensor,
 	...NodeCollisionCatchTypeT,

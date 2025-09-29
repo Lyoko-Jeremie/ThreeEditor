@@ -26,7 +26,7 @@ export class NodeCollisionCatch extends NodeParent implements NodeStateFull {
 		this.id = id ?? this.id;
 		this.addInput('inputCollision', new ClassicPreset.Input(SocketLib.sensorOutput, '碰撞输入', false));
 		this.addOutput('collisionState', new ClassicPreset.Output(SocketLib.normalLogic, '是否正在碰撞', true));
-		this.addOutput('isStartEdge', new ClassicPreset.Output(SocketLib.sensorOutput, '是否刚发生碰撞', true));
+		this.addOutput('isStartEdge', new ClassicPreset.Output(SocketLib.sensorOutput, '正开始碰撞事件', true));
 	}
 
 	// +1 when collision start , -1 when collision end
@@ -90,7 +90,7 @@ export class NodeCollisionFlyCatch extends NodeParent implements NodeStateFull {
 		this.addInput('inputCollision', new ClassicPreset.Input(SocketLib.sensorOutputFly, '碰撞输入', false));
 		this.addInput('controlFlyValue', new ClassicPreset.Input(SocketLib.flyPort, '无人机端口', false));
 		this.addOutput('collisionState', new ClassicPreset.Output(SocketLib.normalLogic, '是否正在碰撞', true));
-		this.addOutput('isStartEdge', new ClassicPreset.Output(SocketLib.sensorOutput, '是否刚发生碰撞', true));
+		this.addOutput('isStartEdge', new ClassicPreset.Output(SocketLib.sensorOutput, '正开始碰撞事件', true));
 	}
 
 	// +1 when collision start , -1 when collision end
@@ -159,7 +159,7 @@ export class NodeCollisionCombineCatch extends NodeParent implements NodeStateFu
 		this.addInput('inputFlyCollision', new ClassicPreset.Input(SocketLib.sensorOutputFly, '无人机碰撞输入', false));
 		this.addInput('controlFlyValue', new ClassicPreset.Input(SocketLib.flyPort, '无人机端口', false));
 		this.addOutput('collisionState', new ClassicPreset.Output(SocketLib.normalLogic, '是否正在碰撞', true));
-		this.addOutput('isStartEdge', new ClassicPreset.Output(SocketLib.sensorOutput, '是否刚发生碰撞', true));
+		this.addOutput('isStartEdge', new ClassicPreset.Output(SocketLib.sensorOutput, '正开始碰撞事件', true));
 	}
 
 	// +1 when collision start , -1 when collision end

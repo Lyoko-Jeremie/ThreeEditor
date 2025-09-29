@@ -13,13 +13,13 @@ export class NodeLatchCount extends NodeParent implements NodeStateFull {
 
 	needSkipBuffer = false;
 
-	_labelPrefix: string = '碰撞计数器: ';
+	_labelPrefix: string = '碰撞事件计数器: ';
 
 	constructor(label: string, id?: string) {
 		super(label);
 		this.labelName = label;
 		this.id = id ?? this.id;
-		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '碰撞', false));
+		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.sensorOutput, '碰撞事件', false));
 		this.addOutput('latchCountState', new ClassicPreset.Output(SocketLib.normalLogic, '已碰撞次数', true));
 	}
 
@@ -40,7 +40,7 @@ export class NodeLatchCount extends NodeParent implements NodeStateFull {
 	}
 
 	static async create(editor: ReteEditorInterface) {
-		return nameDialog(editor, '碰撞计数器 名称', (name) => new NodeLatchCount(name));
+		return nameDialog(editor, '碰撞事件计数器 名称', (name) => new NodeLatchCount(name));
 	}
 
 	serialization(): NodeSerializationDataType {
@@ -58,6 +58,6 @@ export class NodeLatchCount extends NodeParent implements NodeStateFull {
 
 export const NodeMenuLatchCount = (editor: ReteEditorInterface): [string, () => Promise<NodeLatchCount>][] => {
 	return [
-		["碰撞计数器", async () => NodeLatchCount.create(editor)],
+		["碰撞事件计数器", async () => NodeLatchCount.create(editor)],
 	] as const;
 };

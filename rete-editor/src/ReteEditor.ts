@@ -30,6 +30,7 @@ import {NodeMenuCollisionCatch} from "./NodeLib/NodeCollisionCatch";
 import {NodeMenuLogicLatch} from "./NodeLib/NodeLogicLatch";
 import {NodeMenuEndCheck} from "./NodeLib/NodeEndCheck";
 import {NodeMenuToolsLib} from "./NodeLib/NodeToolsLib/NodeMenuToolsLib";
+import type {ItemsCollection} from "rete-context-menu-plugin/_types/types";
 
 export {
 	ClassicPreset,
@@ -49,6 +50,83 @@ export function runLater<T extends any = void>(f: () => T | Promise<T>, timeout 
 	return re.promise;
 }
 
+function MenuItemCreateFactory(thisPtr: ReteEditor) {
+	const m = ContextMenuPresets.classic.setup([
+		// ["re layout", async () => {
+		// 	await this.reLayout();
+		// }],
+		// ["Node", async () => {
+		// 	return Swal.fire({
+		// 		title: 'New name',
+		// 		input: 'text',
+		// 		inputValue: '',
+		// 		// showCancelButton: true,
+		// 		confirmButtonText: 'Ok',
+		// 		// cancelButtonText: 'Cancel',
+		// 	}).then((result) => {
+		// 		const n = new Node(result.value, 'node-' + Math.random().toString(36).slice(2, 7));
+		// 		n.addControl(result.value, new ClassicPreset.InputControl("text", {initial: result.value}));
+		// 		n.addOutput(result.value, new ClassicPreset.Output(this.socket, undefined, true));
+		// 		runLater(async () => {
+		// 			await this.updateOneNodeSize(n);
+		// 			this.updateMinimap();
+		// 		}, 50);
+		// 		return n;
+		// 	});
+		// }],
+		// ["NodeA", () => new NodeA(socket)],
+		// ["NodeB", () => new NodeB(socket)],
+		['碰撞捕获器', [
+			...NodeMenuCollisionCatch(thisPtr),
+		]],
+		['碰撞记录器', [
+			...NodeMenuLatch(thisPtr),
+			...NodeMenuLatchCount(thisPtr),
+			...NodeMenuLogicLatch(thisPtr),
+		]],
+		['碰撞抑制器', [
+			...NodeMenuEventSuppressor(thisPtr),
+		]],
+		...NodeMenuFly(thisPtr),
+		...NodeMenuFlyToSensor(thisPtr),
+		NodeMenuSum(thisPtr),
+		['逻辑操作', NodeMenuLogic(thisPtr)],
+		NodeMenuScore(thisPtr),
+		NodeMenuEndCheck(thisPtr),
+		['工具节点', NodeMenuToolsLib(thisPtr)],
+	]);
+
+	return function MenuItemCreate(context: ("root" | Schemes["Node"]), plugin: ContextMenuPlugin<Schemes>): ItemsCollection {
+		console.log('MenuItemCreate context', context);
+		const r = m(context, plugin);
+
+		if (context === 'root') {
+			// graph context menu
+		} else {
+			if ('source' in context && 'target' in context) {
+				// connection context menu
+				const connectionId = context.id;
+			} else {
+				// node
+				const nodeId = context.id;
+				if (context.nodeType === NodeSensor.nodeTypeStatic) {
+					return {
+						searchBar: false,
+						list: [],
+					};
+				}
+				// const connections = thisPtr.editor.getConnections().filter(c => {
+				// 	return c.source === nodeId || c.target === nodeId
+				// })
+
+			}
+		}
+
+		r.searchBar = false;
+		return r;
+	}
+}
+
 export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface {
 	graph = structures(this.editor);
 
@@ -57,50 +135,7 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 	history = new HistoryPlugin<Schemes, HistoryActions<Schemes>>();
 	arrange = new AutoArrangePlugin<Schemes>();
 	contextMenu = new ContextMenuPlugin<Schemes>({
-		items: ContextMenuPresets.classic.setup([
-			// ["re layout", async () => {
-			// 	await this.reLayout();
-			// }],
-			// ["Node", async () => {
-			// 	return Swal.fire({
-			// 		title: 'New name',
-			// 		input: 'text',
-			// 		inputValue: '',
-			// 		// showCancelButton: true,
-			// 		confirmButtonText: 'Ok',
-			// 		// cancelButtonText: 'Cancel',
-			// 	}).then((result) => {
-			// 		const n = new Node(result.value, 'node-' + Math.random().toString(36).slice(2, 7));
-			// 		n.addControl(result.value, new ClassicPreset.InputControl("text", {initial: result.value}));
-			// 		n.addOutput(result.value, new ClassicPreset.Output(this.socket, undefined, true));
-			// 		runLater(async () => {
-			// 			await this.updateOneNodeSize(n);
-			// 			this.updateMinimap();
-			// 		}, 50);
-			// 		return n;
-			// 	});
-			// }],
-			// ["NodeA", () => new NodeA(socket)],
-			// ["NodeB", () => new NodeB(socket)],
-			['碰撞捕获器', [
-				...NodeMenuCollisionCatch(this),
-			]],
-			['碰撞记录器', [
-				...NodeMenuLatch(this),
-				...NodeMenuLatchCount(this),
-				...NodeMenuLogicLatch(this),
-			]],
-			['碰撞抑制器', [
-				...NodeMenuEventSuppressor(this),
-			]],
-			...NodeMenuFly(this),
-			...NodeMenuFlyToSensor(this),
-			NodeMenuSum(this),
-			['逻辑操作', NodeMenuLogic(this)],
-			NodeMenuScore(this),
-			NodeMenuEndCheck(this),
-			['工具节点', NodeMenuToolsLib(this)],
-		]),
+		items: MenuItemCreateFactory(this),
 	});
 	// scopes = new ScopesPlugin<Schemes>({
 	// 	// exclude: id => {
@@ -199,7 +234,18 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 			const r = Presets.contextMenu.setup({delay: 100,});
 			const oldRender = r.render;
 			r.render = (context, plugin) => {
+				console.log('context.data', context.data);
 				context.data.searchBar = false;
+				if (context.data.items) {
+					for (const item of context.data.items) {
+						if (item.key === 'delete') {
+							item.label = '删除';
+						}
+						if (item.key === 'clone') {
+							item.label = '复制';
+						}
+					}
+				}
 				const d = oldRender(context, plugin);
 				return d;
 			}

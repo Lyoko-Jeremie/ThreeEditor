@@ -1,4 +1,4 @@
-import {html, LitElement} from "lit";
+import {css, html, LitElement} from "lit";
 import {SignalWatcher, signal} from '@lit-labs/signals';
 
 export class CustomMessageControl extends SignalWatcher(LitElement) {
@@ -11,19 +11,28 @@ export class CustomMessageControl extends SignalWatcher(LitElement) {
 	declare data: {
 		textSignal: ReturnType<typeof signal<string>>,
 		isCustomMessageControl: boolean,
+		needBorder?: boolean,
 	} | null;
 
 	render() {
 		if (!this.data) return html``;
-		const d: any = this.data;
+
+		let style = css``;
+		if (this.data.needBorder) {
+			style = css`border: rgba(207, 207, 207, 0.5) 1px solid;
+				padding: 0px 3px;
+				border-radius: 6px;`;
+		}
 
 		return html`
 			<div
+				.style=${style}
 				@pointerdown=${(e: MouseEvent) => e.stopPropagation()}
 				@doubleclick=${(e: MouseEvent) => e.stopPropagation()}
 				@click=${(e: MouseEvent) => e.stopPropagation()}
 				@dblclick=${(e: MouseEvent) => e.stopPropagation()}
-			>${this.data.textSignal.get()}</div>
+			>${this.data.textSignal.get()}
+			</div>
 		`;
 	}
 

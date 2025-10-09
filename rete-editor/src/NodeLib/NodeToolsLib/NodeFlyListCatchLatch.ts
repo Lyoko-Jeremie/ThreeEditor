@@ -1,4 +1,4 @@
-import {ClassicPreset} from 'rete';
+import {ClassicPreset, getUID} from 'rete';
 import {flatten, isEqual} from 'lodash';
 import {type SensorOutputFlyCollisionData, SocketLib} from "../SocketLib";
 import type {ReteEditorInterface} from "../../ReteEditorInterface";
@@ -6,6 +6,8 @@ import {callNoDialog} from "../NameSwal";
 import {NodeParent, type NodeStateFull} from "../NodeParent";
 import type {NodeSerializationDataType} from "../../ReteSerializationTypeDef";
 import {NODE_WIDTH} from "../NodeConstantConfig";
+import {signal} from "../../CustomTemplateSignal";
+import type {Control} from "rete/_types/presets/classic";
 
 export class NodeFlyListCatchLatch extends NodeParent implements NodeStateFull {
 	static nodeTypeStatic: string = 'NodeFlyListCatchLatch';
@@ -24,6 +26,13 @@ export class NodeFlyListCatchLatch extends NodeParent implements NodeStateFull {
 		this.addInput('inputFlyEvent', new ClassicPreset.Input(SocketLib.sensorOutputFly, '无人机碰撞输入', false));
 		this.addInput('flyPortList', new ClassicPreset.Input(SocketLib.flyPort, '无人机端口列表', true));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normalLogic, '是否全部碰撞完成', true));
+		this.addControl('messageReadMe', {
+			id: getUID(),
+			index: -1,
+			textSignal: signal('指定无人机需全部触发过碰撞'),
+			isCustomMessageControl: true,
+			needBorder: true,
+		} as Control);
 	}
 
 	collisionFly: string[] = [];

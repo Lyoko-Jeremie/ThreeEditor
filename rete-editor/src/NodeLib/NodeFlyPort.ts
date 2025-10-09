@@ -6,6 +6,7 @@ import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 import {NODE_WIDTH} from "./NodeConstantConfig";
+import {signal} from '../CustomTemplateSignal';
 
 export type NodeFlyPortInnerData = {
 	inputFlyConstValue?: string,
@@ -23,7 +24,7 @@ export class NodeFlyPort extends NodeParent {
 
 	needSkipBuffer = true;
 
-	_labelPrefix: string = '无人机端口: ';
+	_labelPrefix: string = '无人机端口节点: ';
 
 	constructor(label: string, id?: string, innerData?: NodeFlyPortInnerData) {
 		super(label);
@@ -45,6 +46,12 @@ export class NodeFlyPort extends NodeParent {
 			},
 			isCustomTextInput: true,
 			readonly: false,
+		} as Control);
+		this.addControl('messageReadMe', {
+			id: getUID(),
+			index: -1,
+			textSignal: signal('无人机端口：'),
+			isCustomMessageControl: true,
 		} as Control);
 	}
 

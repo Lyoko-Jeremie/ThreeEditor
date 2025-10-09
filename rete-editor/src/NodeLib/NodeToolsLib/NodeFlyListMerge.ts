@@ -1,4 +1,4 @@
-import {ClassicPreset} from 'rete';
+import {ClassicPreset, getUID} from 'rete';
 import {flatten} from 'lodash';
 import {SocketLib} from "../SocketLib";
 import type {ReteEditorInterface} from "../../ReteEditorInterface";
@@ -6,6 +6,8 @@ import {callNoDialog} from "../NameSwal";
 import {NodeParent} from "../NodeParent";
 import type {NodeSerializationDataType} from "../../ReteSerializationTypeDef";
 import {NODE_WIDTH} from "../NodeConstantConfig";
+import {signal} from "../../CustomTemplateSignal";
+import type {Control} from "rete/_types/presets/classic";
 
 export class NodeFlyListMerge extends NodeParent {
 	static nodeTypeStatic: string = 'NodeFlyListMerge';
@@ -23,6 +25,13 @@ export class NodeFlyListMerge extends NodeParent {
 		this.id = id ?? this.id;
 		this.addInput('flyPortList', new ClassicPreset.Input(SocketLib.flyPort, '无人机端口列表', true));
 		this.addOutput('flyPortGroup', new ClassicPreset.Output(SocketLib.flyPort, '无人机端口组', true));
+		this.addControl('messageReadMe', {
+			id: getUID(),
+			index: -1,
+			textSignal: signal('合并多个无人机端口输入为一个以简化连接'),
+			isCustomMessageControl: true,
+			needBorder: true,
+		} as Control);
 	}
 
 	data(inputs: { flyPortList?: (string | string[])[] }): { flyPortGroup: string[] } {

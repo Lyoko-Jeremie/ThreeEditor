@@ -1,10 +1,12 @@
-import {ClassicPreset} from 'rete';
+import {ClassicPreset, getUID} from 'rete';
 import {type SensorOutputCollisionData, SocketLib} from "../SocketLib";
 import type {ReteEditorInterface} from "../../ReteEditorInterface";
 import {callNoDialog} from "../NameSwal";
 import {NodeParent, type NodeStateFull} from "../NodeParent";
 import type {NodeSerializationDataType} from "../../ReteSerializationTypeDef";
 import {NODE_WIDTH} from "../NodeConstantConfig";
+import {signal} from "../../CustomTemplateSignal";
+import type {Control} from "rete/_types/presets/classic";
 
 export class NodeLatchOutputBySwitch extends NodeParent implements NodeStateFull {
 	static nodeTypeStatic: string = 'NodeLatchOutputBySwitch';
@@ -23,6 +25,13 @@ export class NodeLatchOutputBySwitch extends NodeParent implements NodeStateFull
 		this.addInput('inputSuppress', new ClassicPreset.Input(SocketLib.normalLogic, '是否抑制', false));
 		this.addInput('inputEvent', new ClassicPreset.Input(SocketLib.sensorOutput, '碰撞事件', false));
 		this.addOutput('outputValue', new ClassicPreset.Output(SocketLib.normalLogic, '是否已碰撞', true));
+		this.addControl('messageReadMe', {
+			id: getUID(),
+			index: -1,
+			textSignal: signal('过滤碰撞事件并锁存'),
+			isCustomMessageControl: true,
+			needBorder: true,
+		} as Control);
 	}
 
 	latchState = 0;

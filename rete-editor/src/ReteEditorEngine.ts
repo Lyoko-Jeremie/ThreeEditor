@@ -224,4 +224,8 @@ export class ReteEditorEngine {
 		return this.editor.getNodes().filter(n => NodeSensor.isNodeSensor(n));
 	}
 
+	getEndCheckNodeList(): NodeEndCheck[] {
+		return this.editor.getNodes().filter(n => NodeEndCheck.isNodeEndCheck(n));
+	}
+
 }

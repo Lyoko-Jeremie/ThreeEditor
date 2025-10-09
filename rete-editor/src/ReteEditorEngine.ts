@@ -11,6 +11,7 @@ import {type NodeAllType, NodeCreateTable} from "./NodeLib/NodeLib";
 import type {SerializationExportDataType} from "./ReteSerializationTypeDef";
 import {NodeParent, type NodeStateFull} from "./NodeLib/NodeParent";
 import {NodeEndCheck} from "./NodeLib/NodeEndCheck";
+import {NodeSensor} from "./NodeLib/NodeSensor";
 
 export type AreaExtra =
 	LitArea2D<Schemes>
@@ -217,6 +218,10 @@ export class ReteEditorEngine {
 				(n as NodeStateFull).resetState();
 			}
 		}
+	}
+
+	getSensorNodeList(): NodeSensor[] {
+		return this.editor.getNodes().filter(n => NodeSensor.isNodeSensor(n));
 	}
 
 }

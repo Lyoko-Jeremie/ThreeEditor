@@ -183,6 +183,12 @@ export class ReteEditor extends ReteEditorEngine implements ReteEditorInterface 
 						return () => html`
 							<custom-text-input .data=${payload}></custom-text-input>`;
 					}
+					if ((context.payload as any).isCustomMessageControl) {
+						const {payload} = context;
+
+						return () => html`
+							<custom-message-control .data=${payload}></custom-message-control>`;
+					}
 					// if (context.payload instanceof ClassicPreset.InputControl) { // don't forget to explicitly specify the built-in <rete-control>
 					// 	return () => html`<rete-control .data=${context.payload}></rete-control>`;
 					// }

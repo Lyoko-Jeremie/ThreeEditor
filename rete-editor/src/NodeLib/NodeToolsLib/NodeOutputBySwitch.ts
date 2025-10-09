@@ -12,7 +12,7 @@ export class NodeLatchOutputBySwitch extends NodeParent implements NodeStateFull
 	width = NODE_WIDTH;
 	height!: number;
 
-	needSkipBuffer = false;
+	needSkipBuffer: true = true;
 
 	_labelPrefix: string = '【碰撞事件过滤锁存器】';
 

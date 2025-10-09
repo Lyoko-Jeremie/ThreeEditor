@@ -13,7 +13,7 @@ export class NodeFlyListCatchLatch extends NodeParent implements NodeStateFull {
 	width = NODE_WIDTH;
 	height!: number;
 
-	needSkipBuffer = false;
+	needSkipBuffer: true = true;
 
 	_labelPrefix: string = '【无人机碰撞匹配器】';
 

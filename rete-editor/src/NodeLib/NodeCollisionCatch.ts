@@ -18,7 +18,7 @@ export class NodeCollisionCatch extends NodeParent implements NodeStateFull {
 	width = NODE_WIDTH;
 	height!: number;
 
-	needSkipBuffer = false;
+	needSkipBuffer: true = true;
 
 	_labelPrefix: string = '传感器事件捕获器: ';
 
@@ -85,7 +85,7 @@ export class NodeCollisionFlyCatch extends NodeParent implements NodeStateFull {
 	width = NODE_WIDTH;
 	height!: number;
 
-	needSkipBuffer = false;
+	needSkipBuffer: true = true;
 
 	_labelPrefix: string = '无人机事件捕获器: ';
 
@@ -157,7 +157,7 @@ export class NodeCollisionCombineCatch extends NodeParent implements NodeStateFu
 	width = NODE_WIDTH;
 	height!: number;
 
-	needSkipBuffer = false;
+	needSkipBuffer: true = true;
 
 	_labelPrefix: string = '联合事件捕获器: ';
 

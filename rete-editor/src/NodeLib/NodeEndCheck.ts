@@ -12,7 +12,7 @@ export class NodeEndCheck extends NodeParent implements NodeStateFull {
 	width = NODE_WIDTH;
 	height!: number;
 
-	needSkipBuffer = true;
+	needSkipBuffer: true = true;
 
 	_labelPrefix: string = '成绩完成检测节点: ';
 

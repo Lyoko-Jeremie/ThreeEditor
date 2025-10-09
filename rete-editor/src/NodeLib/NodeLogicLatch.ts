@@ -12,7 +12,7 @@ export class NodeLogicLatch extends NodeParent implements NodeStateFull {
 	width = NODE_WIDTH;
 	height!: number;
 
-	needSkipBuffer = false;
+	needSkipBuffer: true = true;
 
 	_labelPrefix: string = '逻辑锁存器: ';
 

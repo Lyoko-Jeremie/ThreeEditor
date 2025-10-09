@@ -7,6 +7,7 @@ import {CustomSocket} from "./SocketLib";
 
 export interface NodeStateFull {
 	resetState(): void;
+	needSkipBuffer: true;
 }
 
 
@@ -18,7 +19,7 @@ export abstract class NodeParent extends ClassicPreset.Node<
 > implements NeedSkipBuffer, NodeBase {
 	declare id: string;
 
-	abstract needSkipBuffer: boolean;
+	abstract needSkipBuffer: boolean | true;
 	static nodeTypeStatic: string;
 	abstract nodeType: string;
 	static width: number;

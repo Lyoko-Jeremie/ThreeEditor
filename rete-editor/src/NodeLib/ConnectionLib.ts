@@ -211,6 +211,7 @@ const checkConnectionFly = {
 	],
 	out: [
 		...NodeCollisionCatchKeyL,
+		...NodeToolsLibKeyL,
 	],
 };
 
@@ -258,6 +259,7 @@ const checkConnectionFlyConfig = {
 	],
 	out: [
 		...NodeCollisionCatchKeyL,
+		...NodeToolsLibKeyL,
 	],
 };
 

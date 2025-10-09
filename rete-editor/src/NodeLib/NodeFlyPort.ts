@@ -6,7 +6,6 @@ import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 import {NODE_WIDTH} from "./NodeConstantConfig";
-import {signal} from '../CustomTemplateSignal';
 
 export type NodeFlyPortInnerData = {
 	inputFlyConstValue?: string,
@@ -50,7 +49,7 @@ export class NodeFlyPort extends NodeParent {
 		this.addControl('messageReadMe', {
 			id: getUID(),
 			index: -1,
-			textSignal: signal('无人机端口：'),
+			textSignal: '无人机端口：',
 			isCustomMessageControl: true,
 		} as Control);
 	}

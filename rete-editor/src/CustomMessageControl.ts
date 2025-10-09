@@ -9,7 +9,7 @@ export class CustomMessageControl extends SignalWatcher(LitElement) {
 	};
 
 	declare data: {
-		textSignal: ReturnType<typeof signal<string>>,
+		textSignal: ReturnType<typeof signal<string>> | string,
 		isCustomMessageControl: boolean,
 		needBorder?: boolean,
 	} | null;
@@ -31,7 +31,7 @@ export class CustomMessageControl extends SignalWatcher(LitElement) {
 				@doubleclick=${(e: MouseEvent) => e.stopPropagation()}
 				@click=${(e: MouseEvent) => e.stopPropagation()}
 				@dblclick=${(e: MouseEvent) => e.stopPropagation()}
-			>${this.data.textSignal.get()}
+			>${ typeof this.data.textSignal === 'string' ? this.data.textSignal : this.data.textSignal.get()}
 			</div>
 		`;
 	}

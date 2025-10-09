@@ -5,7 +5,6 @@ import {callNoDialog} from "../NameSwal";
 import {NodeParent, type NodeStateFull} from "../NodeParent";
 import type {NodeSerializationDataType} from "../../ReteSerializationTypeDef";
 import {NODE_WIDTH} from "../NodeConstantConfig";
-import {signal} from "../../CustomTemplateSignal";
 import type {Control} from "rete/_types/presets/classic";
 
 export class NodeLatchOutputBySwitch extends NodeParent implements NodeStateFull {
@@ -28,7 +27,7 @@ export class NodeLatchOutputBySwitch extends NodeParent implements NodeStateFull
 		this.addControl('messageReadMe', {
 			id: getUID(),
 			index: -1,
-			textSignal: signal('过滤碰撞事件并锁存'),
+			textSignal: '过滤碰撞事件并锁存',
 			isCustomMessageControl: true,
 			needBorder: true,
 		} as Control);

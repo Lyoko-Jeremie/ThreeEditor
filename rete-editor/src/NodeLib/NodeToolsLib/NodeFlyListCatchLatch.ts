@@ -6,7 +6,6 @@ import {callNoDialog} from "../NameSwal";
 import {NodeParent, type NodeStateFull} from "../NodeParent";
 import type {NodeSerializationDataType} from "../../ReteSerializationTypeDef";
 import {NODE_WIDTH} from "../NodeConstantConfig";
-import {signal} from "../../CustomTemplateSignal";
 import type {Control} from "rete/_types/presets/classic";
 
 export class NodeFlyListCatchLatch extends NodeParent implements NodeStateFull {
@@ -29,7 +28,7 @@ export class NodeFlyListCatchLatch extends NodeParent implements NodeStateFull {
 		this.addControl('messageReadMe', {
 			id: getUID(),
 			index: -1,
-			textSignal: signal('指定无人机需全部触发过碰撞'),
+			textSignal: '指定无人机需全部触发过碰撞',
 			isCustomMessageControl: true,
 			needBorder: true,
 		} as Control);

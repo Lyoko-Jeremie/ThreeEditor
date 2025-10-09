@@ -6,7 +6,6 @@ import {callNoDialog} from "../NameSwal";
 import {NodeParent} from "../NodeParent";
 import type {NodeSerializationDataType} from "../../ReteSerializationTypeDef";
 import {NODE_WIDTH} from "../NodeConstantConfig";
-import {signal} from "../../CustomTemplateSignal";
 import type {Control} from "rete/_types/presets/classic";
 
 export class NodeFlyListMerge extends NodeParent {
@@ -28,7 +27,7 @@ export class NodeFlyListMerge extends NodeParent {
 		this.addControl('messageReadMe', {
 			id: getUID(),
 			index: -1,
-			textSignal: signal('合并多个无人机端口输入为一个以简化连接'),
+			textSignal: '合并多个无人机端口输入为一个以简化连接',
 			isCustomMessageControl: true,
 			needBorder: true,
 		} as Control);

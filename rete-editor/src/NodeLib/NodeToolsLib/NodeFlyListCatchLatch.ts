@@ -1,11 +1,10 @@
 import {ClassicPreset} from 'rete';
-import {isEqual} from 'lodash';
-import {type SensorOutputCollisionData, type SensorOutputFlyCollisionData, SocketLib} from "../SocketLib";
+import {flatten, isEqual} from 'lodash';
+import {type SensorOutputFlyCollisionData, SocketLib} from "../SocketLib";
 import type {ReteEditorInterface} from "../../ReteEditorInterface";
-import {callNoDialog, nameDialog} from "../NameSwal";
+import {callNoDialog} from "../NameSwal";
 import {NodeParent, type NodeStateFull} from "../NodeParent";
 import type {NodeSerializationDataType} from "../../ReteSerializationTypeDef";
-import {runLater} from "../runLater";
 import {NODE_WIDTH} from "../NodeConstantConfig";
 
 export class NodeFlyListCatchLatch extends NodeParent implements NodeStateFull {
@@ -29,8 +28,10 @@ export class NodeFlyListCatchLatch extends NodeParent implements NodeStateFull {
 
 	collisionFly: string[] = [];
 
-	data(inputs: { flyPortList?: string[], inputFlyEvent?: SensorOutputFlyCollisionData[] }): { outputValue: number } {
-		const flyPortList = inputs.flyPortList ?? [];
+	data(inputs: { flyPortList?: (string | string[])[], inputFlyEvent?: SensorOutputFlyCollisionData[] }): {
+		outputValue: number,
+	} {
+		const flyPortList = flatten(inputs.flyPortList ?? []);
 		if (flyPortList.length === 0) {
 			return {outputValue: 0};
 		}

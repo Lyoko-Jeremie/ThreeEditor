@@ -9,6 +9,7 @@ import {nameDialog} from "./NameSwal";
 import {NodeParent, type NodeStateFull} from "./NodeParent";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 import {NODE_WIDTH} from "./NodeConstantConfig";
+import {flatten} from 'lodash';
 
 
 export class NodeCollisionCatch extends NodeParent implements NodeStateFull {
@@ -101,14 +102,14 @@ export class NodeCollisionFlyCatch extends NodeParent implements NodeStateFull {
 	// +1 when collision start , -1 when collision end
 	collisionRefCount = 0;
 
-	data(inputs: { inputCollision?: SensorOutputFlyCollisionData[], controlFlyValue?: string[] }): {
+	data(inputs: { inputCollision?: SensorOutputFlyCollisionData[], controlFlyValue?: (string | string[])[] }): {
 		collisionState: boolean,
 		isStartEdge: SensorOutputCollisionData,
 	} {
 		let isStartEdgeData: SensorOutputCollisionData = {id: -1, isStart: false};
 		if (inputs.inputCollision && inputs.controlFlyValue) {
 			const inputValue = inputs.inputCollision[0];
-			const portValue = inputs.controlFlyValue[0];
+			const portValue = flatten(inputs.controlFlyValue)[0];
 			if (inputValue && portValue && inputValue.fly === portValue) {
 				if (inputValue.isStart) {
 					this.collisionRefCount++;
@@ -177,7 +178,7 @@ export class NodeCollisionCombineCatch extends NodeParent implements NodeStateFu
 	data(inputs: {
 		inputCollision?: SensorOutputCollisionData[],
 		inputFlyCollision?: SensorOutputFlyCollisionData[],
-		controlFlyValue?: string[]
+		controlFlyValue?: (string | string[])[]
 	}): {
 		collisionState: boolean,
 		isStartEdge: SensorOutputCollisionData,
@@ -186,7 +187,7 @@ export class NodeCollisionCombineCatch extends NodeParent implements NodeStateFu
 		if (inputs.inputCollision && inputs.controlFlyValue && inputs.inputFlyCollision) {
 			const inputValue = inputs.inputCollision[0];
 			const inputFlyValue = inputs.inputFlyCollision[0];
-			const portValue = inputs.controlFlyValue[0];
+			const portValue = flatten(inputs.controlFlyValue)[0];
 			if (inputValue && inputFlyValue && portValue && inputFlyValue.fly === portValue && inputValue.id !== -1 && inputFlyValue.id !== -1) {
 				if (inputValue.isStart && inputFlyValue.isStart) {
 					this.collisionRefCount++;

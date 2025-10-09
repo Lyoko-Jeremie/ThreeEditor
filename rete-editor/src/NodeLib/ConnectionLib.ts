@@ -22,6 +22,7 @@ import type {NodeCollisionCatch} from "./NodeCollisionCatch";
 import {NodeEndCheck} from "./NodeEndCheck";
 import {NodeLogicConstant} from "./NodeLogicType";
 import {NodeToolsLibKeyL} from "./NodeToolsLib/NodeMenuToolsLib";
+import {NodeFlyListMerge} from "./NodeToolsLib/NodeFlyListMerge";
 
 type ConnectSideType = ClassicPreset.Output<CustomSocket>;
 
@@ -256,6 +257,7 @@ export class ConnectionFly<A extends NodeSensor, B extends NodeCollisionCatch> e
 const checkConnectionFlyConfig = {
 	in: [
 		NodeFlyPort.nodeTypeStatic,
+		NodeFlyListMerge.nodeTypeStatic,
 	],
 	out: [
 		...NodeCollisionCatchKeyL,

@@ -1,10 +1,9 @@
 import {ClassicPreset} from 'rete';
 import {type SensorOutputCollisionData, SocketLib} from "../SocketLib";
 import type {ReteEditorInterface} from "../../ReteEditorInterface";
-import {callNoDialog, nameDialog} from "../NameSwal";
+import {callNoDialog} from "../NameSwal";
 import {NodeParent, type NodeStateFull} from "../NodeParent";
 import type {NodeSerializationDataType} from "../../ReteSerializationTypeDef";
-import {runLater} from "../runLater";
 import {NODE_WIDTH} from "../NodeConstantConfig";
 
 export class NodeLatchOutputBySwitch extends NodeParent implements NodeStateFull {

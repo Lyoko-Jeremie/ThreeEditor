@@ -15,6 +15,7 @@ import {
 	buttonModelLibSmallRing,
 } from './Menubar.Add.Model.js';
 import { menuAddSensorSimple } from './Menubar.Add.Sensor.js';
+import { menuAddFly } from './Menubar.Add.Fly.js';
 
 function MenubarAdd( editor ) {
 
@@ -47,6 +48,31 @@ function MenubarAdd( editor ) {
 
 	} );
 	options.add( option );
+
+	// Fly Airplane
+
+	const flyAirplaneSubmenuTitle = new UIRow().setTextContent( strings.getKey( 'menubar/add/fly_airplane' ) ).addClass( 'option' ).addClass( 'submenu-title' );
+	flyAirplaneSubmenuTitle.onMouseOver( function () {
+
+		const { top, right } = flyAirplaneSubmenuTitle.dom.getBoundingClientRect();
+		const { paddingTop } = getComputedStyle( this.dom );
+		flyAirplaneSubmenu.setLeft( right + 'px' );
+		flyAirplaneSubmenu.setTop( top - parseFloat( paddingTop ) + 'px' );
+		flyAirplaneSubmenu.setStyle( 'max-height', [ `calc( 100vh - ${top}px )` ] );
+		flyAirplaneSubmenu.setDisplay( 'block' );
+
+	} );
+	flyAirplaneSubmenuTitle.onMouseOut( function () {
+
+		flyAirplaneSubmenu.setDisplay( 'none' );
+
+	} );
+	options.add( flyAirplaneSubmenuTitle );
+
+	const flyAirplaneSubmenu = new UIPanel().setPosition( 'fixed' ).addClass( 'options' ).setDisplay( 'none' );
+	flyAirplaneSubmenuTitle.add( flyAirplaneSubmenu );
+
+	menuAddFly( flyAirplaneSubmenu, editor, strings );
 
 	// Sensor Simple
 

@@ -1268,6 +1268,8 @@ function Strings( config ) {
 
 			'menubar/add': '添加',
 
+			'menubar/add/fly_airplane': '无人机',
+
 			'menubar/add/sensor_simple': '碰撞传感器',
 
 			'menubar/add/template': '模版库',

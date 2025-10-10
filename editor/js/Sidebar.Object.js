@@ -504,6 +504,36 @@ function SidebarObject( editor ) {
 	} );
 	container.add( cleanCollisionType );
 
+	editor.signals.objectSelected.add( function ( object ) {
+
+		if ( object === null ) return;
+
+		let isFly = false;
+		editor.selected?.traverseAncestors( function ( a ) {
+
+			if ( a?.userData?.isFly ) {
+
+				isFly = true;
+
+			}
+
+		} );
+
+		if ( ! isFly ) {
+
+			collisionTypeRow.setHidden( false );
+			collisionTypeReadmeRow.setHidden( false );
+			cleanCollisionType.setHidden( false );
+
+		} else {
+
+			collisionTypeRow.setHidden( true );
+			collisionTypeReadmeRow.setHidden( true );
+			cleanCollisionType.setHidden( true );
+
+		}
+
+	} );
 
 
 	// barrier
@@ -545,6 +575,35 @@ function SidebarObject( editor ) {
 	isSensorBoxReadmeRow.setStyle( 'margin-bottom', [ '0.5em' ] );
 	isSensorBoxReadmeRow.add( new UIDiv().setTextContent( '设定为碰撞检测器的物体将可以被穿过，被穿过时或重叠时发出碰撞事件。其物理形状代表碰撞检测范围。可以在评分逻辑编辑器中设计碰撞检测器发出碰撞事件后的评分计算逻辑。' ) );
 	container.add( isSensorBoxReadmeRow );
+
+	editor.signals.objectSelected.add( function ( object ) {
+
+		if ( object === null ) return;
+
+		let isFly = false;
+		editor.selected?.traverseAncestors( function ( a ) {
+
+			if ( a?.userData?.isFly ) {
+
+				isFly = true;
+
+			}
+
+		} );
+
+		if ( ! isFly ) {
+
+			isSensorBoRow.setHidden( false );
+			isSensorBoxReadmeRow.setHidden( false );
+
+		} else {
+
+			isSensorBoRow.setHidden( true );
+			isSensorBoxReadmeRow.setHidden( true );
+
+		}
+
+	} );
 
 	// user data
 
@@ -1063,7 +1122,7 @@ function SidebarObject( editor ) {
 
 			objectUserData.setValue( JSON.stringify( object.userData, null, '  ' ) );
 			collisionType.setValue( object.userData.collisionType || 'inherit' );
-			isSensorBox.setValue( !! object.userData.isSensorBox );
+			isSensorBox?.setValue( !! object.userData.isSensorBox );
 
 		} catch ( error ) {
 

@@ -38,11 +38,41 @@ function SidebarProperties( editor ) {
 
 		if ( object === null ) return;
 
+		let isFly = false;
+		editor.selected?.traverseAncestors( function ( a ) {
+
+			if ( a?.userData?.isFly ) {
+
+				isFly = true;
+
+			}
+
+		} );
+
+		if ( isFly ) {
+
+			geometryTab.setHidden( true );
+			materialTab.setHidden( true );
+			scriptTab.setHidden( true );
+			// overwrite selected tab state
+			return;
+
+		} else {
+
+			// reset
+			geometryTab.setHidden( false );
+			materialTab.setHidden( false );
+			scriptTab.setHidden( false );
+
+		}
+
 		geometryTab.setHidden( ! object.geometry );
 
 		materialTab.setHidden( ! object.material );
 
-		scriptTab.setHidden( object === editor.camera );
+		scriptTab.setHidden( true );
+
+		// scriptTab.setHidden( object === editor.camera );
 
 		// set active tab
 
@@ -61,6 +91,36 @@ function SidebarProperties( editor ) {
 		}
 
 	}
+
+	editor.signals.objectSelected.add( function ( object ) {
+
+		if ( object === null ) return;
+
+		let isFly = false;
+		let topFly = null;
+		editor.selected?.traverseAncestors( function ( a ) {
+
+			if ( a?.userData?.isFly ) {
+
+				isFly = true;
+				topFly = a;
+
+			}
+
+		} );
+
+		if ( isFly ) {
+
+			// select the top fly
+			setTimeout( ()=>{
+
+				editor.select( topFly );
+
+			}, 10 );
+
+		}
+
+	} );
 
 	editor.signals.objectSelected.add( toggleTabs );
 

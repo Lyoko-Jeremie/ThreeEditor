@@ -509,6 +509,12 @@ function SidebarObject( editor ) {
 		if ( object === null ) return;
 
 		let isFly = false;
+		if ( object?.userData?.isFly ) {
+
+			isFly = true;
+
+		}
+
 		editor.selected?.traverseAncestors( function ( a ) {
 
 			if ( a?.userData?.isFly ) {
@@ -576,11 +582,43 @@ function SidebarObject( editor ) {
 	isSensorBoxReadmeRow.add( new UIDiv().setTextContent( '设定为碰撞检测器的物体将可以被穿过，被穿过时或重叠时发出碰撞事件。其物理形状代表碰撞检测范围。可以在评分逻辑编辑器中设计碰撞检测器发出碰撞事件后的评分计算逻辑。' ) );
 	container.add( isSensorBoxReadmeRow );
 
+	// fly port
+
+	const flyPortRow = new UIRow();
+	const flyPort = new UIInput().setWidth( '150px' ).setFontSize( '12px' ).onChange( function () {
+
+		try {
+
+			const userData = JSON.parse( JSON.stringify( editor.selected.userData ) );
+
+			userData.flyPort = flyPort.getValue();
+
+			editor.execute( new SetValueCommand( editor, editor.selected, 'userData', userData ) );
+
+		} catch ( exception ) {
+
+			console.warn( exception );
+
+		}
+
+	} );
+
+	flyPortRow.add( new UIText( strings.getKey( 'sidebar/object/name' ) ).setClass( 'Label' ) );
+	flyPortRow.add( flyPort );
+
+	container.add( flyPortRow );
+
 	editor.signals.objectSelected.add( function ( object ) {
 
 		if ( object === null ) return;
 
 		let isFly = false;
+		if ( object?.userData?.isFly ) {
+
+			isFly = true;
+
+		}
+
 		editor.selected?.traverseAncestors( function ( a ) {
 
 			if ( a?.userData?.isFly ) {
@@ -595,11 +633,33 @@ function SidebarObject( editor ) {
 
 			isSensorBoRow.setHidden( false );
 			isSensorBoxReadmeRow.setHidden( false );
+			objectUserDataRow.setHidden( false );
+			objectShadowRadiusRow.setHidden( false );
+			objectVisibleRow.setHidden( false );
+			objectShadowNormalBiasRow.setHidden( false );
+			objectShadowBiasRow.setHidden( false );
+			objectShadowIntensityRow.setHidden( false );
+			objectShadowRow.setHidden( false );
+			objectRenderOrderRow.setHidden( false );
+			objectUUIDRow.setHidden( false );
+			objectFrustumCulledRow.setHidden( false );
+			exportJson.setHidden( false );
 
 		} else {
 
 			isSensorBoRow.setHidden( true );
 			isSensorBoxReadmeRow.setHidden( true );
+			objectUserDataRow.setHidden( true );
+			objectShadowRadiusRow.setHidden( true );
+			objectVisibleRow.setHidden( true );
+			objectShadowNormalBiasRow.setHidden( true );
+			objectShadowBiasRow.setHidden( true );
+			objectShadowIntensityRow.setHidden( true );
+			objectShadowRow.setHidden( true );
+			objectRenderOrderRow.setHidden( true );
+			objectUUIDRow.setHidden( true );
+			objectFrustumCulledRow.setHidden( true );
+			exportJson.setHidden( true );
 
 		}
 
@@ -1123,6 +1183,8 @@ function SidebarObject( editor ) {
 			objectUserData.setValue( JSON.stringify( object.userData, null, '  ' ) );
 			collisionType.setValue( object.userData.collisionType || 'inherit' );
 			isSensorBox?.setValue( !! object.userData.isSensorBox );
+
+			flyPort.setValue( object.userData.flyPort ?? '' );
 
 		} catch ( error ) {
 

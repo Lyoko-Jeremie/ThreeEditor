@@ -39,6 +39,12 @@ function SidebarProperties( editor ) {
 		if ( object === null ) return;
 
 		let isFly = false;
+		if ( object?.userData?.isFly ) {
+
+			isFly = true;
+
+		}
+
 		editor.selected?.traverseAncestors( function ( a ) {
 
 			if ( a?.userData?.isFly ) {
@@ -98,6 +104,14 @@ function SidebarProperties( editor ) {
 
 		let isFly = false;
 		let topFly = null;
+		if ( object?.userData?.isFly ) {
+
+			isFly = true;
+			topFly = object;
+			return;
+
+		}
+
 		editor.selected?.traverseAncestors( function ( a ) {
 
 			if ( a?.userData?.isFly ) {
@@ -116,7 +130,7 @@ function SidebarProperties( editor ) {
 
 				editor.select( topFly );
 
-			}, 10 );
+			}, 100 );
 
 		}
 

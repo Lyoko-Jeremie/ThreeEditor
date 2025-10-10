@@ -18,6 +18,7 @@ function getUserData() {
 	return {
 		collisionType: 'simple_or_BoundingBox',
 		isFly: true,
+		flyPort: 'NoFlyPort',
 	};
 
 }
@@ -25,7 +26,7 @@ function getUserData() {
 export function menuAddFly( templateSubmenu, editor, strings ) {
 
 	const flyModelList = [
-		{ title: '无人机 1', file: 'FH0A.glb.json', resizeX: 0.006, resizeY: 0.006, resizeZ: 0.006 },
+		{ title: '无人机 1', file: 'FH0A.glb.json', resizeX: 0.01, resizeY: 0.01, resizeZ: 0.01 },
 	];
 
 	for ( const f of flyModelList ) {

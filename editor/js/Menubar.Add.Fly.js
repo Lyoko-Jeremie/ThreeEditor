@@ -13,12 +13,16 @@ function factoryFunc( editor, strings, textContent, onClick ) {
 
 }
 
+/**
+ * @return {{collisionType: string, isFly: boolean, flyPort: string, flyType: string}}
+ */
 function getUserData() {
 
 	return {
 		collisionType: 'simple_or_BoundingBox',
 		isFly: true,
 		flyPort: 'NoFlyPort',
+		flyType: '',
 	};
 
 }
@@ -26,7 +30,7 @@ function getUserData() {
 export function menuAddFly( templateSubmenu, editor, strings ) {
 
 	const flyModelList = [
-		{ title: '无人机 1', file: 'FH0A.glb.json', resizeX: 0.01, resizeY: 0.01, resizeZ: 0.01 },
+		{ title: '无人机 1', file: 'FH0A.glb.json', flyType: 'FH0A', resizeX: 0.01, resizeY: 0.01, resizeZ: 0.01 },
 	];
 
 	for ( const f of flyModelList ) {
@@ -41,6 +45,8 @@ export function menuAddFly( templateSubmenu, editor, strings ) {
 					m.name = f.title;
 
 					m.userData = getUserData();
+					m.userData.flyType = f.flyType;
+
 					m.scale.set( f.resizeX, f.resizeY, f.resizeZ );
 
 					editor.execute( new AddObjectCommand( editor, m ) );

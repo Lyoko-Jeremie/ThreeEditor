@@ -68,7 +68,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 					// to avoid the use case that user not close the dialog and immediately flush the page , this will case the data lost.
 					window.saveEditorState();
 
-				} );
+				} ).catch( e => console.error( 'reteEditor.serialization error:', e ) );
 
 
 			}

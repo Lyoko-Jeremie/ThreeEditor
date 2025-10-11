@@ -12,7 +12,8 @@ import type {SerializationExportDataType} from "./ReteSerializationTypeDef";
 import {NodeParent, type NodeStateFull} from "./NodeLib/NodeParent";
 import {NodeEndCheck} from "./NodeLib/NodeEndCheck";
 import {NodeSensor} from "./NodeLib/NodeSensor";
-import {kahnTopologicalSort} from "./kahnTopologicalSort";
+import {kahnTopologicalSort, willAddConnectionCreateCycleIterativeSimple} from "./kahnTopologicalSort";
+import {noticeDialog} from "./NodeLib/NoticeDialog";
 
 export type AreaExtra =
 	LitArea2D<Schemes>
@@ -44,9 +45,17 @@ export class ReteEditorEngine {
 				console.log('canMakeConnection', {from, to});
 				const [source, target] = getSourceTarget(from, to) || [null, null];
 
-				// TODO willAddConnectionCreateCycleIterativeSimple
-
 				if (source && target) {
+					const checkCycle = willAddConnectionCreateCycleIterativeSimple({
+						nodes: this.editor.getNodes(),
+						connections: this.editor.getConnections(),
+					}, source.nodeId, target.nodeId);
+					if (checkCycle) {
+						console.warn('canMakeConnection: will create cycle, not allowed', {from, to});
+						noticeDialog('该连接会导致节点图出现环，请调整连接后重试');
+						return false;
+					}
+
 					// const sourceNode = this.editor.getNode(source.nodeId);
 					// const targetNode = this.editor.getNode(target.nodeId);
 					// if (!sourceNode || !targetNode) return false;
@@ -118,10 +127,11 @@ export class ReteEditorEngine {
 		};
 		console.log('serialization', r);
 
-		// TODO kahnTopologicalSort
 		const checkKahn = kahnTopologicalSort(r);
 		if (!checkKahn) {
 			console.warn('serialization: connection has cycle. cannot be export');
+			await noticeDialog('当前节点图存在环，无法导出，请调整连接后重试');
+			throw new Error('serialization: connection has cycle. cannot be export');
 		}
 
 		return r;

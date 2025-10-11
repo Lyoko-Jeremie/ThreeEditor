@@ -66,7 +66,7 @@ export function kahnTopologicalSort(data: SerializationExportDataType): string[]
 	// 5. 检查是否存在循环
 	// 如果排序后的节点数小于总节点数，则存在循环。
 	if (visitedCount < data.nodes.length) {
-		console.error("Error: The graph contains a cycle and cannot be topologically sorted.");
+		console.warn("Error: The graph contains a cycle and cannot be topologically sorted.");
 		return null;
 	}
 
@@ -83,7 +83,10 @@ export function kahnTopologicalSort(data: SerializationExportDataType): string[]
  * @returns 如果添加新边会形成环则返回 true，否则返回 false。
  */
 export function willAddConnectionCreateCycleIterativeSimple(
-	data: SerializationExportDataType,
+	data: {
+		nodes: { id: string }[];
+		connections: { source: string; target: string }[];
+	},
 	newConnectionSource: string,
 	newConnectionTarget: string
 ): boolean {

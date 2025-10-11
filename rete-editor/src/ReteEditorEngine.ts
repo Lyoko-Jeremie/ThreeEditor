@@ -12,6 +12,7 @@ import type {SerializationExportDataType} from "./ReteSerializationTypeDef";
 import {NodeParent, type NodeStateFull} from "./NodeLib/NodeParent";
 import {NodeEndCheck} from "./NodeLib/NodeEndCheck";
 import {NodeSensor} from "./NodeLib/NodeSensor";
+import {kahnTopologicalSort} from "./kahnTopologicalSort";
 
 export type AreaExtra =
 	LitArea2D<Schemes>
@@ -42,6 +43,8 @@ export class ReteEditorEngine {
 			canMakeConnection: (from, to) => {
 				console.log('canMakeConnection', {from, to});
 				const [source, target] = getSourceTarget(from, to) || [null, null];
+
+				// TODO willAddConnectionCreateCycleIterativeSimple
 
 				if (source && target) {
 					// const sourceNode = this.editor.getNode(source.nodeId);
@@ -114,6 +117,13 @@ export class ReteEditorEngine {
 			position: [],
 		};
 		console.log('serialization', r);
+
+		// TODO kahnTopologicalSort
+		const checkKahn = kahnTopologicalSort(r);
+		if (!checkKahn) {
+			console.warn('serialization: connection has cycle. cannot be export');
+		}
+
 		return r;
 	}
 

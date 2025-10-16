@@ -603,7 +603,7 @@ function SidebarObject( editor ) {
 
 	} );
 
-	flyPortRow.add( new UIText( strings.getKey( 'sidebar/object/name' ) ).setClass( 'Label' ) );
+	flyPortRow.add( new UIText( '无人机端口' /*strings.getKey( 'sidebar/object/flyPort' )*/ ).setClass( 'Label' ) );
 	flyPortRow.add( flyPort );
 
 	container.add( flyPortRow );

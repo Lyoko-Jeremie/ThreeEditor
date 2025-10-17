@@ -189,6 +189,33 @@
 
 			};
 
+			/**
+			 * 显示输入对话框
+			 * @param {string} title - 对话框标题
+			 * @param {string} placeholder - 输入框占位符
+			 * @param {string} defaultValue - 默认值
+			 * @returns {Promise<string|undefined>} 返回用户输入的字符串或 undefined
+			 */
+			window.inputDialog = async function (title, placeholder = '', defaultValue = '') {
+				const result = await Swal.fire({
+					text: title,
+					input: 'text',
+					inputPlaceholder: placeholder,
+					inputValue: defaultValue,
+					showCancelButton: true,
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					theme: 'dark',
+					inputValidator: (value) => {
+						if (!value) {
+							return '请输入内容';
+						}
+					}
+				});
+
+				return result.isConfirmed ? result.value : undefined;
+			};
+
 
 		</script>
 

@@ -31,6 +31,8 @@ export function menuAddFly( templateSubmenu, editor, strings ) {
 
 	const flyModelList = [
 		{ title: '无人机 1', file: 'FH0A.glb.json', flyType: 'FH0A', resizeX: 0.01, resizeY: 0.01, resizeZ: 0.01 },
+		// { title: '无人机 1', file: 'FH0A.glb.json', flyType: 'Owl01', resizeX: 0.01, resizeY: 0.01, resizeZ: 0.01 },
+		// { title: '无人机 1', file: 'FH0A.glb.json', flyType: 'TelloTT', resizeX: 0.01, resizeY: 0.01, resizeZ: 0.01 },
 	];
 
 	for ( const f of flyModelList ) {
@@ -39,19 +41,31 @@ export function menuAddFly( templateSubmenu, editor, strings ) {
 
 			templateSubmenu.add( factoryFunc( editor, strings, f.title /*strings.getKey( 'menubar/add/mesh/box' )*/, function () {
 
-				const loader = new THREE.ObjectLoader();
-				loader.load( 'fly-model/' + f.file, function ( m ) {
+				// dialog to input FlyPort
+				window.inputDialog( '请输入飞行端口名称', '', 'NoFlyPort' )
+					.then( p => {
 
-					m.name = f.title;
+						if ( typeof p === 'string' && p.length > 0 ) {
 
-					m.userData = getUserData();
-					m.userData.flyType = f.flyType;
+							const loader = new THREE.ObjectLoader();
+							loader.load( 'fly-model/' + f.file, function ( m ) {
 
-					m.scale.set( f.resizeX, f.resizeY, f.resizeZ );
+								m.name = f.title;
 
-					editor.execute( new AddObjectCommand( editor, m ) );
+								m.userData = getUserData();
+								m.userData.flyType = f.flyType;
+								m.userData.flyPort = p;
 
-				} );
+								m.scale.set( f.resizeX, f.resizeY, f.resizeZ );
+
+								editor.execute( new AddObjectCommand( editor, m ) );
+
+							} );
+
+						}
+
+					} ).catch( err => console.log( err ) );
+
 
 			} ) );
 

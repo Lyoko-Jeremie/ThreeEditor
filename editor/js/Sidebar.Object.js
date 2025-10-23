@@ -551,7 +551,7 @@ function SidebarObject( editor ) {
 
 			const userData = JSON.parse( objectUserData.getValue() );
 
-			userData.isSensor = isSensorBox.getValue();
+			userData.isSensorBox = isSensorBox.getValue();
 
 			if ( JSON.stringify( editor.selected.userData ) != JSON.stringify( userData ) ) {
 

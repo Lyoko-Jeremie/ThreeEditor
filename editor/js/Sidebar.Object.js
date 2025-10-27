@@ -645,6 +645,8 @@ function SidebarObject( editor ) {
 			objectFrustumCulledRow.setHidden( false );
 			exportJson.setHidden( false );
 
+			flyPortRow.setHidden( true );
+
 		} else {
 
 			isSensorBoRow.setHidden( true );
@@ -660,6 +662,20 @@ function SidebarObject( editor ) {
 			objectUUIDRow.setHidden( true );
 			objectFrustumCulledRow.setHidden( true );
 			exportJson.setHidden( true );
+
+			flyPortRow.setHidden( false );
+
+		}
+
+		if ( object.isLight ) {
+
+			collisionTypeRow.setHidden( true );
+			isSensorBoRow.setHidden( true );
+			isSensorBoxReadmeRow.setHidden( true );
+			objectUserDataRow.setHidden( true );
+			collisionTypeReadmeRow.setHidden( true );
+			exportJson.setHidden( true );
+			flyPortRow.setHidden( true );
 
 		}
 

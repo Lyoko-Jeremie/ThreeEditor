@@ -31,9 +31,10 @@ import {NodeMenuLogicLatch} from "./NodeLib/NodeLogicLatch";
 import {NodeMenuEndCheck} from "./NodeLib/NodeEndCheck";
 import {NodeMenuToolsLib} from "./NodeLib/NodeToolsLib/NodeMenuToolsLib";
 import type {ItemsCollection} from "rete-context-menu-plugin/_types/types";
+import {GetPromiseWithResolvers} from "./GetPromiseWithResolvers";
 
 export function runLater<T extends any = void>(f: () => T | Promise<T>, timeout = 0) {
-	const re = Promise.withResolvers<T>();
+	const re = GetPromiseWithResolvers();
 	setTimeout(() => {
 		try {
 			const r = f();

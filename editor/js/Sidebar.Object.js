@@ -439,6 +439,41 @@ function SidebarObject( editor ) {
 
 	container.add( collisionTypeRow );
 
+	// forceNotSimpleCollision
+
+	const forceNotSimpleCollisionBoxRow = new UIRow();
+	const forceNotSimpleCollisionBox = new UICheckbox().onChange( function () {
+
+		try {
+
+			const userData = JSON.parse( objectUserData.getValue() );
+
+			userData.forceNotSimpleCollision = forceNotSimpleCollisionBox.getValue();
+
+			if ( JSON.stringify( editor.selected.userData ) != JSON.stringify( userData ) ) {
+
+				editor.execute( new SetValueCommand( editor, editor.selected, 'userData', userData ) );
+
+				setTimeout( () => {
+
+					objectUserData.setValue( JSON.stringify( editor.selected.userData, undefined, 2 ) );
+
+				}, 10 );
+
+			}
+
+		} catch ( exception ) {
+
+			console.warn( exception );
+
+		}
+
+	} );
+
+	forceNotSimpleCollisionBoxRow.add( new UIText( '强制为非简单形体' ).setClass( 'Label' ), forceNotSimpleCollisionBox );
+
+	container.add( forceNotSimpleCollisionBoxRow );
+
 	const collisionTypeReadmeRow = new UIPanel();
 	collisionTypeReadmeRow.setStyle( 'margin-bottom', [ '0.5em' ] );
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '【物理类型说明】' ) );
@@ -544,7 +579,7 @@ function SidebarObject( editor ) {
 
 	// barrier
 
-	const isSensorBoRow = new UIRow();
+	const isSensorBoxRow = new UIRow();
 	const isSensorBox = new UICheckbox().onChange( function () {
 
 		try {
@@ -573,9 +608,9 @@ function SidebarObject( editor ) {
 
 	} );
 
-	isSensorBoRow.add( new UIText( /*strings.getKey( 'sidebar/geometry/tube_geometry/curvetype' )*/ '是碰撞检测器' ).setClass( 'Label' ), isSensorBox );
+	isSensorBoxRow.add( new UIText( /*strings.getKey( 'sidebar/geometry/tube_geometry/curvetype' )*/ '是碰撞检测器' ).setClass( 'Label' ), isSensorBox );
 
-	container.add( isSensorBoRow );
+	container.add( isSensorBoxRow );
 
 	const isSensorBoxReadmeRow = new UIPanel();
 	isSensorBoxReadmeRow.setStyle( 'margin-bottom', [ '0.5em' ] );
@@ -631,7 +666,7 @@ function SidebarObject( editor ) {
 
 		if ( ! isFly ) {
 
-			isSensorBoRow.setHidden( false );
+			isSensorBoxRow.setHidden( false );
 			isSensorBoxReadmeRow.setHidden( false );
 			objectUserDataRow.setHidden( false );
 			objectShadowRadiusRow.setHidden( false );
@@ -649,7 +684,7 @@ function SidebarObject( editor ) {
 
 		} else {
 
-			isSensorBoRow.setHidden( true );
+			isSensorBoxRow.setHidden( true );
 			isSensorBoxReadmeRow.setHidden( true );
 			objectUserDataRow.setHidden( true );
 			objectShadowRadiusRow.setHidden( true );
@@ -670,7 +705,7 @@ function SidebarObject( editor ) {
 		if ( object.isLight ) {
 
 			collisionTypeRow.setHidden( true );
-			isSensorBoRow.setHidden( true );
+			isSensorBoxRow.setHidden( true );
 			isSensorBoxReadmeRow.setHidden( true );
 			objectUserDataRow.setHidden( true );
 			collisionTypeReadmeRow.setHidden( true );

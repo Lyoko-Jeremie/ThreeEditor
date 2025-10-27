@@ -439,16 +439,16 @@ function SidebarObject( editor ) {
 
 	container.add( collisionTypeRow );
 
-	// forceNotSimpleCollision
+	// forceNotSimpleCollisionType
 
-	const forceNotSimpleCollisionBoxRow = new UIRow();
-	const forceNotSimpleCollisionBox = new UICheckbox().onChange( function () {
+	const forceNotSimpleCollisionTypeBoxRow = new UIRow();
+	const forceNotSimpleCollisionTypeBox = new UICheckbox().onChange( function () {
 
 		try {
 
 			const userData = JSON.parse( objectUserData.getValue() );
 
-			userData.forceNotSimpleCollision = forceNotSimpleCollisionBox.getValue();
+			userData.forceNotSimpleCollisionType = forceNotSimpleCollisionTypeBox.getValue();
 
 			if ( JSON.stringify( editor.selected.userData ) != JSON.stringify( userData ) ) {
 
@@ -470,9 +470,9 @@ function SidebarObject( editor ) {
 
 	} );
 
-	forceNotSimpleCollisionBoxRow.add( new UIText( '强制为非简单形体' ).setClass( 'Label' ), forceNotSimpleCollisionBox );
+	forceNotSimpleCollisionTypeBoxRow.add( new UIText( '强制为非简单形体' ).setClass( 'Label' ), forceNotSimpleCollisionTypeBox );
 
-	container.add( forceNotSimpleCollisionBoxRow );
+	container.add( forceNotSimpleCollisionTypeBoxRow );
 
 	const collisionTypeReadmeRow = new UIPanel();
 	collisionTypeReadmeRow.setStyle( 'margin-bottom', [ '0.5em' ] );

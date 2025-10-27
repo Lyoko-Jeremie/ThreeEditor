@@ -18,7 +18,7 @@
         --reteModal-border-color: #e0e0e0;
         --reteModal-text-color: #333;
         --reteModal-close-btn-color: #999;
-        --reteModal-overlay-bg: rgba(0, 0, 0, 1);
+        --reteModal-overlay-bg: rgba(0, 0, 0, 0.5);
     }
 }
 

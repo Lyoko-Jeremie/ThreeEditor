@@ -43,6 +43,9 @@
 <!--		<script src="./js/libs/sweetalert2/sweetalert2.esm.js"></script>-->
 
 		<script>
+
+			window.checkIsDark = () => window.matchMedia( '(prefers-color-scheme: dark)' ).matches;
+
 			/**
 			 * @param {string} s - The text to display in the confirmation dialog.
 			 * @return {Promise<SweetAlertResult<Awaited<any>>>}
@@ -56,7 +59,7 @@
 					showCancelButton: true,
 					confirmButtonText: '是',
 					cancelButtonText: '否',
-					theme: 'dark',
+					theme: window.checkIsDark() ? 'dark' : 'light',
 				} );
 
 			};
@@ -73,7 +76,7 @@
 					// showCancelButton: true,
 					confirmButtonText: '确定',
 					// cancelButtonText: 'Cancel',
-					theme: 'dark',
+					theme: window.checkIsDark() ? 'dark' : 'light',
 				} );
 
 			};
@@ -102,7 +105,7 @@
 					showCancelButton: false,
 					// confirmButtonText: '取消操作',
 					// confirmButtonColor: '#d33',
-					theme: 'dark',
+					theme: window.checkIsDark() ? 'dark' : 'light',
 					customClass: {
 						popup: 'save-wait-popup'
 					},
@@ -161,7 +164,7 @@
 								icon: 'success',
 								timer: 2000,
 								showConfirmButton: false,
-								theme: 'dark'
+								theme: window.checkIsDark() ? 'dark' : 'light',
 							} );
 
 						}
@@ -178,7 +181,7 @@
 								text: message,
 								icon: 'error',
 								confirmButtonText: '确定',
-								theme: 'dark'
+								theme: window.checkIsDark() ? 'dark' : 'light',
 							} );
 
 						}
@@ -206,21 +209,21 @@
 					showCancelButton: true,
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
-					theme: 'dark',
+					theme: window.checkIsDark() ? 'dark' : 'light',
 					inputValidator: ( value ) => {
 
 						if ( ! value ) {
 
 							return '请输入内容';
 
-			}
+						}
 
-		}
+					}
 				} );
 
 				return result.isConfirmed ? result.value : undefined;
-			};
 
+			};
 
 		</script>
 

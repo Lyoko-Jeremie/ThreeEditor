@@ -19,9 +19,12 @@ export class CustomMessageControl extends SignalWatcher(LitElement) {
 
 		let style = css``;
 		if (this.data.needBorder) {
-			style = css`border: rgba(207, 207, 207, 0.5) 1px solid;
+			style = css`
+				border: rgba(207, 207, 207, 0.5) 1px solid;
 				padding: 0px 3px;
-				border-radius: 6px;`;
+				border-radius: 6px;
+				color: var(--reteModal-text-color);
+			`;
 		}
 
 		return html`

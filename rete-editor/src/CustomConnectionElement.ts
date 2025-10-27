@@ -54,11 +54,12 @@ export class CustomConnectionElement extends LitElement {
 		span.txt {
 			position: absolute;
 			transform: translate(-50%, -50%);
-			background: var(--reteModal-bg-container-light);
+			background: var(--reteModal-bg-container);
 			padding: 2px;
 			border: 1px solid rgba(110, 136, 255, 0.8);
 			border-radius: 4px;
 			font-size: 1em;
+			color: var(--reteModal-text-color);
 
 			z-index: 2;
 
@@ -66,7 +67,7 @@ export class CustomConnectionElement extends LitElement {
 
 			pointer-events: none;
 		}
-	`
+	`;
 
 	render() {
 		const color = this.strokeColor ? this.strokeColor : 'steelblue';
@@ -88,7 +89,7 @@ export class CustomConnectionElement extends LitElement {
 			<svg data-testid="connection" .style=${stokeColorStyle}>
 				<path d=${this.path}></path>
 			</svg>
-		`
+		`;
 	}
 
 	static register() {

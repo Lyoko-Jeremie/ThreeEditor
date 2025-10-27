@@ -98,7 +98,7 @@ function SidebarProjectImage( editor ) {
 
 			if ( isMaterialsValid === false ) {
 
-				alert( strings.getKey( 'prompt/rendering/realistic/unsupportedMaterial' ) );
+				window.alertDialog( strings.getKey( 'prompt/rendering/realistic/unsupportedMaterial' ) );
 				return;
 
 			}

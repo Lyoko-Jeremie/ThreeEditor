@@ -44,6 +44,18 @@
 
 		<script>
 
+			window.toggleTheme = async function () {
+
+				try {
+
+					await window?.AppApiGroup?.toggleTheme?.();
+
+				} catch ( e ) {
+					// empty
+				}
+
+			};
+
 			window.checkIsDark = () => window.matchMedia( '(prefers-color-scheme: dark)' ).matches;
 
 			/**
@@ -76,6 +88,24 @@
 					// showCancelButton: true,
 					confirmButtonText: '确定',
 					// cancelButtonText: 'Cancel',
+					theme: window.checkIsDark() ? 'dark' : 'light',
+				} );
+
+			};
+
+			/**
+			 * @param {string} msg - The text to display in the alert dialog.
+			 * @return {Promise<SweetAlertResult<Awaited<any>>>}
+			 */
+			window.alertDialog = function ( msg ) {
+
+				return Swal.fire( {
+					// title: msg,
+					text: msg,
+					// showCancelButton: true,
+					confirmButtonText: '确定',
+					// cancelButtonText: 'Cancel',
+					icon: 'warning',
 					theme: window.checkIsDark() ? 'dark' : 'light',
 				} );
 

@@ -134,8 +134,8 @@ function MenubarFile( editor ) {
 
 		} catch ( e ) {
 
-			alert( strings.getKey( 'prompt/file/failedToOpenProject' ) );
 			console.error( e );
+			window.alertDialog( strings.getKey( 'prompt/file/failedToOpenProject' ) );
 
 		} finally {
 
@@ -179,11 +179,27 @@ function MenubarFile( editor ) {
 			} catch ( e ) {
 
 				console.error( e );
-				// TODO
-				alert( e );
+				window.alertDialog( 'Failed to save project.' + '\n' + e.message );
 				throw e;
 
 			}
+
+		} );
+
+	options.add( option );
+
+	//
+
+	options.add( new UIHorizontalRule() );
+
+	// toggleTheme
+
+	option = new UIRow()
+		.addClass( 'option' )
+		.setTextContent( /*strings.getKey( 'menubar/file/save' )*/ '切换主题' )
+		.onClick( async function () {
+
+			await window.toggleTheme();
 
 		} );
 
@@ -253,7 +269,7 @@ function MenubarFile( editor ) {
 
 		if ( object === null || object.isMesh === undefined ) {
 
-			alert( strings.getKey( 'prompt/file/export/noMeshSelected' ) );
+			window.alertDialog( strings.getKey( 'prompt/file/export/noMeshSelected' ) );
 			return;
 
 		}
@@ -353,7 +369,7 @@ function MenubarFile( editor ) {
 
 		if ( object === null ) {
 
-			alert( strings.getKey( 'prompt/file/export/noObjectSelected' ) );
+			window.alertDialog( strings.getKey( 'prompt/file/export/noObjectSelected' ) );
 			return;
 
 		}

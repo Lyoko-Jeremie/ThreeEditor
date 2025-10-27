@@ -9,8 +9,12 @@
     // See also https://aka.ms/tsconfig/module
     "module": "ESNext",
     "target": "esnext",
+    "lib": [
+      "DOM",
+      "ES2021"
+    ],
     "types": [
-      "../node_modules/@types/**/*",
+      "../node_modules/@types/**/*"
     ],
     "moduleResolution": "bundler",
     "rewriteRelativeImportExtensions": true,

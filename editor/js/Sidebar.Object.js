@@ -738,8 +738,7 @@ function SidebarObject( editor ) {
 		} catch ( e ) {
 
 			console.error( e );
-			// TODO
-			alert( e );
+			window.alertDialog( 'Fail to export object JSON: ' + e.message );
 			throw e;
 
 		}

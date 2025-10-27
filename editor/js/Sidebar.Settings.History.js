@@ -25,7 +25,7 @@ function SidebarSettingsHistory( editor ) {
 
 		if ( value ) {
 
-			alert( strings.getKey( 'prompt/history/preserve' ) );
+			window.alertDialog( strings.getKey( 'prompt/history/preserve' ) );
 
 			const lastUndoCmd = history.undos[ history.undos.length - 1 ];
 			const lastUndoId = ( lastUndoCmd !== undefined ) ? lastUndoCmd.id : 0;

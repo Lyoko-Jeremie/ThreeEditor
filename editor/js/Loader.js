@@ -361,7 +361,8 @@ function Loader( editor ) {
 
 					} catch ( error ) {
 
-						alert( error );
+						console.error( error );
+						window.alertDialog( 'Could not load the JSON file: ' + ( error?.message ?? error ) );
 						return;
 
 					}

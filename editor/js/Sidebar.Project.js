@@ -18,11 +18,11 @@ function SidebarProject( editor ) {
 
 	container.add( new SidebarProjectImage( editor ) );
 
-	if ( 'SharedArrayBuffer' in window ) {
-
-		container.add( new SidebarProjectVideo( editor ) );
-
-	}
+	// if ( 'SharedArrayBuffer' in window ) {
+	//
+	// 	container.add( new SidebarProjectVideo( editor ) );
+	//
+	// }
 
 	return container;
 

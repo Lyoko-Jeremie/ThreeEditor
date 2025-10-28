@@ -62,11 +62,11 @@ function MenubarFile( editor ) {
 	// New Project / ...
 
 	const examples = [
-		{ title: 'menubar/file/new/Arkanoid', file: 'arkanoid.app.json' },
-		{ title: 'menubar/file/new/Camera', file: 'camera.app.json' },
-		{ title: 'menubar/file/new/Particles', file: 'particles.app.json' },
-		{ title: 'menubar/file/new/Pong', file: 'pong.app.json' },
-		{ title: 'menubar/file/new/Shaders', file: 'shaders.app.json' }
+		// { title: 'menubar/file/new/Arkanoid', file: 'arkanoid.app.json' },
+		// { title: 'menubar/file/new/Camera', file: 'camera.app.json' },
+		// { title: 'menubar/file/new/Particles', file: 'particles.app.json' },
+		// { title: 'menubar/file/new/Pong', file: 'pong.app.json' },
+		// { title: 'menubar/file/new/Shaders', file: 'shaders.app.json' }
 	];
 
 	const loader = new THREE.FileLoader();

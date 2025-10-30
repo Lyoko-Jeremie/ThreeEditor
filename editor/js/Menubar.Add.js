@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import { UIPanel, UIRow } from './libs/ui.js';
+import { UIHorizontalRule, UIPanel, UIRow } from './libs/ui.js';
 
 import { AddObjectCommand } from './commands/AddObjectCommand.js';
 
@@ -34,21 +34,6 @@ function MenubarAdd( editor ) {
 	container.add( options );
 
 
-	// Group
-
-	let option = new UIRow();
-	option.setClass( 'option' );
-	option.setTextContent( strings.getKey( 'menubar/add/group' ) );
-	option.onClick( function () {
-
-		const mesh = new THREE.Group();
-		mesh.name = 'Group';
-
-		editor.execute( new AddObjectCommand( editor, mesh ) );
-
-	} );
-	options.add( option );
-
 	// Fly Airplane
 
 	const flyAirplaneSubmenuTitle = new UIRow().setTextContent( strings.getKey( 'menubar/add/fly_airplane' ) ).addClass( 'option' ).addClass( 'submenu-title' );
@@ -73,6 +58,10 @@ function MenubarAdd( editor ) {
 	flyAirplaneSubmenuTitle.add( flyAirplaneSubmenu );
 
 	menuAddFly( flyAirplaneSubmenu, editor, strings );
+
+	//
+
+	options.add( new UIHorizontalRule() );
 
 	// Sensor Simple
 
@@ -100,6 +89,24 @@ function MenubarAdd( editor ) {
 	// sensorSimpleSubmenuTitle.add( buttonRectanglePipePanel( editor, strings ) );
 	menuAddSensorSimple( sensorSimpleSubmenu, editor, strings );
 
+	//
+
+	options.add( new UIHorizontalRule() );
+
+	// Group
+
+	let option = new UIRow();
+	option.setClass( 'option' );
+	option.setTextContent( strings.getKey( 'menubar/add/group' ) );
+	option.onClick( function () {
+
+		const mesh = new THREE.Group();
+		mesh.name = 'Group';
+
+		editor.execute( new AddObjectCommand( editor, mesh ) );
+
+	} );
+	options.add( option );
 
 	// Template Mesh
 

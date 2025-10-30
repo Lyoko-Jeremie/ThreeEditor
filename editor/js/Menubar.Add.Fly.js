@@ -30,7 +30,7 @@ function getUserData() {
 export function menuAddFly( templateSubmenu, editor, strings ) {
 
 	const flyModelList = [
-		{ title: '无人机 1', file: 'FH0A.glb.json', flyType: 'FH0A', resizeX: 0.01, resizeY: 0.01, resizeZ: 0.01 },
+		{ title: '无人机 ', file: 'FH0A.glb.json', flyType: 'FH0A', resizeX: 0.01, resizeY: 0.01, resizeZ: 0.01 },
 		// { title: '无人机 1', file: 'FH0A.glb.json', flyType: 'Owl01', resizeX: 0.01, resizeY: 0.01, resizeZ: 0.01 },
 		// { title: '无人机 1', file: 'FH0A.glb.json', flyType: 'TelloTT', resizeX: 0.01, resizeY: 0.01, resizeZ: 0.01 },
 	];

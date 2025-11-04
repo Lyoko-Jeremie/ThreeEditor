@@ -1,10 +1,11 @@
-import {ClassicPreset} from 'rete';
+import {ClassicPreset, getUID} from 'rete';
 import {SocketLib} from "./SocketLib";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import {NodeParent} from "./NodeParent";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 import {NODE_WIDTH} from "./NodeConstantConfig";
+import type {Control} from "rete/_types/presets/classic";
 
 export class NodeScore extends NodeParent {
 	static nodeTypeStatic: string = 'NodeScore';
@@ -21,7 +22,14 @@ export class NodeScore extends NodeParent {
 		this.labelName = label;
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normalLogic, '输入'));
-		this.addOutput('score', new ClassicPreset.Output(SocketLib.score, '成绩'));
+		// this.addOutput('score', new ClassicPreset.Output(SocketLib.score, '成绩'));
+		this.addControl('messageReadMe', {
+			id: getUID(),
+			index: -1,
+			textSignal: '最终记录的成绩',
+			isCustomMessageControl: true,
+			needBorder: true,
+		} as Control);
 	}
 
 	data(inputs: { inputValue?: number[] }): { score: number } {

@@ -1,10 +1,11 @@
-import {ClassicPreset} from 'rete';
+import {ClassicPreset, getUID} from 'rete';
 import {SocketLib} from "./SocketLib";
 import type {ReteEditorInterface} from "../ReteEditorInterface";
 import {nameDialog} from "./NameSwal";
 import {NodeParent, type NodeStateFull} from "./NodeParent";
 import type {NodeSerializationDataType} from "../ReteSerializationTypeDef";
 import {NODE_WIDTH} from "./NodeConstantConfig";
+import type {Control} from "rete/_types/presets/classic";
 
 export class NodeEndCheck extends NodeParent implements NodeStateFull {
 	static nodeTypeStatic: string = 'NodeEndCheck';
@@ -22,7 +23,14 @@ export class NodeEndCheck extends NodeParent implements NodeStateFull {
 		this.id = id ?? this.id;
 		this.addInput('inputValue', new ClassicPreset.Input(SocketLib.normalLogic, '逻辑计数输入', false));
 		this.addInput('inputCompleteRequestValue', new ClassicPreset.Input(SocketLib.normalLogic, '完成所需的计数常量', false));
-		this.addOutput('isComplete', new ClassicPreset.Output(SocketLib.score, '是否完成', false));
+		// this.addOutput('isComplete', new ClassicPreset.Output(SocketLib.score, '是否完成', false));
+		this.addControl('messageReadMe', {
+			id: getUID(),
+			index: -1,
+			textSignal: '比较计算是否完成',
+			isCustomMessageControl: true,
+			needBorder: true,
+		} as Control);
 	}
 
 	isComplete: 0 | 1 = 0;

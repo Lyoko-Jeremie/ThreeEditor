@@ -87,7 +87,10 @@ function MenuItemCreateFactory(thisPtr: ReteEditor) {
 		...NodeMenuFly(thisPtr),
 		...NodeMenuFlyToSensor(thisPtr),
 		NodeMenuSum(thisPtr),
-		['逻辑操作', NodeMenuLogic(thisPtr)],
+		['逻辑操作', [
+			...NodeMenuLogic(thisPtr),
+			...NodeMenuLogicLatch(thisPtr),
+		]],
 		NodeMenuScore(thisPtr),
 		NodeMenuEndCheck(thisPtr),
 		['工具节点', NodeMenuToolsLib(thisPtr)],

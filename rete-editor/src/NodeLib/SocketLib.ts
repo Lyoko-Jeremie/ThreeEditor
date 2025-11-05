@@ -31,6 +31,11 @@ export const SocketNameTable = new Map([
 ] as const);
 
 // 通用碰撞事件
+/**
+ * 通用碰撞事件
+ * @property {number} id - 碰撞事件 id ， 全局不重复 ， 每次碰撞自增 。 -1 为占位事件 。
+ * @property {boolean} isStart - 是否是碰撞开始事件(否则为结束事件)
+ */
 export type SensorOutputCollisionData = {
 	// 碰撞事件 id ， 全局不重复 ， 每次碰撞自增 。 -1 为占位事件 。
 	// -1 means invalid data
@@ -40,6 +45,12 @@ export type SensorOutputCollisionData = {
 } | undefined;
 
 // 无人机碰撞事件
+/**
+ * 无人机碰撞事件
+ * @property {string} fly - 碰撞的无人机 keyName
+ * @property {number} id - 碰撞事件 id ， 全局不重复 ， 每次碰撞自增 。 -1 为占位事件 。
+ * @property {boolean} isStart - 是否是碰撞开始事件(否则为结束事件)
+ */
 export type SensorOutputFlyCollisionData = {
 	// 碰撞的无人机 keyName
 	fly: string;

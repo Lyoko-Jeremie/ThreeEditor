@@ -93,7 +93,7 @@ function MenuItemCreateFactory(thisPtr: ReteEditor) {
 		]],
 		NodeMenuScore(thisPtr),
 		NodeMenuEndCheck(thisPtr),
-		['工具节点', NodeMenuToolsLib(thisPtr)],
+		['组合工具节点', NodeMenuToolsLib(thisPtr)],
 	]);
 
 	return function MenuItemCreate(context: ("root" | Schemes["Node"]), plugin: ContextMenuPlugin<Schemes>): ItemsCollection {

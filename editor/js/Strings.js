@@ -1269,6 +1269,7 @@ function Strings( config ) {
 			'menubar/add': '添加',
 
 			'menubar/add/fly_airplane': '无人机',
+			'menubar/add/fly_map': '飞行地图',
 
 			'menubar/add/sensor_simple': '碰撞传感器',
 

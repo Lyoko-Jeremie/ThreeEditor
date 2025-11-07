@@ -75,3 +75,36 @@ export function menuAddFly( templateSubmenu, editor, strings ) {
 
 }
 
+
+
+export function menuAddMap( templateSubmenu, editor, strings ) {
+
+	const flyModelList = [
+		{ title: '6x6 地图', file: '6x6.json' },
+		{ title: '6x9 地图', file: '6x9.json' },
+	];
+
+	for ( const f of flyModelList ) {
+
+		( function () {
+
+			templateSubmenu.add( factoryFunc( editor, strings, f.title /*strings.getKey( 'menubar/add/mesh/box' )*/, function () {
+
+				const loader = new THREE.ObjectLoader();
+				loader.load( 'map-model/' + f.file, function ( m ) {
+
+					m.name = f.title;
+
+					editor.execute( new AddObjectCommand( editor, m ) );
+
+				} );
+
+
+			} ) );
+
+		} )();
+
+	}
+
+}
+

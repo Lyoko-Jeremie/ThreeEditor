@@ -15,7 +15,7 @@ import {
 	buttonModelLibSmallRing,
 } from './Menubar.Add.Model.js';
 import { menuAddSensorSimple } from './Menubar.Add.Sensor.js';
-import { menuAddFly } from './Menubar.Add.Fly.js';
+import { menuAddFly, menuAddMap } from './Menubar.Add.Fly.js';
 
 function MenubarAdd( editor ) {
 
@@ -58,6 +58,35 @@ function MenubarAdd( editor ) {
 	flyAirplaneSubmenuTitle.add( flyAirplaneSubmenu );
 
 	menuAddFly( flyAirplaneSubmenu, editor, strings );
+
+	//
+
+	options.add( new UIHorizontalRule() );
+
+	// fly Map
+
+	const flyMapSubmenuTitle = new UIRow().setTextContent( strings.getKey( 'menubar/add/fly_map' ) ).addClass( 'option' ).addClass( 'submenu-title' );
+	flyMapSubmenuTitle.onMouseOver( function () {
+
+		const { top, right } = flyMapSubmenuTitle.dom.getBoundingClientRect();
+		const { paddingTop } = getComputedStyle( this.dom );
+		flyMapSubmenu.setLeft( right + 'px' );
+		flyMapSubmenu.setTop( top - parseFloat( paddingTop ) + 'px' );
+		flyMapSubmenu.setStyle( 'max-height', [ `calc( 100vh - ${top}px )` ] );
+		flyMapSubmenu.setDisplay( 'block' );
+
+	} );
+	flyMapSubmenuTitle.onMouseOut( function () {
+
+		flyMapSubmenu.setDisplay( 'none' );
+
+	} );
+	options.add( flyMapSubmenuTitle );
+
+	const flyMapSubmenu = new UIPanel().setPosition( 'fixed' ).addClass( 'options' ).setDisplay( 'none' );
+	flyMapSubmenuTitle.add( flyMapSubmenu );
+
+	menuAddMap( flyMapSubmenu, editor, strings );
 
 	//
 

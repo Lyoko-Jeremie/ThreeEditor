@@ -23,8 +23,20 @@ function MenubarHelp( editor ) {
 	option.setTextContent( strings.getKey( 'menubar/help/source_code' ) );
 	option.onClick( function () {
 
-		// TODO MARK: support electron
-		window.open( 'https://github.com/Lyoko-Jeremie/ThreeEditor/tree/editor/editor', '_blank' );
+		const url = 'https://github.com/Lyoko-Jeremie/ThreeEditor/tree/editor/editor';
+
+		if ( window.AppApiGroup?.openUrlInExternalBrowser ) {
+
+			// in electron
+			window.AppApiGroup.openUrlInExternalBrowser( url );
+
+		} else {
+
+			// normal
+			window.open( url, '_blank' );
+
+		}
+
 
 	} );
 	options.add( option );

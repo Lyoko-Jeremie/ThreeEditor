@@ -502,6 +502,39 @@ function SidebarObject( editor ) {
 	collisionTypeReadmeRow.add( new UIDiv().setTextContent( '宗旨：在不影响使用的前提下，尽量减少不必要的细节。' ) );
 	container.add( collisionTypeReadmeRow );
 
+	const skipChildrenRow = new UIRow();
+	const skipChildren = new UICheckbox().onChange( function () {
+
+		try {
+
+			const userData = JSON.parse( objectUserData.getValue() );
+
+			userData.skipChildren = skipChildren.getValue();
+
+			if ( JSON.stringify( editor.selected.userData ) != JSON.stringify( userData ) ) {
+
+				editor.execute( new SetValueCommand( editor, editor.selected, 'userData', userData ) );
+
+				setTimeout( () => {
+
+					objectUserData.setValue( JSON.stringify( editor.selected.userData, undefined, 2 ) );
+
+				}, 10 );
+
+			}
+
+		} catch ( exception ) {
+
+			console.warn( exception );
+
+		}
+
+	} );
+
+	skipChildrenRow.add( new UIText( /*strings.getKey( 'sidebar/geometry/tube_geometry/curvetype' )*/ '跳过子成员' ).setClass( 'Label' ), skipChildren );
+
+	container.add( skipChildrenRow );
+
 	const cleanCollisionType = new UIButton( /*strings.getKey( 'sidebar/object/export' )*/ '清除当前元素下所有子元素的物理类型设置' );
 	cleanCollisionType.setStyle( 'margin-bottom', [ '1em' ] );
 	cleanCollisionType.onClick( async function () {
